@@ -27,22 +27,13 @@
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269129/jspanel-modal-1_sbr7ku.jpg">
 
 #### stacked modal jsPanels
-<video width="100%" height="auto" controls>
-    <source src="http://jspanel.de/media/video/jsPanel_stacked_modals_1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269136/jspanel-modal-stacked-1_nkik7t.jpg">
 
 #### jsPanels as hints/notifiers
-<video width="100%" height="auto" controls>
-    <source src="http://jspanel.de/media/video/jsPanel_hints_2.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269115/jspanel-hints-1_l3yflv.jpg">
 
 #### jsPanels as tooltip
-<video width="100%" height="auto" controls>
-    <source src="http://jspanel.de/media/video/jsPanel_tooltips_1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
+<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269142/jspanel-tooltips-1_wd0sm3.jpg">
 
 #### some more toolbar examples
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462806302/jspanel-toolbars-1_donnw7.jpg">
