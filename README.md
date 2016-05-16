@@ -25,15 +25,15 @@
 #### modal jsPanel
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269129/jspanel-modal-1_sbr7ku.jpg">
 
-#### stacked modal jsPanels
+#### stacked modal jsPanels - [short demo video on youtube](https://youtu.be/cLZ7akOrm_U)
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269136/jspanel-modal-stacked-1_nkik7t.jpg">
 
-#### jsPanels as hints/notifiers
+#### jsPanels as hints/notifiers - [short demo video on youtube](https://youtu.be/iUZkVJrq2ys)
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269115/jspanel-hints-1_l3yflv.jpg">
 
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269123/jspanel-hints-2_vaxwt6.jpg">
 
-#### jsPanels as tooltip
+#### jsPanels as tooltip - [short demo video on youtube](https://youtu.be/q4ekm8k2W5o)
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269142/jspanel-tooltips-1_wd0sm3.jpg">
 
 #### some more toolbar examples
