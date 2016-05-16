@@ -14,11 +14,6 @@
 + [jsPanel properties](#jspanel-properties)
 + [jsPanel defaults](#jspanel-defaults)
 
-#### npm
-    npm install jspanel
-
-#### Bower
-    bower install jspanel
 
 #### A few standard example jsPanels
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269301/collection_standard_panels_mdou5n.jpg">
@@ -31,6 +26,7 @@
 
 #### jsPanels as hints/notifiers
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269115/jspanel-hints-1_l3yflv.jpg">
+
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269123/jspanel-hints-2_vaxwt6.jpg">
 
 #### jsPanels as tooltip
