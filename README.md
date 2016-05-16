@@ -14,6 +14,9 @@
 + [jsPanel properties](#jspanel-properties)
 + [jsPanel defaults](#jspanel-defaults)
 
+###npm
+    npm install jspanel3
+
 
 #### A few standard example jsPanels
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269301/collection_standard_panels_mdou5n.jpg">
