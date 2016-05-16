@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsPanel - a jQuery Plugin</title>
+    <!-- loading jQuery UI css (which theme doesn't matter regarding jsPanel) -->
+    <link rel="stylesheet" href="../vendor/jquery-ui-1.11.4.complete/jquery-ui.min.css">
+    <!-- loading Bootstrap css -->
+    <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css">
+    <!-- loading jsPanel css -->
+    <link rel="stylesheet" href="../source/jquery.jspanel.css">
+</head>
+<body>
+
+<!-- Your HTML goes here -->
+
+<!-- loading jQuery, jQuery UI and jQuery UI Touch Punch -->
+<script src="../vendor/jquery-2.2.3.min.js"></script>
+<script src="../vendor/jquery-ui-1.11.4.complete/jquery-ui.min.js"></script>
+<script src="../vendor/jquery.ui.touch-punch.min.js"></script>
+<!-- loading Bootstrap javascript -->
+<script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+<!-- loading jsPanel javascript -->
+<script src="../source/jquery.jspanel-compiled.js"></script>
+
+<script>
+    window.setTimeout(function () {
+        $.jsPanel({
+            headerTitle: "Bootstrap 4 jsPanel",
+            theme: "bootstrap-primary",
+            content: "<h3>Lorem ipsum dolor ...</h3><p>... sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam ...</p>",
+            callback: function () {
+                this.content.css("padding", "15px")
+            }
+        });
+    }, 1000);
+</script>
+</body>
+</html>

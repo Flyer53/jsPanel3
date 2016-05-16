@@ -1,0 +1,470 @@
+@charset "UTF-8"
+/* jspanel.sass: 2016-04-26 10:00 */
+// http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
+@function unicode($str)
+  @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
+
+@import 'themes_mdl_styles'
+@import 'jsglyph'
+// themes are imported at the bottom of the file
+
+=basic-mixin
+  border: 0
+  box-sizing: border-box
+  vertical-align: baseline
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+  font-weight: normal
+
+=flex-mixin
+  display: -webkit-box
+  display: -webkit-flex
+  display: -ms-flexbox
+  display: flex
+
+=footer-mixin
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: reverse
+  -webkit-flex-direction: row-reverse
+  -ms-flex-direction: row-reverse
+  flex-direction: row-reverse
+  -webkit-flex-wrap: nowrap
+  -ms-flex-wrap: nowrap
+  flex-wrap: nowrap
+  -webkit-box-align: center
+  -webkit-align-items: center
+  -ms-flex-align: center
+  align-items: center
+
+=header-mixin
+  +flex-mixin
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: normal
+  -webkit-flex-direction: row
+  -ms-flex-direction: row
+  flex-direction: row
+  -webkit-flex-wrap: nowrap
+  -ms-flex-wrap: nowrap
+  flex-wrap: nowrap
+  -webkit-box-align: center
+  -webkit-align-items: center
+  -ms-flex-align: center
+  align-items: center
+  min-height: 32px
+
+=connector-mixin-1
+  width: 0
+  height: 0
+  border: 12px solid transparent
+  position: absolute
+
+=connector-mixin-2
+  position: absolute
+  width: 12px
+  height: 12px
+  border: none
+  border-radius: 50%
+
+
+.jsPanel
+  +basic-mixin
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)
+  opacity: 0
+  overflow: hidden
+  position: absolute
+  border-radius: 3px
+  z-index: 100
+
+  .jsPanel-hdr
+    +basic-mixin
+    border-top-left-radius: 3px
+    border-top-right-radius: 3px
+    font-size: 18px
+    padding: 3px 0 0
+    cursor: move
+    min-height: 40px /* don't remove - otherwise header shrinks vertically on smallify */
+
+  .jsPanel-content
+    +basic-mixin
+    background: #ffffff
+    color: #000000
+    font-size: 12px
+    position: relative
+    overflow: hidden
+
+  .jsPanel-content.jsPanel-content-noheader
+    border-top-left-radius: 3px
+    border-top-right-radius: 3px
+
+  .jsPanel-content.jsPanel-content-nofooter
+    border-bottom-left-radius: 3px
+    border-bottom-right-radius: 3px
+
+  .jsPanel-ftr
+    +footer-mixin
+    border-bottom-left-radius: 3px
+    border-bottom-right-radius: 3px
+    border-top: 1px solid #e0e0e0
+    cursor: move
+    display: none
+    box-sizing: border-box
+    font-size: 12px
+    height: auto
+    padding: 7px
+    background: #f5f5f5
+    font-weight: normal
+    color: black
+
+  .jsPanel-ftr.active
+    +flex-mixin
+
+.jsPanel-headerbar, .jsPanel-hdr-toolbar
+  font-size: 18px
+  line-height: 1em
+  padding: 0 5px 0 10px
+
+.jsPanel-headerbar
+  +header-mixin
+  padding: 0 5px 4px 10px
+
+
+.jsPanel-titlebar
+  -webkit-box-flex: 1
+  -webkit-flex: 1 1 auto
+  -ms-flex: 1 1 auto
+  flex: 1 1 auto
+  min-height: 32px
+  padding-right: 6px
+  overflow: hidden
+  line-height: 2em
+
+  h3
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+    font-size: 16px
+    font-variant: small-caps
+    font-weight: normal
+    margin: 0
+    padding: 0
+    line-height: 2em
+
+    small
+      font-size: 75%
+      color: inherit
+
+.jsPanel-titlebar.jsPanel-rtl
+  h3
+    flex: 1 0 auto
+
+.jsPanel-controlbar
+  +flex-mixin
+
+  div
+    span:hover
+      opacity: .5
+
+  .jsPanel-btn
+    padding: 0 3px
+    cursor: pointer
+
+  .jsPanel-btn-normalize
+    display: none
+
+  .jsPanel-btn-smallifyrev
+    display: none
+
+.jsPanel-hdr-toolbar
+  display: none
+  width: auto
+  height: auto
+  font-size: 16px
+
+  *
+    margin: 0 5px 0 0
+
+.jsPanel-hdr-toolbar.active
+  +header-mixin
+  padding: 7px 10px 10px 10px
+
+
+
+/* styles for panels using option.rtl */
+.jsPanel-headerbar.jsPanel-rtl, .jsPanel-controlbar.jsPanel-rtl, .jsPanel-hdr-toolbar.jsPanel-rtl
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: reverse
+  -webkit-flex-direction: row-reverse
+  -ms-flex-direction: row-reverse
+  flex-direction: row-reverse
+
+.jsPanel-headerbar.jsPanel-rtl
+  padding: 0 5px
+
+.jsPanel-hdr-toolbar.active.jsPanel-rtl
+  padding: 7px 0 10px 0
+
+.jsPanel-ftr.jsPanel-rtl
+  -webkit-box-orient: horizontal
+  -webkit-box-direction: normal
+  -webkit-flex-direction: row
+  -ms-flex-direction: row
+  flex-direction: row
+
+
+
+/* css for tooltip connectors */
+.jsPanel-connector
+  pointer-events: none
+/* naming of connectors reflects position of tooltip and not pos of connector */
+.jsPanel-connector-top
+  +connector-mixin-1
+  border-top-width: 10px
+  left: calc(50% - 12px)
+  bottom: -22px
+
+.jsPanel-connector-topleft
+  +connector-mixin-1
+  border-top-width: 10px
+  left: 2px
+  bottom: -22px
+
+.jsPanel-connector-topright
+  +connector-mixin-1
+  border-top-width: 10px
+  left: calc(100% - 26px)
+  bottom: -22px
+
+.jsPanel-connector-right
+  +connector-mixin-1
+  border-right-width: 10px
+  left: -22px
+  top: calc(50% - 12px)
+
+.jsPanel-connector-righttop
+  +connector-mixin-1
+  border-right-width: 10px
+  left: -22px
+  top: 2px
+
+.jsPanel-connector-rightbottom
+  +connector-mixin-1
+  border-right-width: 10px
+  left: -22px
+  top: calc(100% - 26px)
+
+.jsPanel-connector-bottom
+  +connector-mixin-1
+  border-bottom-width: 10px
+  left: calc(50% - 12px)
+  top: -22px
+
+.jsPanel-connector-bottomleft
+  +connector-mixin-1
+  border-bottom-width: 10px
+  left: 2px
+  top: -22px
+
+.jsPanel-connector-bottomright
+  +connector-mixin-1
+  border-bottom-width: 10px
+  left: calc(100% - 26px)
+  top: -22px
+
+.jsPanel-connector-left
+  +connector-mixin-1
+  border-left-width: 10px
+  left: 100%
+  top: calc(50% - 12px)
+
+.jsPanel-connector-lefttop
+  +connector-mixin-1
+  border-left-width: 10px
+  left: 100%
+  top: 2px
+
+.jsPanel-connector-leftbottom
+  +connector-mixin-1
+  border-left-width: 10px
+  left: 100%
+  top: calc(100% - 26px)
+
+/* naming of connectors reflects position of tooltip and not pos of connector */
+.jsPanel-connector-lefttopcorner
+  +connector-mixin-2
+  left: calc(100% - 6px)
+  top: calc(100% - 6px)
+
+.jsPanel-connector-righttopcorner
+  +connector-mixin-2
+  left: -6px
+  top: calc(100% - 6px)
+
+.jsPanel-connector-rightbottomcorner
+  +connector-mixin-2
+  left: -6px
+  top: -6px
+
+.jsPanel-connector-leftbottomcorner
+  +connector-mixin-2
+  left: calc(100% - 6px)
+  top: -6px
+
+
+
+/* container that takes the minified jsPanels */
+#jsPanel-replacement-container, .jsPanel-minimized-box
+  +flex-mixin
+  -webkit-flex-flow: row wrap-reverse
+  -ms-flex-flow: row wrap-reverse
+  flex-flow: row wrap-reverse
+  background: transparent none repeat scroll 0 0
+  bottom: 0
+  height: auto
+  left: 0
+  position: fixed
+  width: 100%
+  z-index: 9998
+
+  .jsPanel-replacement
+    width: 180px
+    height: 40px
+    margin: 1px 1px 0 0
+    z-index: 9999
+
+    .jsPanel-hdr
+      padding: 5px 5px 5px 10px
+
+    .jsPanel-titlebar
+      -webkit-box-flex: 1
+      -webkit-flex: 1 1 0
+      -ms-flex: 1 1 0
+      flex: 1 1 0
+
+    .jsPanel-btn.jsPanel-btn-normalize
+      display: block
+
+.jsPanel-minimized-box
+  position: absolute
+  width: auto
+
+
+
+/* css for the modal backdrop ------------------------------- */
+.jsPanel-modal
+  .jsPanel-hdr, .jsPanel-ftr
+    cursor: default
+
+.jsPanel-modal-backdrop
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+
+/* css for the hints --------------------------------------- */
+.jsPanel-hint
+  .jsPanel-hdr, .jsPanel-ftr
+    cursor: default
+
+/* css for the tooltips --------------------------------------- */
+.jsPanel-tooltip
+  overflow: visible
+
+  .jsPanel-hdr, .jsPanel-ftr
+    cursor: default
+
+
+/* helper classes to make .jsPanel-content a flex box */
+.flexOne
+  display: -webkit-box
+  display: -webkit-flex
+  display: -ms-flexbox
+  display: flex
+  -webkit-flex-flow: row wrap
+  -ms-flex-flow: row wrap
+  flex-flow: row wrap
+
+
+
+/* bootstrap adjustments */
+.jsPanel.panel-default, .jsPanel.panel-primary, .jsPanel.panel-info, .jsPanel.panel-success, .jsPanel.panel-warning, .jsPanel.panel-danger, .jsPanel.card.card-inverse
+  box-shadow: 0 0 6px rgba(0, 33, 50, 0.1), 0 7px 25px rgba(17, 38, 60, 0.4)
+
+.jsPanel-hdr.panel-heading
+  border-bottom: none
+
+//.jsPanel-hdr.panel-heading
+//  .jsPanel-headerbar
+//    .jsPanel-controlbar
+//      div:hover
+//        /*does not work in IE/EDGE*/
+//        -webkit-filter: invert(100%)
+//        filter: invert(100%)
+
+.jsPanel-title.panel-title .small, .jsPanel-title.panel-title small
+  font-size: 75%
+
+
+/* bootstrap 4 adjustments */
+.jsPanel.card.card-inverse
+  box-shadow: 0 0 6px rgba(0, 33, 50, 0.1), 0 7px 25px rgba(17, 38, 60, 0.4)
+
+.card-default
+  background: #f5f5f5
+
+.card-primary > .jsPanel-content.jsPanel-content-filled,
+.card-success > .jsPanel-content.jsPanel-content-filled,
+.card-info > .jsPanel-content.jsPanel-content-filled,
+.card-warning > .jsPanel-content.jsPanel-content-filled,
+.card-danger > .jsPanel-content.jsPanel-content-filled
+  background: transparent
+  //border-top: 1px solid #f5f5f5
+  color: #f5f5f5
+
+.card-default > .jsPanel-content.jsPanel-content-filled
+  background: transparent
+  color: #000000
+
+
+
+/* jQuery-UI adjustments */
+.ui-icon-gripsmall-diagonal-se 
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0)
+  color: #fff
+
+.ui-icon-gripsmall-diagonal-se:before 
+  content: ''
+
+
+/* css3 animations */
+@keyframes jsPanelFadeIn
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+.jsPanelFadeIn
+  opacity: 0  /* make things invisible upon start */
+  animation: jsPanelFadeIn ease-in 1
+  animation-fill-mode: forwards
+  animation-duration: 600ms
+
+
+
+
+// uncomment to show a lower left resize icon
+//.ui-resizable-handle.ui-resizable-sw
+//  background: none repeat scroll 0 0 rgba(0, 0, 0, 0)
+//  color: #000
+//  font-family: jsglyph
+//  font-size: 22px
+//  line-height: 22px
+//  text-indent: 4px
+//  bottom: 0
+//  width: 22px
+//  height: 22px
+//
+//.ui-resizable-handle.ui-resizable-sw:before
+//  content: unicode(e054)
+
+@import "themes"
