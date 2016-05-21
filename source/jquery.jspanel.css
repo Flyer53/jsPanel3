@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-04-26 10:00 */
+/* jspanel.sass: 2016-05-20 10:20 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot?wbr2mk");
@@ -492,161 +492,154 @@
 
 /* _themes_mdl.sass: 2015-12-23 18:56 */
 /* default ---------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-default,
-.jsPanel-replacement.jsPanel-theme-default {
+.jsPanel-theme-default {
   background-color: #f5f5f5; }
 
-.jsPanel-hdr.jsPanel-theme-default * {
+.jsPanel-theme-default .jsPanel-hdr * {
   color: #000000; }
-.jsPanel-hdr.jsPanel-theme-default .jsPanel-hdr-toolbar {
+.jsPanel-theme-default .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #e0e0e0; }
-.jsPanel-hdr.jsPanel-theme-default .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-default .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #e0e0e0; }
 
-.jsPanel-content.jsPanel-theme-default {
+.jsPanel-theme-default .jsPanel-content {
   border-top: 1px solid #e0e0e0; }
 
-.jsPanel-content.jsPanel-theme-default.jsPanel-content-filled {
+.jsPanel-theme-default .jsPanel-content.jsPanel-content-filled {
   background-color: #f5f5f5;
   border-top: 1px solid #e0e0e0; }
 
-.jsPanel-content.jsPanel-theme-default.jsPanel-content-filledlight {
+.jsPanel-theme-default .jsPanel-contentjsPanel-content-filledlight {
   background-color: #fafafa; }
 
 /* primary ---------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-primary,
-.jsPanel-replacement.jsPanel-theme-primary {
+.jsPanel-theme-primary {
   background-color: #3f51b5; }
 
-.jsPanel-hdr.jsPanel-theme-primary * {
+.jsPanel-theme-primary .jsPanel-hdr * {
   color: #ffffff; }
-.jsPanel-hdr.jsPanel-theme-primary .jsPanel-hdr-toolbar {
+.jsPanel-theme-primary .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #5c6bc0; }
-.jsPanel-hdr.jsPanel-theme-primary .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-primary .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #5c6bc0; }
 
-.jsPanel-content.jsPanel-theme-primary {
+.jsPanel-theme-primary .jsPanel-content {
   border-top: 1px solid #5c6bc0; }
 
-.jsPanel-content.jsPanel-theme-primary.jsPanel-content-filled {
+.jsPanel-theme-primary .jsPanel-content.jsPanel-content-filled {
   background-color: #3f51b5;
   border-top: 1px solid #5c6bc0;
   color: #ffffff; }
 
-.jsPanel-content.jsPanel-theme-primary.jsPanel-content-filledlight {
+.jsPanel-theme-primary .jsPanel-content.jsPanel-content-filledlight {
   background-color: #c5cae9;
   color: #000000; }
 
 /* info ------------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-info,
-.jsPanel-replacement.jsPanel-theme-info {
+.jsPanel-theme-info {
   background-color: #03a9f4; }
 
-.jsPanel-hdr.jsPanel-theme-info * {
+.jsPanel-theme-info .jsPanel-hdr * {
   color: #ffffff; }
-.jsPanel-hdr.jsPanel-theme-info .jsPanel-hdr-toolbar {
+.jsPanel-theme-info .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #29b6f6; }
-.jsPanel-hdr.jsPanel-theme-info .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-info .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #29b6f6; }
 
-.jsPanel-content.jsPanel-theme-info {
+.jsPanel-theme-info .jsPanel-content {
   border-top: 1px solid #29b6f6; }
 
-.jsPanel-content.jsPanel-theme-info.jsPanel-content-filled {
+.jsPanel-theme-info .jsPanel-content.jsPanel-content-filled {
   background-color: #03a9f4;
   border-top: 1px solid #29b6f6;
   color: #ffffff; }
 
-.jsPanel-content.jsPanel-theme-info.jsPanel-content-filledlight {
+.jsPanel-theme-info .jsPanel-content.jsPanel-content-filledlight {
   background-color: #b3e5fc;
   color: #000000; }
 
 /* success ---------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-success,
-.jsPanel-replacement.jsPanel-theme-success {
+.jsPanel-theme-success {
   background-color: #43a047; }
 
-.jsPanel-hdr.jsPanel-theme-success * {
+.jsPanel-theme-success .jsPanel-hdr * {
   color: #ffffff; }
-.jsPanel-hdr.jsPanel-theme-success .jsPanel-hdr-toolbar {
+.jsPanel-theme-success .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #66bb6a; }
-.jsPanel-hdr.jsPanel-theme-success .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-success .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #a5d6a7; }
 
-.jsPanel-content.jsPanel-theme-success.jsPanel-content-filled {
+.jsPanel-theme-success .jsPanel-content.jsPanel-content-filled {
   background-color: #43a047;
   border-top: 1px solid #66bb6a;
   color: #ffffff; }
 
-.jsPanel-content.jsPanel-theme-success.jsPanel-content-filledlight {
+.jsPanel-theme-success .jsPanel-content.jsPanel-content-filledlight {
   background-color: #c8e6c9;
   color: #000000; }
 
 /* warning ---------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-warning,
-.jsPanel-replacement.jsPanel-theme-warning {
+.jsPanel-theme-warning {
   background-color: #fb8c00; }
 
-.jsPanel-hdr.jsPanel-theme-warning * {
+.jsPanel-theme-warning .jsPanel-hdr * {
   color: #000000; }
-.jsPanel-hdr.jsPanel-theme-warning .jsPanel-hdr-toolbar {
+.jsPanel-theme-warning .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #ffb74d; }
-.jsPanel-hdr.jsPanel-theme-warning .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-warning .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #ffcc80; }
 
-.jsPanel-content.jsPanel-theme-warning.jsPanel-content-filled {
+.jsPanel-theme-warning .jsPanel-content.jsPanel-content-filled {
   background-color: #fb8c00;
   border-top: 1px solid #ffb74d;
   color: #000000; }
 
-.jsPanel-content.jsPanel-theme-warning.jsPanel-content-filledlight {
+.jsPanel-theme-warning .jsPanel-content.jsPanel-content-filledlight {
   background-color: #ffe0b2;
   color: #000000; }
 
 /* danger ----------------------------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-danger,
-.jsPanel-replacement.jsPanel-theme-danger {
+.jsPanel-theme-danger {
   background-color: #f4511e; }
 
-.jsPanel-hdr.jsPanel-theme-danger * {
+.jsPanel-theme-danger .jsPanel-hdr * {
   color: #ffffff; }
-.jsPanel-hdr.jsPanel-theme-danger .jsPanel-hdr-toolbar {
+.jsPanel-theme-danger .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #ff7043; }
-.jsPanel-hdr.jsPanel-theme-danger .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-danger .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #ffab91; }
 
-.jsPanel-content.jsPanel-theme-danger.jsPanel-content-filled {
+.jsPanel-theme-danger .jsPanel-content.jsPanel-content-filled {
   background-color: #f4511e;
   border-top: 1px solid #ff7043;
   color: #ffffff; }
 
-.jsPanel-content.jsPanel-theme-danger.jsPanel-content-filledlight {
+.jsPanel-theme-danger .jsPanel-content.jsPanel-content-filledlight {
   background-color: #ffccbc;
   color: #000000; }
 
 /* custom theme example myblue -------------------------------------------------------------------------------------- */
-.jsPanel.jsPanel-theme-myblue,
-.jsPanel-replacement.jsPanel-theme-myblue {
+.jsPanel-theme-myblue {
   background-color: #1565c0; }
 
-.jsPanel-hdr.jsPanel-theme-myblue * {
+.jsPanel-theme-myblue .jsPanel-hdr * {
   color: #ffff00; }
-.jsPanel-hdr.jsPanel-theme-myblue .jsPanel-hdr-toolbar {
+.jsPanel-theme-myblue .jsPanel-hdr .jsPanel-hdr-toolbar {
   border-top: 1px solid #ffff00; }
-.jsPanel-hdr.jsPanel-theme-myblue .jsPanel-headerbar .jsPanel-controlbar div span:hover {
+.jsPanel-theme-myblue .jsPanel-hdr .jsPanel-headerbar .jsPanel-controlbar div span:hover {
   color: #ffff00; }
 
-.jsPanel-content.jsPanel-theme-myblue {
+.jsPanel-theme-myblue .jsPanel-content {
   background-color: #eceff1;
   border-top: 1px solid #ffff00;
   color: #000000; }
 
-.jsPanel-content.jsPanel-theme-myblue.jsPanel-content-filled {
+.jsPanel-theme-myblue .jsPanel-content.jsPanel-content-filled {
   background-color: #42a5f5;
   border-top: 1px solid #ffff00;
   color: #ffff00; }
 
-.jsPanel-content.jsPanel-theme-myblue.jsPanel-content-filledlight {
+.jsPanel-theme-myblue .jsPanel-content.jsPanel-content-filledlight {
   background-color: #bbdefb;
   border-top: 1px solid #ffff00;
   color: #e65100; }

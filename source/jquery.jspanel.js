@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.3',
-    date:    '2016-04-26 15:18',
+    version: '3.0.0 RC1.9',
+    date:    '2016-05-21 11:43',
     id: 0,                  // counter to add to automatically generated id attribute
     zi: 100,                // z-index counter
     modalcount: 0,          // counter to set modal background and modal jsPanel z-index
@@ -2082,10 +2082,6 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             panelconfig = config || {},
             optConfig = panelconfig.config || {},
             passedconfig = $.extend(true, {}, optConfig, panelconfig),
-            passedTheme,
-            theme = [],
-            bs,
-            bstheme,
             template = panelconfig.template || jsPanel.template,
             jsP = $(template),
             trigger; // elmt triggering the tooltip
@@ -2197,36 +2193,6 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             jsP.option.headerControls.controls = jsP.option.headerControls.buttons;
         }
         /* ---------------------------------------------------------------------------------------------------------- */
-
-        /* needs to be after the v2.x -> v3.0 compat code */
-        /* this new code allows whitespace in color values */
-        // remove all whitespace from option.theme value
-        passedTheme = jsP.option.theme.toLowerCase().replace(/ /g, "");
-
-        if (passedTheme.endsWith('filled')) {
-
-            theme[1] = 'filled';
-            theme[0] = passedTheme.substr(0, passedTheme.length - 6);
-
-        } else if (passedTheme.endsWith('filledlight')) {
-
-            theme[1] = 'filledlight';
-            theme[0] = passedTheme.substr(0, passedTheme.length - 11);
-
-        } else {
-
-            theme[1] = "";
-            theme[0] = passedTheme;
-
-        }
-
-        // if first part of theme includes a "-" it's assumed to be a bootstrap theme
-        if (theme[0].match('-')) {
-
-            bs = theme[0].split('-');
-            bstheme = true;
-
-        }
 
         // option.id ---------------------------------------------------------------------------------------------------
         if (typeof jsP.option.id === "string") {
@@ -2393,8 +2359,19 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
         jsP.front = () => {
 
             jsP.css('z-index', jsPanel.setZi(jsP));
-
             jsPanel.resetZis();
+            $(document).trigger('jspanelfronted', id);
+
+            if ($.isFunction(jsP.option.onfronted)) {
+
+                // do not close panel if onfronted callback returns false
+                if (jsP.option.onfronted.call(jsP, jsP) === false) {
+                    return jsP;
+                } else {
+                    jsP.option.onfronted.call(jsP, jsP);
+                }
+
+            }
 
             return jsP;
 
@@ -2529,8 +2506,8 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             let fontColor = jsP.header.headerbar.css('color'),
                 bgColor;
 
-            if (!bstheme) {
-
+            if (!jsP.hasClass('panel')) {
+                // if not a bootstrap theme
                 bgColor = jsP.css('background-color');
 
             } else {
@@ -2712,6 +2689,127 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
         };
 
+        jsP.setTheme = (passedtheme = jsP.option.theme.toLowerCase().replace(/ /g, "")) => {
+            // remove all whitespace from passedtheme
+            let theme = [], bs, bstheme;
+
+            // first remove all theme related syles
+            jsPanel.themes.forEach(function (value, index, array) {
+                jsP.removeClass('panel card card-inverse jsPanel-theme-' + value + '  panel-' + value + ' card-' + value);
+            });
+            jsP.header.removeClass('panel-heading').title.removeClass('panel-title');
+            jsP.content.removeClass('panel-body').css('border-top-color', '');
+            jsP.footer.removeClass('panel-footer card-footer');
+            jsP.css('background', '').content.css({borderTop:'', backgroundColor: '', color:''});
+            $('.jsPanel-hdr *', jsP).css({color: ''});
+            jsP.header.toolbar.css({boxShadow:'', width: '', marginLeft: ''});
+
+            if (passedtheme.endsWith('filled')) {
+                theme[1] = 'filled';
+                theme[0] = passedtheme.substr(0, passedtheme.length - 6);
+            } else if (passedtheme.endsWith('filledlight')) {
+                theme[1] = 'filledlight';
+                theme[0] = passedtheme.substr(0, passedtheme.length - 11);
+            } else {
+                theme[1] = "";
+                theme[0] = passedtheme;
+            }
+
+            // if first part of theme includes a "-" it's assumed to be a bootstrap theme
+            if (theme[0].match('-')) {
+                bs = theme[0].split('-');
+                bstheme = true;
+            }
+
+            if (!bstheme) {
+
+                if (jsPanel.themes.includes(theme[0])) {
+
+                    jsP.addClass('jsPanel-theme-' + theme[0]);
+
+                    // optionally set theme style
+                    if (theme[1] === 'filled') {
+                        jsP.content.css('background', '').addClass('jsPanel-content-filled');
+                    } else if (theme[1] === 'filledlight') {
+                        jsP.content.css('background', '').addClass('jsPanel-content-filledlight');
+                    }
+
+                    if (!jsP.option.headerToolbar) {jsP.content.css({borderTop:'1px solid ' + jsP.header.title.css('color')});}
+
+                } else {
+
+                    // arbitrary colors themes
+                    let colors = jsPanel.calcColors(theme[0]); // colors: [primeColor, secondColor, fontColorForPrimary]
+                    jsP.css('background-color', colors[0]);
+                    $('.jsPanel-hdr *', jsP).css({color: colors[3]});
+
+                    if (jsP.option.headerToolbar) {
+
+                        jsP.header.toolbar.css({boxShadow:'0 0 1px ' + colors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
+
+                    } else  {
+
+                        jsP.content.css({borderTop:'1px solid ' + colors[3]});
+
+                    }
+
+                    if (theme[1] === 'filled') {
+
+                        jsP.content.css({'background-color': colors[0], color: colors[3]});
+
+                    } else if (theme[1] === 'filledlight') {
+
+                        jsP.content.css({'background-color': colors[1]});
+
+                    }
+
+                }
+
+            } else {
+
+                // bootstrap themes
+                let pColor, bsColors;
+
+                jsP.addClass('panel panel-' + bs[1])
+                    .addClass('card card-inverse card-' + bs[1])
+                    .header.addClass('panel-heading')
+                    .title.addClass('panel-title');
+
+                jsP.content.addClass('panel-body')
+                    // fix css problems for panels nested in other bootstrap panels
+                    .css('border-top-color', () => { return jsP.header.css('border-top-color'); });
+
+                jsP.footer.addClass('panel-footer card-footer');
+
+                // optional
+                if ($('.panel-heading', jsP).css('background-color') === 'transparent') {
+                    pColor = jsP.css('background-color').replace(/\s+/g, '');
+                } else {
+                    pColor = $('.panel-heading', jsP).css('background-color').replace(/\s+/g, '');
+                }
+
+                bsColors = jsPanel.calcColors(pColor);
+                $('*', jsP.header).css('color', bsColors[3]);
+
+                if (jsP.option.headerToolbar) {
+                    jsP.header.toolbar.css({boxShadow:'0 0 1px ' + bsColors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
+                } else  {
+                    jsP.content.css({borderTop:'1px solid ' + bsColors[3]});
+                }
+
+                if (theme[1] === 'filled') {
+                    jsP.content.css({backgroundColor: pColor, color: bsColors[3]});
+                } else if (theme[1] === 'filledlight') {
+                    jsP.content.css({backgroundColor: bsColors[1], color: '#000000'});
+                }
+
+            }
+
+            return jsP;
+
+        };
+
+
         /* to ease migrating from version 2.5.x to version 3.x ------------------------------------------------------ */
         jsP.addToolbar = jsP.toolbarAdd;
         jsP.reloadContent = jsP.contentReload;
@@ -2841,105 +2939,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
         jsP.data('container', jsP.option.container);
 
         /* option.theme now includes bootstrap ---------------------------------------------------------------------- */
-        if (!bstheme) {
-
-            if (jsPanel.themes.includes(theme[0])) {
-
-                [jsP, jsP.header, jsP.content, jsP.footer].forEach( elmt => $(elmt).addClass('jsPanel-theme-' + theme[0]) );
-
-                // optionally set theme style
-                if (theme[1] === 'filled') {
-
-                    jsP.content.css('background', '').addClass('jsPanel-content-filled');
-
-                } else if (theme[1] === 'filledlight') {
-
-                    jsP.content.css('background', '').addClass('jsPanel-content-filledlight');
-
-                }
-
-                if (!jsP.option.headerToolbar) {jsP.content.css({borderTop:'1px solid ' + jsP.header.title.css('color')});}
-
-            } else {
-
-                // arbitrary colors themes
-                let colors = jsPanel.calcColors(theme[0]); // colors: [primeColor, secondColor, fontColorForPrimary]
-                jsP.css('background-color', colors[0]);
-                $('.jsPanel-hdr *', jsP).css({color: colors[3]});
-
-                if (jsP.option.headerToolbar) {
-
-                    jsP.header.toolbar.css({boxShadow:'0 0 1px ' + colors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
-
-                } else  {
-
-                    jsP.content.css({borderTop:'1px solid ' + colors[3]});
-
-                }
-
-                if (theme[1] === 'filled') {
-
-                    jsP.content.css({'background-color': colors[0], color: colors[3]});
-
-                } else if (theme[1] === 'filledlight') {
-
-                    jsP.content.css({'background-color': colors[1]});
-
-                }
-
-            }
-
-        } else {
-
-            // bootstrap themes
-            let pColor, bsColors;
-
-            jsP.addClass('panel panel-' + bs[1])
-               .addClass('card card-inverse card-' + bs[1])
-               .header.addClass('panel-heading')
-               .title.addClass('panel-title');
-
-            jsP.content.addClass('panel-body')
-                // fix css problems for panels nested in other bootstrap panels
-                .css('border-top-color', () => { return jsP.header.css('border-top-color'); });
-
-            jsP.footer.addClass('panel-footer card-footer');
-
-            // optional
-            if ($('.panel-heading', jsP).css('background-color') === 'transparent') {
-
-                pColor = jsP.css('background-color').replace(/\s+/g, '');
-
-            } else {
-
-                pColor = $('.panel-heading', jsP).css('background-color').replace(/\s+/g, '');
-
-            }
-
-            bsColors = jsPanel.calcColors(pColor);
-            $('*', jsP.header).css('color', bsColors[3]);
-
-            if (jsP.option.headerToolbar) {
-
-                jsP.header.toolbar.css({boxShadow:'0 0 1px ' + bsColors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
-
-            } else  {
-
-                jsP.content.css({borderTop:'1px solid ' + bsColors[3]});
-
-            }
-
-            if (theme[1] === 'filled') {
-
-                jsP.content.css({backgroundColor: pColor, color: bsColors[3]});
-
-            } else if (theme[1] === 'filledlight') {
-
-                jsP.content.css({backgroundColor: bsColors[1], color: '#000000'});
-
-            }
-
-        }
+        jsP.setTheme();
 
         /* corrections for a removed header */
         if (jsP.option.headerRemove|| $('.jsPanel-hdr').length < 1 ) {jsP.content.css('border', 'none');}
@@ -3090,7 +3090,6 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
             // reset cursor, draggable deactivated
             $('.jsPanel-hdr, .jsPanel-ftr', jsP).css('cursor', 'default');
-
             // jquery ui draggable initialize disabled to allow to query status
             jsP.draggable({disabled: true});
 
@@ -3143,12 +3142,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
             let zi = $(e.target).closest('.jsPanel').css('z-index');
 
-            if (!jsP.hasClass("jsPanel-modal") && zi < jsPanel.zi) {
-
-                jsP.css('z-index', jsPanel.setZi(jsP));
-                jsPanel.resetZis();
-
-            }
+            if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) { jsP.front(); }
 
         }, false);
 
@@ -3172,8 +3166,9 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
         }
 
-        /* adding a few methods directly to the HTMLElement --------------------------------------------------------- */
+        /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */
         jsP[0].jspanel = {
+            options: jsP.option,
             close() { jsP.close(); },
             normalize() {
                 jsP.normalize();
@@ -3223,6 +3218,10 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             },
             toolbarAdd(place, tb) {
                 jsP.toolbarAdd(place, tb);
+                return jsP;
+            },
+            setTheme(theme) {
+                jsP.setTheme(theme);
                 return jsP;
             },
             noop() {
@@ -3303,6 +3302,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
         "onresized": false,
         "onsmallified": false,
         "onunsmallified": false,
+        "onfronted": false,
         "paneltype": false,
         "position": {
             my: 'center',
