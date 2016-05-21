@@ -130,8 +130,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC1.9',
-            date: '2016-05-21 11:43',
+            version: '3.0.0 RC1.10',
+            date: '2016-05-21 16:25',
             id: 0, // counter to add to automatically generated id attribute
             zi: 100, // z-index counter
             modalcount: 0, // counter to set modal background and modal jsPanel z-index
@@ -2525,6 +2525,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     var passedtheme = arguments.length <= 0 || arguments[0] === undefined ? jsP.option.theme.toLowerCase().replace(/ /g, "") : arguments[0];
 
                                     // remove all whitespace from passedtheme
+                                    passedtheme = passedtheme.toLowerCase().replace(/ /g, "");
                                     var theme = [],
                                         bs = void 0,
                                         bstheme = void 0;
