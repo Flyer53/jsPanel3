@@ -143,31 +143,32 @@ $.jsPanel({
 | `draggable` | configures the draggable interaction | [API](http://jspanel.de/api/#option/draggable) |
 | `footerToolbar` | configures a toolbar for the footer section | [API](http://jspanel.de/api/#option/footerToolbar) |
 | `headerControls` | configures the controls (close, minimize buttons etc.) | [API](http://jspanel.de/api/#option/headerControls) |
-| `headerTitle` |sets the title/heading of the jsPanel | [API](http://jspanel.de/api/#option/headerTitle) |
-| `headerRemove` |removes the complete header section | [API](http://jspanel.de/api/#option/headerRemove) |
-| `headerToolbar` |configures a toolbar for the header section | [API](http://jspanel.de/api/#option/headerToolbar) |
-| `id` |sets the id attribute for the jsPanel | [API](http://jspanel.de/api/#option/id) |
-| `maximizedMargin` |sets margins for a maximized jsPanel | [API](http://jspanel.de/api/#option/maximizedMargin) |
-| `onbeforeclose` |sets a hendler for the onbeforeclose event | [API](http://jspanel.de/api/#option/onbeforeclose) |
-| `onbeforemaximize` |sets a hendler for the onbeforemaximize event | [API](http://jspanel.de/api/#option/onbeforemaximize) |
-| `onbeforeminimize` |sets a hendler for the onbeforeminimize event | [API](http://jspanel.de/api/#option/onbeforeminimize) |
-| `onbeforenormalize` |sets a hendler for the onbeforenormalize event | [API](http://jspanel.de/api/#option/onbeforenormalize) |
-| `onbeforeresize` |sets a hendler for the onbeforeresize event | [API](http://jspanel.de/api/#option/onbeforeresize) |
-| `onclosed` |sets a hendler for the onclosed event | [API](http://jspanel.de/api/#option/onclosed) |
-| `onmaximized` |sets a hendler for the onmaximized event | [API](http://jspanel.de/api/#option/onmaximized) |
-| `onminimized` |sets a hendler for the onminimized event | [API](http://jspanel.de/api/#option/onminimized) |
-| `onnormalized` |sets a hendler for the onnormalized event | [API](http://jspanel.de/api/#option/onnormalized) |
-| `onresized` |sets a hendler for the onresized event | [API](http://jspanel.de/api/#option/onresized) |
-| `onsmallified` | sets a hendler for the onsmallified event | [API](http://jspanel.de/api/#option/onsmallified) |
-| `onunsmallified` |sets a hendler for the onunsmallified event | [API](http://jspanel.de/api/#option/onunsmallified) |
-| `paneltype` |configures a jsPanel for use as **modal**, **tooltip** or **hint/notifier** | [API](http://jspanel.de/api/#option/paneltype) |
-| `position` |sets the position of a jsPanel | [API](http://jspanel.de/api/#option/position) |
-| `resizable` |configures the resizable interaction | [API](http://jspanel.de/api/#option/resizable) |
-| `rtl` |set RTL text direction for the complete jsPanel | [API](http://jspanel.de/api/#option/rtl) |
-| `setstatus` |creates a jsPanel with a specified status (maximized, minimized etc.) | [API](http://jspanel.de/api/#option/setstatus) |
-| `show` |set an entry animation for the jsPanel | [API](http://jspanel.de/api/#option/show) |
-| `template` |assign a modified html template for the jsPanel | [API](http://jspanel.de/api/#option/template) |
-| `theme` |assign a theme to the jsPanel **(includes support for bootstrap themes)** | [API](http://jspanel.de/api/#option/theme) |
+| `headerTitle` | sets the title/heading of the jsPanel | [API](http://jspanel.de/api/#option/headerTitle) |
+| `headerRemove` | removes the complete header section | [API](http://jspanel.de/api/#option/headerRemove) |
+| `headerToolbar` | configures a toolbar for the header section | [API](http://jspanel.de/api/#option/headerToolbar) |
+| `id` | sets the id attribute for the jsPanel | [API](http://jspanel.de/api/#option/id) |
+| `maximizedMargin` | sets margins for a maximized jsPanel | [API](http://jspanel.de/api/#option/maximizedMargin) |
+| `onbeforeclose` | sets a hendler for the jspanelbeforeclose event | [API](http://jspanel.de/api/#option/onbeforeclose) |
+| `onbeforemaximize` | sets a hendler for the jspanelbeforemaximize event | [API](http://jspanel.de/api/#option/onbeforemaximize) |
+| `onbeforeminimize` | sets a hendler for the jspanelbeforeminimize event | [API](http://jspanel.de/api/#option/onbeforeminimize) |
+| `onbeforenormalize` | sets a hendler for the jspanelbeforenormalize event | [API](http://jspanel.de/api/#option/onbeforenormalize) |
+| `onbeforeresize` | sets a hendler to call before a panel is resized when using the method .resize() | [API](http://jspanel.de/api/#option/onbeforeresize) |
+| `onclosed` | sets a hendler for the jspanelclosed event | [API](http://jspanel.de/api/#option/onclosed) |
+| `onfronted` | sets a hendler for the jspanelclosed event | [API](http://jspanel.de/api/#option/onclosed) |
+| `onmaximized` | sets a hendler for the jspanelmaximized event | [API](http://jspanel.de/api/#option/onmaximized) |
+| `onminimized` | sets a hendler for the jspanelminimized event | [API](http://jspanel.de/api/#option/onminimized) |
+| `onnormalized` | sets a hendler for the jspanelnormalized event | [API](http://jspanel.de/api/#option/onnormalized) |
+| `onresized` | sets a hendler for the jspanelresized event | [API](http://jspanel.de/api/#option/onresized) |
+| `onsmallified` | sets a hendler for the jspanelsmallified event | [API](http://jspanel.de/api/#option/onsmallified) |
+| `onunsmallified` | sets a hendler to call after a smallified jsPanel was unsmallified | [API](http://jspanel.de/api/#option/onunsmallified) |
+| `paneltype` | configures a jsPanel for use as **modal**, **tooltip** or **hint/notifier** | [API](http://jspanel.de/api/#option/paneltype) |
+| `position` | sets the position of a jsPanel | [API](http://jspanel.de/api/#option/position) |
+| `resizable` | configures the resizable interaction | [API](http://jspanel.de/api/#option/resizable) |
+| `rtl` | set RTL text direction for the complete jsPanel | [API](http://jspanel.de/api/#option/rtl) |
+| `setstatus` | creates a jsPanel with a specified status (maximized, minimized etc.) | [API](http://jspanel.de/api/#option/setstatus) |
+| `show` | set an entry animation for the jsPanel | [API](http://jspanel.de/api/#option/show) |
+| `template` | assign a modified html template for the jsPanel | [API](http://jspanel.de/api/#option/template) |
+| `theme` | assign a theme to the jsPanel **(includes support for bootstrap themes)** | [API](http://jspanel.de/api/#option/theme) |
 
 ### [jsPanel methods in alphabetical order:]()<a href="" id="jspanel-methods"></a>
 | method | description | &#x1f517; |
@@ -184,7 +185,8 @@ $.jsPanel({
 | `normalize()`  |normalizes an exsisting jsPanel | [API](http://jspanel.de/api/#method/normalize) |
 | `reposition()` | repositions an exsisting jsPanel | [API](http://jspanel.de/api/#method/reposition) |
 | `resize()` | resizes an exsisting jsPanel | [API](http://jspanel.de/api/#method/resize) |
-| `smallify()` | smallifies/unsmallifies an exsisting jsPanel | [API](http://jspanel.de/api/#method/smallify) |
+| `setTheme()` | switches the theme of an already existing jsPanel | [API](http://jspanel.de/api/#method/smallify) |
+| `smallify()` | smallifies/unsmallifies an exsisting jsPanel | [API](http://jspanel.de/api/#method/setTheme) |
 | `toolbarAdd()` | adds a header or footer toolbar to an exsistinf jsPanel | [API](http://jspanel.de/api/#method/toolbarAdd) |
 
 ### [jsPanel properties in alphabetical order:]()<a href="" id="jspanel-properties"></a>
@@ -205,6 +207,7 @@ $.jsPanel({
 + `jspanelstatuschange`
 + `jspanelbeforeclose`
 + `jspanelclosed`
++ `jspanelfronted`
 + `jspanelbeforemaximize`
 + `jspanelmaximized`
 + `jspanelbeforenormalize`
@@ -213,6 +216,7 @@ $.jsPanel({
 + `jspanelminimized`
 + `jspanelsmallified`
 + `jspanelsmallifiedmax`
++ `jspanelstatuschange`
 
 ### [jsPanel defaults:]() | [API &#x1f517;](http://jspanel.de/api/#defaults)<a href="" id="jspanel-defaults"></a>
 ```javascript
@@ -262,6 +266,7 @@ $.jsPanel.defaults = {
     "onmaximized": false,
     "onminimized": false,
     "onnormalized": false,
+    "onfronted": false,
     "paneltype": false,
     "position": {
         elmt: jsP,
