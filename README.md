@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.0.0-rc1 released 2016-05-16](#)
+## [jsPanel 3.0.0-rc1.10 released 2016-05-21](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -185,7 +185,7 @@ $.jsPanel({
 | `normalize()`  |normalizes an exsisting jsPanel | [API](http://jspanel.de/api/#method/normalize) |
 | `reposition()` | repositions an exsisting jsPanel | [API](http://jspanel.de/api/#method/reposition) |
 | `resize()` | resizes an exsisting jsPanel | [API](http://jspanel.de/api/#method/resize) |
-| `setTheme()` | switches the theme of an already existing jsPanel | [API](http://jspanel.de/api/#method/smallify) |
+| `setTheme()` | switches the theme of an already existing jsPanel | [API](http://jspanel.de/api/#method/setTheme) |
 | `smallify()` | smallifies/unsmallifies an exsisting jsPanel | [API](http://jspanel.de/api/#method/setTheme) |
 | `toolbarAdd()` | adds a header or footer toolbar to an exsistinf jsPanel | [API](http://jspanel.de/api/#method/toolbarAdd) |
 
