@@ -130,8 +130,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC1.10',
-            date: '2016-05-21 16:25',
+            version: '3.0.0 RC1.12',
+            date: '2016-05-24 10:57',
             id: 0, // counter to add to automatically generated id attribute
             zi: 100, // z-index counter
             modalcount: 0, // counter to set modal background and modal jsPanel z-index
@@ -2523,6 +2523,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
                         jsP.setTheme = function () {
                                     var passedtheme = arguments.length <= 0 || arguments[0] === undefined ? jsP.option.theme.toLowerCase().replace(/ /g, "") : arguments[0];
+                                    var callback = arguments[1];
 
                                     // remove all whitespace from passedtheme
                                     passedtheme = passedtheme.toLowerCase().replace(/ /g, "");
@@ -2549,7 +2550,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                 theme[0] = passedtheme.substr(0, passedtheme.length - 11);
                                     } else {
                                                 theme[1] = "";
-                                                theme[0] = passedtheme;
+                                                theme[0] = passedtheme; // theme[0] is the primary color
                                     }
 
                                     // if first part of theme includes a "-" it's assumed to be a bootstrap theme
@@ -2634,6 +2635,16 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                 } else if (theme[1] === 'filledlight') {
                                                             jsP.content.css({ backgroundColor: bsColors[1], color: '#000000' });
                                                 }
+                                    }
+
+                                    if (jsP.option.border) {
+                                                jsP.css('border', jsP.option.border + ' ' + theme[0]);
+                                    } else {
+                                                jsP.css('border', 'none');
+                                    }
+
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
                                     }
 
                                     return jsP;
@@ -3077,6 +3088,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
             $.jsPanel.defaults = {
                         "autoclose": false,
+                        "border": false,
                         "callback": false,
                         "container": 'body',
                         "content": false,
@@ -3173,16 +3185,15 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             };
 
             /* body click handler: remove all tooltips on click in body except click is inside a jsPanel or trigger of tooltip */
-            document.body.addEventListener('click', function (e) {
-
-                        var isTT = $(e.target).closest('.jsPanel').length;
-
-                        if (isTT < 1 && !$(e.target).hasClass('hasTooltip')) {
-
-                                    jsPanel.closeTooltips();
-                                    $('.hasTooltip').removeClass('hasTooltip');
-                        }
-            }, false);
+            $(document).ready(function () {
+                        document.body.addEventListener('click', function (e) {
+                                    var isTT = $(e.target).closest('.jsPanel').length;
+                                    if (isTT < 1 && !$(e.target).hasClass('hasTooltip')) {
+                                                jsPanel.closeTooltips();
+                                                $('.hasTooltip').removeClass('hasTooltip');
+                                    }
+                        }, false);
+            });
 })(jQuery);
 
 //# sourceMappingURL=jquery.jspanel-compiled.js.map

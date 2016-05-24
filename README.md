@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.0.0-rc1.10 released 2016-05-21](#)
+## [jsPanel 3.0.0-rc1.12 released 2016-05-24](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -131,6 +131,7 @@ $.jsPanel({
 | option | description | &#x1f517; |
 | --- | --- | --- |
 | `autoclose` | automatically close a jsPanel after a specified time | [API](http://jspanel.de/api/#option/autoclose) |
+| `border` | set border-width and border-style for a jsPanel, border-color is taken from theme | [API](http://jspanel.de/api/#option/border) |
 | `callback` | a callback function or array of callback functions | [API](http://jspanel.de/api/#option/callback) |
 | `config` | passes a prepared configuration object | [API](http://jspanel.de/api/#option/config) |
 | `container` | the container element to append the jsPanel to | [API](http://jspanel.de/api/#option/container) |
