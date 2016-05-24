@@ -223,6 +223,7 @@ $.jsPanel({
 ```javascript
 $.jsPanel.defaults = {
     "autoclose": false,
+    "border": false,
     "callback": false,
     "container": 'body',
     "content": false,
@@ -239,7 +240,7 @@ $.jsPanel.defaults = {
         handle: 'div.jsPanel-hdr, div.jsPanel-ftr',
         opacity: 0.8
     },
-    "footerToolbar": false
+    "footerToolbar": false,
     "headerControls": {
         buttons: true,
         iconfont: 'jsglyph',
