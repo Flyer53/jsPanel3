@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.12',
-    date:    '2016-05-24 10:57',
+    version: '3.0.0 RC1.13',
+    date:    '2016-05-24 21:03',
     id: 0,                  // counter to add to automatically generated id attribute
     zi: 100,                // z-index counter
     modalcount: 0,          // counter to set modal background and modal jsPanel z-index
@@ -2084,7 +2084,8 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             passedconfig = $.extend(true, {}, optConfig, panelconfig),
             template = panelconfig.template || jsPanel.template,
             jsP = $(template),
-            trigger; // elmt triggering the tooltip
+            trigger, // elmt triggering the tooltip
+            oH, oW;
 
         // enable paneltype: 'tooltip' for default tooltips
         if (passedconfig.paneltype === "tooltip") {passedconfig.paneltype = {tooltip: true};}
@@ -3176,6 +3177,26 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
             }, jsP.option.autoclose);
 
         }
+
+        // hndlers to normalize a panel and reset controls when resizing a smallified panel with mouse
+        jsP.on("resizestart", function () {
+            oW = jsP.outerWidth();
+            oH = jsP.outerHeight();
+        });
+        // but only when panel height changed (it's possible to resize only width of smallified panel)
+        jsP.on("resizestop", function () {
+            if (jsP.outerWidth() !== oW && jsP.outerHeight() === oH) {
+                jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
+                jsP.data('status', 'smallified');
+                $(document).trigger('jspanelsmallified', id);
+                $(document).trigger('jspanelstatuschange', id);
+            } else if (jsP.outerHeight() !== oH) {
+                jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
+                jsP.data('status', 'normalized');
+                $(document).trigger('jspanelnormalized', id);
+                $(document).trigger('jspanelstatuschange', id);
+            }
+        });
 
         /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */
         jsP[0].jspanel = {
