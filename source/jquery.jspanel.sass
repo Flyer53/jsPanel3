@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-05-20 10:20 */
+/* jspanel.sass: 2016-05-26 10:55 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -16,37 +16,25 @@
   font-weight: normal
 
 =flex-mixin
-  display: -webkit-box
-  display: -webkit-flex
   display: -ms-flexbox
   display: flex
 
 =footer-mixin
-  -webkit-box-orient: horizontal
-  -webkit-box-direction: reverse
-  -webkit-flex-direction: row-reverse
-  -ms-flex-direction: row-reverse
-  flex-direction: row-reverse
-  -webkit-flex-wrap: nowrap
+  -ms-flex-direction: row
+  flex-direction: row
+  -ms-flex-pack: end
+  justify-content: flex-end
   -ms-flex-wrap: nowrap
   flex-wrap: nowrap
-  -webkit-box-align: center
-  -webkit-align-items: center
   -ms-flex-align: center
   align-items: center
 
 =header-mixin
   +flex-mixin
-  -webkit-box-orient: horizontal
-  -webkit-box-direction: normal
-  -webkit-flex-direction: row
   -ms-flex-direction: row
   flex-direction: row
-  -webkit-flex-wrap: nowrap
   -ms-flex-wrap: nowrap
   flex-wrap: nowrap
-  -webkit-box-align: center
-  -webkit-align-items: center
   -ms-flex-align: center
   align-items: center
   min-height: 32px
@@ -128,8 +116,6 @@
 
 
 .jsPanel-titlebar
-  -webkit-box-flex: 1
-  -webkit-flex: 1 1 auto
   -ms-flex: 1 1 auto
   flex: 1 1 auto
   min-height: 32px
@@ -191,9 +177,6 @@
 
 /* styles for panels using option.rtl */
 .jsPanel-headerbar.jsPanel-rtl, .jsPanel-controlbar.jsPanel-rtl, .jsPanel-hdr-toolbar.jsPanel-rtl
-  -webkit-box-orient: horizontal
-  -webkit-box-direction: reverse
-  -webkit-flex-direction: row-reverse
   -ms-flex-direction: row-reverse
   flex-direction: row-reverse
 
@@ -204,9 +187,6 @@
   padding: 7px 0 10px 0
 
 .jsPanel-ftr.jsPanel-rtl
-  -webkit-box-orient: horizontal
-  -webkit-box-direction: normal
-  -webkit-flex-direction: row
   -ms-flex-direction: row
   flex-direction: row
 
@@ -314,7 +294,6 @@
 /* container that takes the minified jsPanels */
 #jsPanel-replacement-container, .jsPanel-minimized-box
   +flex-mixin
-  -webkit-flex-flow: row wrap-reverse
   -ms-flex-flow: row wrap-reverse
   flex-flow: row wrap-reverse
   background: transparent none repeat scroll 0 0
@@ -335,8 +314,6 @@
       padding: 5px 5px 5px 10px
 
     .jsPanel-titlebar
-      -webkit-box-flex: 1
-      -webkit-flex: 1 1 0
       -ms-flex: 1 1 0
       flex: 1 1 0
 
@@ -376,11 +353,8 @@
 
 /* helper classes to make .jsPanel-content a flex box */
 .flexOne
-  display: -webkit-box
-  display: -webkit-flex
   display: -ms-flexbox
   display: flex
-  -webkit-flex-flow: row wrap
   -ms-flex-flow: row wrap
   flex-flow: row wrap
 

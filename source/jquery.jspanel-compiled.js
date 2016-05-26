@@ -130,10 +130,11 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC1.13',
-            date: '2016-05-24 21:03',
+            version: '3.0.0 RC1.15',
+            date: '2016-05-26 10:55',
             id: 0, // counter to add to automatically generated id attribute
-            zi: 100, // z-index counter
+            ziBase: 100, // the lowest z-index a jsPanel may have
+            zi: 100, // z-index counter, has initially to be the same as ziBase
             modalcount: 0, // counter to set modal background and modal jsPanel z-index
             autopositionSpacing: 5, // sets spacing between autopositioned jsPanels
             pbTreshold: 0.556, // perceived brightness threshold to switch between white or black font color
@@ -1667,6 +1668,9 @@ var jsPanel = {
 
             // export a panel layout to localStorage and returns array with an object for each panel
             exportPanels: function exportPanels() {
+                        var selector = arguments.length <= 0 || arguments[0] === undefined ? '.jsPanel' : arguments[0];
+
+                        // only panels that match the passed selector are exported
 
                         var elmtOffset = void 0,
                             elmtPosition = void 0,
@@ -1678,12 +1682,11 @@ var jsPanel = {
                             panelParent = void 0,
                             panelArr = [],
                             exportedPanel = void 0,
-                            panels = $(".jsPanel").not(".jsPanel-tooltip, .jsPanel-hint, .jsPanel-modal");
+                            panels = $(".jsPanel").not(".jsPanel-tooltip, .jsPanel-hint, .jsPanel-modal").filter(selector);
 
                         // normalize minimized/maximized panels before export
                         // status to restore is saved in exportedPanel.status
                         panels.each(function (index, elmt) {
-                                    // in 2.6.1 this did not work in the following .each() loop
                                     if ($(elmt).data("status") !== "normalized") {
 
                                                 $(".jsPanel-btn-normalize", elmt).trigger("click");
@@ -1885,11 +1888,11 @@ var jsPanel = {
 
                                     if ((jsPanel.zi += 1) > $(item).css('z-index')) {
 
-                                                $(item).css('z-index', 100 + index);
+                                                $(item).css('z-index', jsPanel.ziBase + index);
                                     }
                         });
 
-                        this.zi = 99 + array.length;
+                        this.zi = this.ziBase - 1 + array.length;
             },
             updateCachedData: function updateCachedData(panel) {
                         var styles = window.getComputedStyle(panel[0], null);
@@ -2484,6 +2487,9 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                                         jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
                                                                         jsP.data('status', 'smallifiedMax');
                                                                         $(document).trigger('jspanelsmallifiedmax', id);
+                                                                        if ($.isFunction(jsP.option.onsmallified)) {
+                                                                                    jsP.option.onsmallified.call(jsP, jsP);
+                                                                        }
                                                             } else {
 
                                                                         jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallify", jsP);
@@ -2507,12 +2513,18 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                             jsP.data('status', 'normalized');
                                                             $(document).trigger('jspanelnormalized', id);
                                                             $(document).trigger('jspanelstatuschange', id);
+                                                            if ($.isFunction(jsP.option.onnormalized)) {
+                                                                        jsP.option.onnormalized.call(jsP, jsP);
+                                                            }
                                                 } else {
 
                                                             jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev", jsP);
                                                             jsP.data('status', 'maximized');
                                                             $(document).trigger('jspanelmaximized', id);
                                                             $(document).trigger('jspanelstatuschange', id);
+                                                            if ($.isFunction(jsP.option.onmaximized)) {
+                                                                        jsP.option.onmaximized.call(jsP, jsP);
+                                                            }
                                                 }
 
                                                 if ($.isFunction(jsP.option.onunsmallified)) {
@@ -2532,7 +2544,11 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     passedtheme = passedtheme.toLowerCase().replace(/ /g, "");
                                     var theme = [],
                                         bs = void 0,
-                                        bstheme = void 0;
+                                        bstheme = void 0,
+                                        colors = void 0,
+                                        pColor = void 0,
+                                        bsColors = void 0,
+                                        bordervalues = void 0;
 
                                     // first remove all theme related syles
                                     jsPanel.themes.forEach(function (value, index, array) {
@@ -2542,6 +2558,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     jsP.content.removeClass('panel-body').css('border-top-color', '');
                                     jsP.footer.removeClass('panel-footer card-footer');
                                     jsP.css('background', '').content.css({ borderTop: '', backgroundColor: '', color: '' });
+                                    jsP.css({ borderWidth: '', borderStyle: '', borderColor: '' });
                                     $('.jsPanel-hdr *', jsP).css({ color: '' });
                                     jsP.header.toolbar.css({ boxShadow: '', width: '', marginLeft: '' });
 
@@ -2581,7 +2598,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                 } else {
 
                                                             // arbitrary colors themes
-                                                            var colors = jsPanel.calcColors(theme[0]); // colors: [primeColor, secondColor, fontColorForPrimary]
+                                                            colors = jsPanel.calcColors(theme[0]); // colors: [primeColor, secondColor, fontColorForPrimary]
                                                             jsP.css('background-color', colors[0]);
                                                             $('.jsPanel-hdr *', jsP).css({ color: colors[3] });
 
@@ -2604,9 +2621,6 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     } else {
 
                                                 // bootstrap themes
-                                                var pColor = void 0,
-                                                    bsColors = void 0;
-
                                                 jsP.addClass('panel panel-' + bs[1]).addClass('card card-inverse card-' + bs[1]).header.addClass('panel-heading').title.addClass('panel-title');
 
                                                 jsP.content.addClass('panel-body')
@@ -2641,9 +2655,20 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     }
 
                                     if (jsP.option.border) {
-                                                jsP.css('border', jsP.option.border + ' ' + theme[0]);
+                                                bordervalues = jsP.option.border.split(' ');
+                                                jsP.css({ 'border-width': bordervalues[0], 'border-style': bordervalues[1] });
+
+                                                if (!bstheme) {
+                                                            if (!jsPanel.themes.includes(theme[0])) {
+                                                                        // arbitrary themes only (for built-in themes it's taken from the css file)
+                                                                        jsP.css('border-color', colors[0]);
+                                                            }
+                                                } else {
+                                                            // bootstrap
+                                                            jsP.css('border-color', pColor);
+                                                }
                                     } else {
-                                                jsP.css('border', 'none');
+                                                jsP.css({ borderWidth: '', borderStyle: '', borderColor: '' });
                                     }
 
                                     if (callback && $.isFunction(callback)) {
@@ -3002,7 +3027,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                     }, jsP.option.autoclose);
                         }
 
-                        // hndlers to normalize a panel and reset controls when resizing a smallified panel with mouse
+                        // handlers to normalize a panel and reset controls when resizing a smallified panel with mouse
                         jsP.on("resizestart", function () {
                                     oW = jsP.outerWidth();
                                     oH = jsP.outerHeight();
@@ -3014,11 +3039,17 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                                                 jsP.data('status', 'smallified');
                                                 $(document).trigger('jspanelsmallified', id);
                                                 $(document).trigger('jspanelstatuschange', id);
+                                                if ($.isFunction(jsP.option.onsmallified)) {
+                                                            jsP.option.onsmallified.call(jsP, jsP);
+                                                }
                                     } else if (jsP.outerHeight() !== oH) {
                                                 jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
                                                 jsP.data('status', 'normalized');
                                                 $(document).trigger('jspanelnormalized', id);
                                                 $(document).trigger('jspanelstatuschange', id);
+                                                if ($.isFunction(jsP.option.onnormalized)) {
+                                                            jsP.option.onnormalized.call(jsP, jsP);
+                                                }
                                     }
                         });
 
