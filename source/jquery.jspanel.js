@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.15',
-    date:    '2016-05-26 10:55',
+    version: '3.0.0 RC1.17',
+    date:    '2016-05-27 19:25',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -1830,7 +1830,7 @@ var jsPanel = {
     },
 
     // export a panel layout to localStorage and returns array with an object for each panel
-    exportPanels(selector = '.jsPanel') {
+    exportPanels(selector = '.jsPanel', name = 'jspanels') {
         // only panels that match the passed selector are exported
 
         let elmtOffset, elmtPosition, elmtTop, elmtLeft, elmtWidth, elmtHeight, elmtStatus, panelParent,
@@ -1947,21 +1947,21 @@ var jsPanel = {
 
         });
 
-        window.localStorage.setItem("jspanels", JSON.stringify(panelArr));
+        window.localStorage.setItem(name, JSON.stringify(panelArr));
 
         return panelArr;
 
     },
 
     // imports panel layout from localStorage.jspanels and restores panels
-    importPanels(predefinedConfigs) {
+    importPanels(predefinedConfigs, name = 'jspanels') {
         /* panelConfig needs to be an object with predefined configs.
          * A config named "default" will be applied to ALL panels
          *
          *       panelConfig = { default: { } [, config1 [, config2 [, configN ]]] };
          */
 
-        let savedPanels = JSON.parse(localStorage.jspanels) || {},
+        let savedPanels = JSON.parse(localStorage[name]),
             defaultConfig = predefinedConfigs["default"] || {},
             restoredConfig;
 
@@ -2073,7 +2073,6 @@ var jsPanel = {
 
 };
 
-$(document.body).append("<div id='jsPanel-replacement-container'>");
 
 (function($){
 
@@ -3392,6 +3391,7 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
 
     /* body click handler: remove all tooltips on click in body except click is inside a jsPanel or trigger of tooltip */
     $(document).ready(function () {
+
         document.body.addEventListener('click', e => {
             let isTT = $(e.target).closest('.jsPanel').length;
             if (isTT < 1 && !$(e.target).hasClass('hasTooltip')) {
@@ -3399,6 +3399,9 @@ $(document.body).append("<div id='jsPanel-replacement-container'>");
                 $('.hasTooltip').removeClass('hasTooltip');
             }
         }, false);
+
+        $(document.body).append("<div id='jsPanel-replacement-container'>");
+
     });
 
 }(jQuery));
