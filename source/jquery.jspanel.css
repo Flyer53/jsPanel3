@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-05-26 10:55 */
+/* jspanel.sass: 2016-05-28 17:38 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot?wbr2mk");
@@ -102,6 +102,10 @@
   .jsPanel .jsPanel-ftr.active {
     display: -ms-flexbox;
     display: flex; }
+
+.jsPanel > .jsPanel-content.jsPanel-content-noheader {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }
 
 .jsPanel-headerbar, .jsPanel-hdr-toolbar {
   font-size: 18px;

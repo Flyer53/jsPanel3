@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.17',
-    date:    '2016-05-27 19:25',
+    version: '3.0.0 RC1.20',
+    date:    '2016-05-29 18:36',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -1381,9 +1381,9 @@ var jsPanel = {
     },
 
     closeTooltips() {
-
-        $('.jsPanel-tooltip').each( (index, elmt) => elmt.jspanel.close() );
-
+        $('.jsPanel-tooltip').each( (index, elmt) => {
+            if (elmt.jspanel) elmt.jspanel.close();
+        });
     },
 
     // add class depending on position
@@ -1615,9 +1615,11 @@ var jsPanel = {
 
     contentResize(panel) {
 
-        let hdrftr;
+        let hdrftr,
+            borderWidth = parseInt(panel.css('border-top-width'), 10) + parseInt(panel.css('border-bottom-width'), 10);
+
         panel.footer.hasClass('active') ? hdrftr = panel.header.outerHeight() + panel.footer.outerHeight() : hdrftr = panel.header.outerHeight();
-        panel.content.css({ height: (panel.outerHeight() - hdrftr) });
+        panel.content.css({ height: (panel.outerHeight() - hdrftr - borderWidth) });
         return panel;
 
     },
@@ -2357,7 +2359,9 @@ var jsPanel = {
 
         jsP.headerTitle = text => jsPanel.headerTitle(jsP, text);
 
-        jsP.front = () => {
+        jsP.front = (target) => {
+
+            if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) { return; }
 
             jsP.css('z-index', jsPanel.setZi(jsP));
             jsPanel.resetZis();
@@ -2781,7 +2785,7 @@ var jsPanel = {
 
                 jsP.footer.addClass('panel-footer card-footer');
 
-                // optional
+                // optional !!!!!! produces error when using panel with headerRemove: true
                 if ($('.panel-heading', jsP).css('background-color') === 'transparent') {
                     pColor = jsP.css('background-color').replace(/\s+/g, '');
                 } else {
@@ -2868,6 +2872,16 @@ var jsPanel = {
             jsP.smallify();
         });
 
+
+        /* option.container ----------------------------------------------------------------------------------------- */
+        jsP.appendTo(jsP.option.container);
+        jsPanel.activePanels.list.push(id);
+        $(document).trigger('jspanelloaded', id);
+        jsP.data('container', jsP.option.container);
+
+        /* option.theme now includes bootstrap ---------------------------------------------------------------------- */
+        jsP.setTheme();
+
         /* option.headerRemove,
            option.headerControls (controls in header right) ------------------------------------- */
         if (!jsP.option.headerRemove) {
@@ -2920,6 +2934,8 @@ var jsPanel = {
             });
 
         }
+        /* corrections for a removed header */
+        if (jsP.option.headerRemove || $('.jsPanel-hdr').length < 1 ) {jsP.content.css('border', 'none');}
 
         /* insert iconfonts if option.headerControls.iconfont set (default is "jsglyph") ---------------------------- */
         jsPanel.configIconfont(jsP);
@@ -2948,21 +2964,7 @@ var jsPanel = {
 
         }
 
-        /* option.container ----------------------------------------------------------------------------------------- */
-        jsP.appendTo(jsP.option.container);
-        jsPanel.activePanels.list.push(id);
-
         if (jsP.option.paneltype.tooltip) {$(trigger).addClass('hasTooltip');}
-
-        $(document).trigger('jspanelloaded', id);
-
-        jsP.data('container', jsP.option.container);
-
-        /* option.theme now includes bootstrap ---------------------------------------------------------------------- */
-        jsP.setTheme();
-
-        /* corrections for a removed header */
-        if (jsP.option.headerRemove|| $('.jsPanel-hdr').length < 1 ) {jsP.content.css('border', 'none');}
 
         /* option.headerToolbar | default: false -------------------------------------------------------------------- */
         if (jsP.option.headerToolbar && !jsP.option.headerRemove) {jsPanel.toolbar(jsP, 'header', jsP.option.headerToolbar);}
@@ -3162,7 +3164,7 @@ var jsPanel = {
 
             let zi = $(e.target).closest('.jsPanel').css('z-index');
 
-            if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) { jsP.front(); }
+            if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) { jsP.front(e.target); }
 
         }, false);
 
@@ -3228,7 +3230,7 @@ var jsPanel = {
                 jsP.smallify();
                 return jsP;
             },
-            front() {jsP.front();
+            front(target) {jsP.front(target);
                 return jsP;
             },
             closeChildpanels() {
