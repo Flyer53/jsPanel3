@@ -130,8 +130,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC1.20',
-            date: '2016-05-29 18:36',
+            version: '3.0.0 RC1.24',
+            date: '2016-05-30 16:36',
             id: 0, // counter to add to automatically generated id attribute
             ziBase: 100, // the lowest z-index a jsPanel may have
             zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -153,6 +153,7 @@ var jsPanel = {
                         // or:      jsPanel.activePanels.getPanel('jsPanel-1').resize(600,250).reposition().css('background','yellow');
 
             },
+            closeOnEscape: false,
 
             position: function position(elmt, options) {
                         /*
@@ -1904,6 +1905,25 @@ var jsPanel = {
                         panel.cachedData.left = styles.getPropertyValue('left');
                         panel.cachedData.width = styles.getPropertyValue('width');
                         panel.cachedData.height = styles.getPropertyValue('height');
+            },
+
+
+            // get panel with highest z-index (only standard and modal panels, no hints or tooltips)
+            getTopmostPanel: function getTopmostPanel() {
+
+                        var array = [],
+                            panels = $('.jsPanel:not(.jsPanel-tooltip):not(.jsPanel-hint)');
+
+                        panels.each(function (index, item) {
+                                    array.push(item);
+                        });
+
+                        array.sort(function (a, b) {
+                                    // sort array in reverse order
+                                    return $(b).css('z-index') - $(a).css('z-index');
+                        });
+
+                        return array[0].getAttribute('id');
             }
 };
 
@@ -3032,20 +3052,11 @@ var jsPanel = {
 
                         // handlers to normalize a panel and reset controls when resizing a smallified panel with mouse
                         jsP.on("resizestart", function () {
-                                    oW = jsP.outerWidth();
                                     oH = jsP.outerHeight();
                         });
                         // but only when panel height changed (it's possible to resize only width of smallified panel)
                         jsP.on("resizestop", function () {
-                                    if (jsP.outerWidth() !== oW && jsP.outerHeight() === oH) {
-                                                jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
-                                                jsP.data('status', 'smallified');
-                                                $(document).trigger('jspanelsmallified', id);
-                                                $(document).trigger('jspanelstatuschange', id);
-                                                if ($.isFunction(jsP.option.onsmallified)) {
-                                                            jsP.option.onsmallified.call(jsP, jsP);
-                                                }
-                                    } else if (jsP.outerHeight() !== oH) {
+                                    if (jsP.outerHeight() !== oH) {
                                                 jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
                                                 jsP.data('status', 'normalized');
                                                 $(document).trigger('jspanelnormalized', id);
@@ -3253,6 +3264,15 @@ var jsPanel = {
                         }, false);
 
                         $(document.body).append("<div id='jsPanel-replacement-container'>");
+
+                        window.addEventListener("keydown", function (e) {
+                                    var key = e.key || e.code;
+                                    if (key === 'Escape' || key === 'Esc') {
+                                                if (jsPanel.closeOnEscape) {
+                                                            jsPanel.activePanels.getPanel(jsPanel.getTopmostPanel()).close();
+                                                }
+                                    }
+                        }, false);
             });
 })(jQuery);
 
