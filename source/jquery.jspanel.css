@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-05-28 17:38 */
+/* jspanel.sass: 2016-05-31 15:19 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot?wbr2mk");
@@ -45,7 +45,7 @@
   font-weight: normal;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   opacity: 0;
-  overflow: hidden;
+  overflow: visible;
   position: absolute;
   border-radius: 3px;
   z-index: 100; }
@@ -60,7 +60,8 @@
     font-size: 18px;
     padding: 3px 0 0;
     cursor: move;
-    min-height: 40px; }
+    min-height: 40px;
+    overflow: hidden; }
   .jsPanel .jsPanel-content {
     border: 0;
     box-sizing: border-box;

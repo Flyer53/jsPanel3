@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.24',
-    date:    '2016-05-30 16:36',
+    version: '3.0.0 RC1.25',
+    date:    '2016-05-31 15:19',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -2420,7 +2420,8 @@ var jsPanel = {
                 top: jsP.cachedData.top,
                 width: jsP.cachedData.width,
                 height: jsP.cachedData.height,
-                zIndex: function(){jsPanel.setZi(jsP);}
+                zIndex: function(){jsPanel.setZi(jsP)},
+                overflow: 'visible'
 
             }).data('status', 'normalized')
               .contentResize();
@@ -2458,6 +2459,8 @@ var jsPanel = {
                 if (jsP.option.onbeforemaximize.call(jsP, jsP) === false) {return jsP;}
 
             }
+
+            jsP.css('overflow', 'visible');
 
             if (pnt === document.body) {
                 // maximize within window
@@ -2566,7 +2569,7 @@ var jsPanel = {
                        .find('h3').css({color: fontColor})
                        .html(jsP.headerTitle());
 
-            $('.jsPanel-btn', replacement).css({color: fontColor});
+            $('.jsPanel-btn span', replacement).css({color: fontColor});
 
             // append replacement
             // cont has a positive length if option.container is .jsPanel-content or descendant of .jsPanel-content
@@ -2653,6 +2656,7 @@ var jsPanel = {
 
                     // store jsP height in function property
                     jsP.smallify.height = jsP.outerHeight();
+                    jsP.css('overflow', 'hidden');
 
                     jsP.animate({
 
@@ -2683,6 +2687,7 @@ var jsPanel = {
 
             } else if (jsP.data('status') !== "minimized") {
 
+                jsP.css('overflow', 'visible');
                 jsP.animate({ height: jsP.smallify.height });
 
                 if (jsP.data('status') === 'smallified') {
