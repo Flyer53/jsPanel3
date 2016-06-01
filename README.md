@@ -44,10 +44,10 @@
 **If you used jsPanel 2.x already please check the API docs for the migration infos on each jsPanel 3.x option/method/property since a few things changed significantly in jsPanel 3.x.**
 
 ### [Dependencies]()
-+ **jQuery v2.x**
++ **jQuery v2.x** (jQuery 3 rc1 seems to work fine)
 + **jQuery UI >= v1.9.2 (js and css)** with at least core, widget, mouse, resizable and draggable
 + **jQuery UI Touch Punch** needed only to enable touch events
-+ **HTML5/CSS3 compatible browser**
++ **HTML5/CSS3 compatible browser** like FF, Chrome, EDGE, Brave and IE11. IE10 and other older browsers are not supported by jsPanel 3.
 
 ### [Get the files]()
 Download and extract the jsPanel package to a folder of your choice. You find at least the two folders **source** and **vendor**.
@@ -77,7 +77,7 @@ The following example shows a complete html file with the minimium setup:
         <!-- Your HTML goes here -->
 
         <!-- loading jQuery, jQuery UI and jQuery UI Touch Punch -->
-        <script src="vendor/jquery-2.2.3.min.js"></script>
+        <script src="vendor/jquery-2.2.4.min.js"></script>
         <script src="vendor/jquery-ui-1.11.4.complete/jquery-ui.min.js"></script>
         <script src="vendor/jquery.ui.touch-punch.min.js"></script>
         <!-- loading jsPanel javascript -->
