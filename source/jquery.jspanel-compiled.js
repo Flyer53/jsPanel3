@@ -130,8 +130,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC1.25',
-            date: '2016-05-31 15:19',
+            version: '3.0.0 RC1.28',
+            date: '2016-06-02 22:28',
             id: 0, // counter to add to automatically generated id attribute
             ziBase: 100, // the lowest z-index a jsPanel may have
             zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -696,6 +696,7 @@ var jsPanel = {
             // reposition existing panel
             reposition: function reposition(panel) {
                         var position = arguments.length <= 1 || arguments[1] === undefined ? panel.option.position : arguments[1];
+                        var callback = arguments[2];
 
                         // reposition of tooltips is experimental (position.of has to be set when repositioning tooltips)
 
@@ -709,6 +710,11 @@ var jsPanel = {
 
                                     this.position(panel, position);
                                     panel.option.position = position;
+                        }
+
+                        // call individual callback
+                        if (callback && $.isFunction(callback)) {
+                                    callback.call(panel, panel);
                         }
 
                         return panel;
@@ -1455,7 +1461,7 @@ var jsPanel = {
 
                         panel.content.append(iFrame);
             },
-            contentReload: function contentReload(panel) {
+            contentReload: function contentReload(panel, callback) {
 
                         if (panel.option.content) {
 
@@ -1601,7 +1607,7 @@ var jsPanel = {
 
 
             // add a toolbar to either header or footer - used by option & method
-            toolbar: function toolbar(panel, place, items) {
+            toolbar: function toolbar(panel, place, items, callback) {
 
                         if (place === 'header') {
 
@@ -1635,6 +1641,11 @@ var jsPanel = {
                         }
 
                         this.contentResize(panel);
+
+                        // call individual callback
+                        if (callback && $.isFunction(callback)) {
+                                    callback.call(panel, panel);
+                        }
 
                         return panel;
             },
@@ -1825,7 +1836,7 @@ var jsPanel = {
 
 
             // resize existing jsPanel; resizes the full panel (not content section only)
-            resize: function resize(panel, width, height) {
+            resize: function resize(panel, width, height, callback) {
 
                         if (panel.data('status') !== "minimized") {
 
@@ -1857,6 +1868,10 @@ var jsPanel = {
                                                 if (panel.option.onresized.call(panel, panel) === false) {
                                                             return panel;
                                                 }
+                                    }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(panel, panel);
                                     }
                         }
 
@@ -2085,10 +2100,11 @@ var jsPanel = {
                         jsP.toolbarAdd = function () {
                                     var place = arguments.length <= 0 || arguments[0] === undefined ? 'header' : arguments[0];
                                     var items = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
-                                    return jsPanel.toolbar(jsP, place, items);
+                                    var callback = arguments[2];
+                                    return jsPanel.toolbar(jsP, place, items, callback);
                         };
 
-                        jsP.close = function () {
+                        jsP.close = function (callback) {
 
                                     $(document).trigger('jspanelbeforeclose', id);
 
@@ -2187,6 +2203,10 @@ var jsPanel = {
                                     if ($.isFunction(jsP.option.onclosed)) {
                                                 jsP.option.onclosed.call(jsP, jsP);
                                     }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
+                                    }
 
                                     jsPanel.resetZis();
                         };
@@ -2225,11 +2245,9 @@ var jsPanel = {
                                     return jsPanel.headerTitle(jsP, text);
                         };
 
-                        jsP.front = function (target) {
+                        jsP.front = function (callback) {
 
-                                    if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) {
-                                                return;
-                                    }
+                                    //if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) { return; }
 
                                     jsP.css('z-index', jsPanel.setZi(jsP));
                                     jsPanel.resetZis();
@@ -2244,11 +2262,15 @@ var jsPanel = {
                                                             jsP.option.onfronted.call(jsP, jsP);
                                                 }
                                     }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
+                                    }
 
                                     return jsP;
                         };
 
-                        jsP.normalize = function () {
+                        jsP.normalize = function (callback) {
 
                                     if (jsP.data('status') === 'normalized') {
                                                 return jsP;
@@ -2262,6 +2284,18 @@ var jsPanel = {
                                                 if (jsP.option.onbeforenormalize.call(jsP, jsP) === false) {
                                                             return jsP;
                                                 }
+                                    }
+
+                                    // if panel is only smallified just unsmallify it
+                                    if (jsP.data('status') === "smallified") {
+                                                jsP.smallify();
+                                                $(document).trigger('jspanelnormalized', id);
+                                                $(document).trigger('jspanelstatuschange', id);
+                                                // call onnormalized callback
+                                                if ($.isFunction(jsP.option.onnormalized)) {
+                                                            jsP.option.onnormalized.call(jsP, jsP);
+                                                }
+                                                return jsP;
                                     }
 
                                     jsP.css({
@@ -2289,11 +2323,15 @@ var jsPanel = {
                                     if ($.isFunction(jsP.option.onnormalized)) {
                                                 jsP.option.onnormalized.call(jsP, jsP);
                                     }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
+                                    }
 
                                     return jsP;
                         };
 
-                        jsP.maximize = function () {
+                        jsP.maximize = function (callback) {
 
                                     var margins = jsP.option.maximizedMargin,
                                         pnt = jsP[0].parentNode;
@@ -2366,11 +2404,15 @@ var jsPanel = {
                                     if ($.isFunction(jsP.option.onmaximized)) {
                                                 jsP.option.onmaximized.call(jsP, jsP);
                                     }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
+                                    }
 
                                     return jsP;
                         };
 
-                        jsP.minimize = function () {
+                        jsP.minimize = function (callback) {
 
                                     if (jsP.data('status') === 'minimized') {
                                                 return jsP;
@@ -2418,7 +2460,19 @@ var jsPanel = {
                                     jsP.css('left', '-9999px').data('status', 'minimized');
 
                                     // set replacement colors
-                                    replacement.css({ backgroundColor: bgColor }).prop('id', jsP.prop('id') + '-min').find('h3').css({ color: fontColor }).html(jsP.headerTitle());
+                                    replacement.css({ backgroundColor: bgColor }).prop('id', jsP.prop('id') + '-min').find('h3').css({ color: fontColor }).prop('title', jsP.header.title[0].textContent).html(jsP.headerTitle());
+
+                                    // set replacement iconfont
+                                    var iconfont = jsP.option.headerControls.iconfont;
+                                    if (iconfont === 'font-awesome') {
+                                                $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass('fa fa-expand');
+                                                $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass('fa fa-arrows-alt');
+                                                $('.jsglyph.jsglyph-close', replacement).removeClass().addClass('fa fa-times');
+                                    } else if (iconfont === 'bootstrap' || iconfont === 'glyphicon') {
+                                                $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass('glyphicon glyphicon-resize-full');
+                                                $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass('glyphicon glyphicon-fullscreen');
+                                                $('.jsglyph.jsglyph-close', replacement).removeClass().addClass('glyphicon glyphicon-remove');
+                                    }
 
                                     $('.jsPanel-btn span', replacement).css({ color: fontColor });
 
@@ -2441,6 +2495,10 @@ var jsPanel = {
                                     // call onminimized callback
                                     if ($.isFunction(jsP.option.onminimized)) {
                                                 jsP.option.onminimized.call(jsP, jsP);
+                                    }
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
                                     }
 
                                     // set handlers for replacement controls and disable replacement control if needed
@@ -2488,82 +2546,95 @@ var jsPanel = {
                                     return jsP;
                         };
 
-                        jsP.reposition = function (position) {
-                                    return jsPanel.reposition(jsP, position);
+                        jsP.reposition = function (position, callback) {
+                                    return jsPanel.reposition(jsP, position, callback);
                         };
 
-                        jsP.resize = function (width, height) {
-                                    return jsPanel.resize(jsP, width, height);
+                        jsP.resize = function (width, height, callback) {
+                                    return jsPanel.resize(jsP, width, height, callback);
                         };
 
-                        jsP.smallify = function () {
+                        jsP.smallify = function (callback) {
 
                                     if (jsP.data('status') === "normalized" || jsP.data('status') === "maximized") {
 
                                                 if (jsP.data('status') !== "smallified" && jsP.data('status') !== "smallifiedMax") {
+
+                                                            $(document).trigger('jspanelbeforesmallify', id);
+                                                            if ($.isFunction(jsP.option.onbeforesmallify)) {
+                                                                        jsP.option.onbeforesmallify.call(jsP, jsP);
+                                                            }
 
                                                             // store jsP height in function property
                                                             jsP.smallify.height = jsP.outerHeight();
                                                             jsP.css('overflow', 'hidden');
 
                                                             jsP.animate({
-
                                                                         height: jsP.header.headerbar.outerHeight() + 'px'
+                                                            }, {
+                                                                        done: function done() {
 
-                                                            });
+                                                                                    if (jsP.data('status') === 'maximized') {
+                                                                                                jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
+                                                                                                jsP.data('status', 'smallifiedMax');
+                                                                                                $(document).trigger('jspanelsmallifiedmax', id);
+                                                                                    } else {
+                                                                                                jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallify", jsP);
+                                                                                                jsP.data('status', 'smallified');
+                                                                                                $(document).trigger('jspanelsmallified', id);
+                                                                                    }
 
-                                                            if (jsP.data('status') === 'maximized') {
-
-                                                                        jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
-                                                                        jsP.data('status', 'smallifiedMax');
-                                                                        $(document).trigger('jspanelsmallifiedmax', id);
-                                                                        if ($.isFunction(jsP.option.onsmallified)) {
-                                                                                    jsP.option.onsmallified.call(jsP, jsP);
+                                                                                    if ($.isFunction(jsP.option.onsmallified)) {
+                                                                                                jsP.option.onsmallified.call(jsP, jsP);
+                                                                                    }
+                                                                                    $(document).trigger('jspanelstatuschange', id);
                                                                         }
-                                                            } else {
-
-                                                                        jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallify", jsP);
-                                                                        jsP.data('status', 'smallified');
-                                                                        $(document).trigger('jspanelsmallified', id);
-                                                            }
-
-                                                            $(document).trigger('jspanelstatuschange', id);
-
-                                                            if ($.isFunction(jsP.option.onsmallified)) {
-                                                                        jsP.option.onsmallified.call(jsP, jsP);
-                                                            }
+                                                            });
                                                 }
                                     } else if (jsP.data('status') !== "minimized") {
 
+                                                $(document).trigger('jspanelbeforeunsmallify', id);
+                                                if ($.isFunction(jsP.option.onbeforeunsmallify)) {
+                                                            jsP.option.onbeforeunsmallify.call(jsP, jsP);
+                                                }
+
                                                 jsP.css('overflow', 'visible');
-                                                jsP.animate({ height: jsP.smallify.height });
+                                                jsP.animate({
+                                                            height: jsP.smallify.height
+                                                }, {
+                                                            done: function done() {
 
-                                                if (jsP.data('status') === 'smallified') {
+                                                                        if (jsP.data('status') === 'smallified') {
+                                                                                    jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
+                                                                                    jsP.data('status', 'normalized');
+                                                                                    $(document).trigger('jspanelnormalized', id);
+                                                                                    if ($.isFunction(jsP.option.onnormalized)) {
+                                                                                                jsP.option.onnormalized.call(jsP, jsP);
+                                                                                    }
+                                                                        } else {
+                                                                                    jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev", jsP);
+                                                                                    jsP.data('status', 'maximized');
+                                                                                    $(document).trigger('jspanelmaximized', id);
+                                                                                    if ($.isFunction(jsP.option.onmaximized)) {
+                                                                                                jsP.option.onmaximized.call(jsP, jsP);
+                                                                                    }
+                                                                        }
 
-                                                            jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
-                                                            jsP.data('status', 'normalized');
-                                                            $(document).trigger('jspanelnormalized', id);
-                                                            $(document).trigger('jspanelstatuschange', id);
-                                                            if ($.isFunction(jsP.option.onnormalized)) {
-                                                                        jsP.option.onnormalized.call(jsP, jsP);
+                                                                        $(document).trigger('jspanelstatuschange', id);
+                                                                        if ($.isFunction(jsP.option.onunsmallified)) {
+                                                                                    jsP.option.onunsmallified.call(jsP, jsP);
+                                                                        }
                                                             }
-                                                } else {
-
-                                                            jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev", jsP);
-                                                            jsP.data('status', 'maximized');
-                                                            $(document).trigger('jspanelmaximized', id);
-                                                            $(document).trigger('jspanelstatuschange', id);
-                                                            if ($.isFunction(jsP.option.onmaximized)) {
-                                                                        jsP.option.onmaximized.call(jsP, jsP);
-                                                            }
-                                                }
-
-                                                if ($.isFunction(jsP.option.onunsmallified)) {
-                                                            jsP.option.onunsmallified.call(jsP, jsP);
-                                                }
+                                                });
                                     }
 
                                     jsP.css('z-index', jsPanel.setZi(jsP));
+
+                                    // call individual callback
+                                    if (callback && $.isFunction(callback)) {
+                                                callback.call(jsP, jsP);
+                                    }
+
                                     return jsP;
                         };
 
@@ -3029,10 +3100,14 @@ var jsPanel = {
                         // handler to move panel to foreground
                         jsP[0].addEventListener('mousedown', function (e) {
 
+                                    if ($(e.target).hasClass('jsglyph-close') || $(e.target).hasClass('jsglyph-minimize')) {
+                                                return;
+                                    }
+
                                     var zi = $(e.target).closest('.jsPanel').css('z-index');
 
                                     if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) {
-                                                jsP.front(e.target);
+                                                jsP.front();
                                     }
                         }, false);
 
@@ -3075,39 +3150,39 @@ var jsPanel = {
                         /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */
                         jsP[0].jspanel = {
                                     options: jsP.option,
-                                    close: function close() {
-                                                jsP.close();
+                                    close: function close(callback) {
+                                                jsP.close(callback);
                                     },
-                                    normalize: function normalize() {
-                                                jsP.normalize();
+                                    normalize: function normalize(callback) {
+                                                jsP.normalize(callback);
                                                 return jsP;
                                     },
-                                    maximize: function maximize() {
-                                                jsP.maximize();
+                                    maximize: function maximize(callback) {
+                                                jsP.maximize(callback);
                                                 return jsP;
                                     },
-                                    minimize: function minimize() {
-                                                jsP.minimize();
+                                    minimize: function minimize(callback) {
+                                                jsP.minimize(callback);
                                                 return jsP;
                                     },
-                                    smallify: function smallify() {
-                                                jsP.smallify();
+                                    smallify: function smallify(callback) {
+                                                jsP.smallify(callback);
                                                 return jsP;
                                     },
-                                    front: function front(target) {
-                                                jsP.front(target);
+                                    front: function front(callback) {
+                                                jsP.front(callback);
                                                 return jsP;
                                     },
                                     closeChildpanels: function closeChildpanels() {
                                                 jsP.closeChildpanels();
                                                 return jsP;
                                     },
-                                    reposition: function reposition(pos) {
-                                                jsP.reposition(pos);
+                                    reposition: function reposition(pos, callback) {
+                                                jsP.reposition(pos, callback);
                                                 return jsP;
                                     },
-                                    resize: function resize(w, h) {
-                                                jsP.resize(w, h);
+                                    resize: function resize(w, h, callback) {
+                                                jsP.resize(w, h, callback);
                                                 return jsP;
                                     },
                                     contentResize: function contentResize() {
@@ -3126,12 +3201,12 @@ var jsPanel = {
                                                 jsP.headerControl(ctrl, action);
                                                 return jsP;
                                     },
-                                    toolbarAdd: function toolbarAdd(place, tb) {
-                                                jsP.toolbarAdd(place, tb);
+                                    toolbarAdd: function toolbarAdd(place, tb, callback) {
+                                                jsP.toolbarAdd(place, tb, callback);
                                                 return jsP;
                                     },
-                                    setTheme: function setTheme(theme) {
-                                                jsP.setTheme(theme);
+                                    setTheme: function setTheme(theme, callbck) {
+                                                jsP.setTheme(theme, callback);
                                                 return jsP;
                                     },
                                     noop: function noop() {
@@ -3205,6 +3280,8 @@ var jsPanel = {
                         "onbeforemaximize": false,
                         "onbeforeminimize": false,
                         "onbeforenormalize": false,
+                        "onbeforesmallify": false,
+                        "onbeforeunsmallify": false,
                         "onclosed": false,
                         "onmaximized": false,
                         "onminimized": false,

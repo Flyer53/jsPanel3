@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-05-31 15:19 */
+/* jspanel.sass: 2016-06-01 15:41 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot?wbr2mk");
@@ -362,12 +362,12 @@
   width: 100%;
   z-index: 9998; }
   #jsPanel-replacement-container .jsPanel-replacement, .jsPanel-minimized-box .jsPanel-replacement {
-    width: 180px;
-    height: 40px;
+    width: 200px;
+    height: 30px;
     margin: 1px 1px 0 0;
     z-index: 9999; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr {
-      padding: 5px 5px 5px 10px; }
+      padding: 0; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-titlebar, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-titlebar {
       -ms-flex: 1 1 0;
       flex: 1 1 0; }

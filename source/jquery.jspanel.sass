@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-05-31 15:19 */
+/* jspanel.sass: 2016-06-01 15:41 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -310,13 +310,15 @@
   z-index: 9998
 
   .jsPanel-replacement
-    width: 180px
-    height: 40px
+    width: 200px
+    //height: 40px
+    height: 30px
     margin: 1px 1px 0 0
     z-index: 9999
 
     .jsPanel-hdr
-      padding: 5px 5px 5px 10px
+      //padding: 5px 5px 5px 10px
+      padding: 0
 
     .jsPanel-titlebar
       -ms-flex: 1 1 0

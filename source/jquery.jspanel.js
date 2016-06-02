@@ -126,8 +126,8 @@ if (!String.prototype.endsWith) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC1.25',
-    date:    '2016-05-31 15:19',
+    version: '3.0.0 RC1.28',
+    date:    '2016-06-02 22:28',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -824,7 +824,7 @@ var jsPanel = {
     },
 
     // reposition existing panel
-    reposition(panel, position = panel.option.position) {
+    reposition(panel, position = panel.option.position, callback) {
         // reposition of tooltips is experimental (position.of has to be set when repositioning tooltips)
 
         if (panel.data('status') !== "minimized") {
@@ -840,6 +840,9 @@ var jsPanel = {
             panel.option.position = position;
 
         }
+
+        // call individual callback
+        if (callback && $.isFunction(callback)) {callback.call(panel, panel);}
 
         return panel;
 
@@ -1592,7 +1595,7 @@ var jsPanel = {
 
     },
 
-    contentReload(panel) {
+    contentReload(panel, callback) {
 
         if (panel.option.content) {
 
@@ -1754,7 +1757,7 @@ var jsPanel = {
     },
 
     // add a toolbar to either header or footer - used by option & method
-    toolbar(panel, place, items) {
+    toolbar(panel, place, items, callback) {
 
         if (place === 'header') {
 
@@ -1796,6 +1799,9 @@ var jsPanel = {
         }
 
         this.contentResize(panel);
+
+        // call individual callback
+        if (callback && $.isFunction(callback)) {callback.call(panel, panel);}
 
         return panel;
 
@@ -1989,7 +1995,7 @@ var jsPanel = {
     },
 
     // resize existing jsPanel; resizes the full panel (not content section only)
-    resize(panel, width, height) {
+    resize(panel, width, height, callback) {
 
         if (panel.data('status') !== "minimized") {
 
@@ -2018,6 +2024,8 @@ var jsPanel = {
             if ($.isFunction(panel.option.onresized)) {
                 if (panel.option.onresized.call(panel, panel) === false) {return panel;}
             }
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(panel, panel);}
 
         }
 
@@ -2253,9 +2261,9 @@ var jsPanel = {
         jsP.cachedData = {};
 
         // panel methods
-        jsP.toolbarAdd = (place = 'header', items = []) => jsPanel.toolbar(jsP, place, items);
+        jsP.toolbarAdd = (place = 'header', items = [], callback) => jsPanel.toolbar(jsP, place, items, callback);
 
-        jsP.close = () => {
+        jsP.close = (callback) => {
 
             $(document).trigger('jspanelbeforeclose', id);
 
@@ -2345,6 +2353,8 @@ var jsPanel = {
 
             // call onclosed callback of panel to close
             if ($.isFunction(jsP.option.onclosed)) {jsP.option.onclosed.call(jsP, jsP);}
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
 
             jsPanel.resetZis();
 
@@ -2378,9 +2388,9 @@ var jsPanel = {
 
         jsP.headerTitle = text => jsPanel.headerTitle(jsP, text);
 
-        jsP.front = (target) => {
+        jsP.front = (callback) => {
 
-            if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) { return; }
+            //if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) { return; }
 
             jsP.css('z-index', jsPanel.setZi(jsP));
             jsPanel.resetZis();
@@ -2396,12 +2406,14 @@ var jsPanel = {
                 }
 
             }
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
 
             return jsP;
 
         };
 
-        jsP.normalize = () => {
+        jsP.normalize = (callback) => {
 
             if (jsP.data('status') === 'normalized') {return jsP;}
 
@@ -2412,6 +2424,16 @@ var jsPanel = {
                 // do not normalize panel if onbeforenormalize callback returns false
                 if (jsP.option.onbeforenormalize.call(jsP, jsP) === false) {return jsP;}
 
+            }
+
+            // if panel is only smallified just unsmallify it
+            if (jsP.data('status') === "smallified") {
+                jsP.smallify();
+                $(document).trigger('jspanelnormalized', id);
+                $(document).trigger('jspanelstatuschange', id);
+                // call onnormalized callback
+                if ($.isFunction(jsP.option.onnormalized)) {jsP.option.onnormalized.call(jsP, jsP);}
+                return jsP;
             }
 
             jsP.css({
@@ -2436,12 +2458,14 @@ var jsPanel = {
 
             // call onnormalized callback
             if ($.isFunction(jsP.option.onnormalized)) {jsP.option.onnormalized.call(jsP, jsP);}
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
 
             return jsP;
 
         };
 
-        jsP.maximize = () => {
+        jsP.maximize = (callback) => {
 
             let margins = jsP.option.maximizedMargin,
                 pnt = jsP[0].parentNode;
@@ -2512,12 +2536,14 @@ var jsPanel = {
 
             // call onmximized callback
             if ($.isFunction(jsP.option.onmaximized)) {jsP.option.onmaximized.call(jsP, jsP);}
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
 
             return jsP;
 
         };
 
-        jsP.minimize = () => {
+        jsP.minimize = (callback) => {
 
             if (jsP.data('status') === 'minimized') {return jsP;}
 
@@ -2567,7 +2593,20 @@ var jsPanel = {
             replacement.css({backgroundColor: bgColor})
                        .prop('id', jsP.prop('id') + '-min')
                        .find('h3').css({color: fontColor})
+                       .prop('title', jsP.header.title[0].textContent)
                        .html(jsP.headerTitle());
+
+            // set replacement iconfont
+            let iconfont = jsP.option.headerControls.iconfont;
+            if (iconfont === 'font-awesome') {
+                $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass('fa fa-expand');
+                $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass('fa fa-arrows-alt');
+                $('.jsglyph.jsglyph-close', replacement).removeClass().addClass('fa fa-times');
+            } else if (iconfont === 'bootstrap' || iconfont === 'glyphicon') {
+                $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass('glyphicon glyphicon-resize-full');
+                $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass('glyphicon glyphicon-fullscreen');
+                $('.jsglyph.jsglyph-close', replacement).removeClass().addClass('glyphicon glyphicon-remove');
+            }
 
             $('.jsPanel-btn span', replacement).css({color: fontColor});
 
@@ -2589,6 +2628,8 @@ var jsPanel = {
 
             // call onminimized callback
             if ($.isFunction(jsP.option.onminimized)) {jsP.option.onminimized.call(jsP, jsP);}
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
 
             // set handlers for replacement controls and disable replacement control if needed
             $('.jsPanel-btn-normalize', replacement).css('display', 'block').click(function(){
@@ -2644,75 +2685,81 @@ var jsPanel = {
 
         };
 
-        jsP.reposition = position => jsPanel.reposition(jsP, position);
+        jsP.reposition = (position, callback) => jsPanel.reposition(jsP, position, callback);
 
-        jsP.resize = (width, height) => jsPanel.resize(jsP, width, height);
+        jsP.resize = (width, height, callback) => jsPanel.resize(jsP, width, height, callback);
         
-        jsP.smallify = () => {
+        jsP.smallify = (callback) => {
 
             if (jsP.data('status') === "normalized" || jsP.data('status') === "maximized") {
 
                 if (jsP.data('status') !== "smallified" && jsP.data('status') !== "smallifiedMax") {
+
+                    $(document).trigger('jspanelbeforesmallify', id);
+                    if ($.isFunction(jsP.option.onbeforesmallify)) {jsP.option.onbeforesmallify.call(jsP, jsP);}
 
                     // store jsP height in function property
                     jsP.smallify.height = jsP.outerHeight();
                     jsP.css('overflow', 'hidden');
 
                     jsP.animate({
-
                         height: jsP.header.headerbar.outerHeight() + 'px'
+                    }, {
+                        done: function () {
 
+                            if (jsP.data('status') === 'maximized') {
+                                jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
+                                jsP.data('status', 'smallifiedMax');
+                                $(document).trigger('jspanelsmallifiedmax', id);
+                            } else {
+                                jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallify", jsP);
+                                jsP.data('status', 'smallified');
+                                $(document).trigger('jspanelsmallified', id);
+                            }
+
+                            if ($.isFunction(jsP.option.onsmallified)) {jsP.option.onsmallified.call(jsP, jsP);}
+                            $(document).trigger('jspanelstatuschange', id);
+
+                        }
                     });
-
-                    if (jsP.data('status') === 'maximized') {
-
-                        jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallify", jsP);
-                        jsP.data('status', 'smallifiedMax');
-                        $(document).trigger('jspanelsmallifiedmax', id);
-                        if ($.isFunction(jsP.option.onsmallified)) {jsP.option.onsmallified.call(jsP, jsP);}
-
-                    } else {
-
-                        jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallify", jsP);
-                        jsP.data('status', 'smallified');
-                        $(document).trigger('jspanelsmallified', id);
-
-                    }
-
-                    $(document).trigger('jspanelstatuschange', id);
-
-                    if ($.isFunction(jsP.option.onsmallified)) {jsP.option.onsmallified.call(jsP, jsP);}
 
                 }
 
             } else if (jsP.data('status') !== "minimized") {
 
+                $(document).trigger('jspanelbeforeunsmallify', id);
+                if ($.isFunction(jsP.option.onbeforeunsmallify)) {jsP.option.onbeforeunsmallify.call(jsP, jsP);}
+
                 jsP.css('overflow', 'visible');
-                jsP.animate({ height: jsP.smallify.height });
+                jsP.animate({
+                    height: jsP.smallify.height
+                }, {
+                    done: function () {
 
-                if (jsP.data('status') === 'smallified') {
+                        if (jsP.data('status') === 'smallified') {
+                            jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
+                            jsP.data('status', 'normalized');
+                            $(document).trigger('jspanelnormalized', id);
+                            if ($.isFunction(jsP.option.onnormalized)) {jsP.option.onnormalized.call(jsP, jsP);}
+                        } else {
+                            jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev", jsP);
+                            jsP.data('status', 'maximized');
+                            $(document).trigger('jspanelmaximized', id);
+                            if ($.isFunction(jsP.option.onmaximized)) {jsP.option.onmaximized.call(jsP, jsP);}
+                        }
 
-                    jsPanel.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev", jsP);
-                    jsP.data('status', 'normalized');
-                    $(document).trigger('jspanelnormalized', id);
-                    $(document).trigger('jspanelstatuschange', id);
-                    if ($.isFunction(jsP.option.onnormalized)) {jsP.option.onnormalized.call(jsP, jsP);}
-
-                } else {
-
-                    jsPanel.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev", jsP);
-                    jsP.data('status', 'maximized');
-                    $(document).trigger('jspanelmaximized', id);
-                    $(document).trigger('jspanelstatuschange', id);
-                    if ($.isFunction(jsP.option.onmaximized)) {jsP.option.onmaximized.call(jsP, jsP);}
-
-                }
-
-                if ($.isFunction(jsP.option.onunsmallified)) {jsP.option.onunsmallified.call(jsP, jsP);}
+                        $(document).trigger('jspanelstatuschange', id);
+                        if ($.isFunction(jsP.option.onunsmallified)) {jsP.option.onunsmallified.call(jsP, jsP);}
+                    }
+                });
 
             }
 
             jsP.css('z-index', jsPanel.setZi(jsP));
+
+            // call individual callback
+            if (callback && $.isFunction(callback)) {callback.call(jsP, jsP);}
+
             return jsP;
 
         };
@@ -3186,9 +3233,11 @@ var jsPanel = {
         // handler to move panel to foreground
         jsP[0].addEventListener('mousedown', (e) => {
 
+            if ($(e.target).hasClass('jsglyph-close') || $(e.target).hasClass('jsglyph-minimize')) { return; }
+
             let zi = $(e.target).closest('.jsPanel').css('z-index');
 
-            if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) { jsP.front(e.target); }
+            if (!jsP.hasClass("jsPanel-modal") && zi <= jsPanel.zi) { jsP.front(); }
 
         }, false);
 
@@ -3230,36 +3279,36 @@ var jsPanel = {
         /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */
         jsP[0].jspanel = {
             options: jsP.option,
-            close() { jsP.close(); },
-            normalize() {
-                jsP.normalize();
+            close(callback) { jsP.close(callback); },
+            normalize(callback) {
+                jsP.normalize(callback);
                 return jsP;
             },
-            maximize() {
-                jsP.maximize();
+            maximize(callback) {
+                jsP.maximize(callback);
                 return jsP;
             },
-            minimize() {
-                jsP.minimize();
+            minimize(callback) {
+                jsP.minimize(callback);
                 return jsP;
             },
-            smallify() {
-                jsP.smallify();
+            smallify(callback) {
+                jsP.smallify(callback);
                 return jsP;
             },
-            front(target) {jsP.front(target);
+            front(callback) {jsP.front(callback);
                 return jsP;
             },
             closeChildpanels() {
                 jsP.closeChildpanels();
                 return jsP;
             },
-            reposition(pos) {
-                jsP.reposition(pos);
+            reposition(pos, callback) {
+                jsP.reposition(pos, callback);
                 return jsP;
             },
-            resize(w,h) {
-                jsP.resize(w,h);
+            resize(w,h, callback) {
+                jsP.resize(w,h, callback);
                 return jsP;
             },
             contentResize() {jsP.contentResize();
@@ -3277,12 +3326,12 @@ var jsPanel = {
                 jsP.headerControl(ctrl, action);
                 return jsP;
             },
-            toolbarAdd(place, tb) {
-                jsP.toolbarAdd(place, tb);
+            toolbarAdd(place, tb, callback) {
+                jsP.toolbarAdd(place, tb, callback);
                 return jsP;
             },
-            setTheme(theme) {
-                jsP.setTheme(theme);
+            setTheme(theme, callbck) {
+                jsP.setTheme(theme, callback);
                 return jsP;
             },
             noop() {
@@ -3356,6 +3405,8 @@ var jsPanel = {
         "onbeforemaximize": false,
         "onbeforeminimize": false,
         "onbeforenormalize": false,
+        "onbeforesmallify": false,
+        "onbeforeunsmallify": false,
         "onclosed": false,
         "onmaximized": false,
         "onminimized": false,
