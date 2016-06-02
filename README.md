@@ -153,6 +153,8 @@ $.jsPanel({
 | `onbeforemaximize` | sets a hendler for the jspanelbeforemaximize event | [API](http://jspanel.de/api/#option/onbeforemaximize) |
 | `onbeforeminimize` | sets a hendler for the jspanelbeforeminimize event | [API](http://jspanel.de/api/#option/onbeforeminimize) |
 | `onbeforenormalize` | sets a hendler for the jspanelbeforenormalize event | [API](http://jspanel.de/api/#option/onbeforenormalize) |
+| `onbeforesmallify` | sets a hendler for the jspanelbeforesmallify event | [API](http://jspanel.de/api/#option/onbeforesmallify) |
+| `onbeforeunsmallify` | sets a hendler for the jspanelbeforeunsmallify event | [API](http://jspanel.de/api/#option/onbeforeunsmallify) |
 | `onbeforeresize` | sets a hendler to call before a panel is resized when using the method .resize() | [API](http://jspanel.de/api/#option/onbeforeresize) |
 | `onclosed` | sets a hendler for the jspanelclosed event | [API](http://jspanel.de/api/#option/onclosed) |
 | `onfronted` | sets a hendler for the jspanelclosed event | [API](http://jspanel.de/api/#option/onclosed) |
@@ -215,8 +217,10 @@ $.jsPanel({
 + `jspanelnormalized`
 + `jspanelbeforeminimize`
 + `jspanelminimized`
++ `jspanelbeforesmallify`
 + `jspanelsmallified`
 + `jspanelsmallifiedmax`
++ `jspanelbeforeunsmallify`
 + `jspanelstatuschange`
 
 ### [jsPanel defaults:]() | [API &#x1f517;](http://jspanel.de/api/#defaults)<a href="" id="jspanel-defaults"></a>
@@ -264,12 +268,17 @@ $.jsPanel.defaults = {
     "onbeforemaximize": false,
     "onbeforeminimize": false,
     "onbeforenormalize": false,
+    "onbeforesmallify": false,
+    "onbeforeunsmallify": false,
     "onclosed": false,
     "onmaximized": false,
     "onminimized": false,
     "onnormalized": false,
+    "onbeforeresize": false,
+    "onresized": false,
+    "onsmallified": false,
+    "onunsmallified": false,
     "onfronted": false,
-    "paneltype": false,
     "position": {
         elmt: jsP,
         my: 'center',
