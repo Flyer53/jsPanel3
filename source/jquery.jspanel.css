@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-06-01 15:41 */
+/* jspanel.sass: 2016-06-05 12:48:20 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot?wbr2mk");
@@ -73,12 +73,6 @@
     font-size: 12px;
     position: relative;
     overflow: hidden; }
-  .jsPanel .jsPanel-content.jsPanel-content-noheader {
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px; }
-  .jsPanel .jsPanel-content.jsPanel-content-nofooter {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px; }
   .jsPanel .jsPanel-ftr {
     -ms-flex-direction: row;
     flex-direction: row;
@@ -103,10 +97,6 @@
   .jsPanel .jsPanel-ftr.active {
     display: -ms-flexbox;
     display: flex; }
-
-.jsPanel > .jsPanel-content.jsPanel-content-noheader {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
 
 .jsPanel-headerbar, .jsPanel-hdr-toolbar {
   font-size: 18px;
@@ -615,5 +605,14 @@
   background-color: #bbdefb;
   border-top: 1px solid #ffff00;
   color: #e65100; }
+
+.jsPanel-content.jsPanel-content-noheader {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border: none !important; }
+
+.jsPanel-content.jsPanel-content-nofooter {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px; }
 
 /*# sourceMappingURL=jquery.jspanel.css.map */

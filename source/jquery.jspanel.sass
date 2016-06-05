@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-06-01 15:41 */
+/* jspanel.sass: 2016-06-05 12:48:20 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -80,14 +80,6 @@
     position: relative
     overflow: hidden
 
-  .jsPanel-content.jsPanel-content-noheader
-    border-top-left-radius: 3px
-    border-top-right-radius: 3px
-
-  .jsPanel-content.jsPanel-content-nofooter
-    border-bottom-left-radius: 3px
-    border-bottom-right-radius: 3px
-
   .jsPanel-ftr
     +footer-mixin
     border-bottom-left-radius: 3px
@@ -106,9 +98,9 @@
   .jsPanel-ftr.active
     +flex-mixin
 
-.jsPanel > .jsPanel-content.jsPanel-content-noheader
-  border-top-left-radius: 0
-  border-top-right-radius: 0
+//.jsPanel > .jsPanel-content.jsPanel-content-noheader
+//  border-top-left-radius: 0
+//  border-top-right-radius: 0
 
 .jsPanel-headerbar, .jsPanel-hdr-toolbar
   font-size: 18px
@@ -417,6 +409,7 @@
   content: ''
 
 
+
 /* css3 animations */
 @keyframes jsPanelFadeIn
   0%
@@ -449,3 +442,15 @@
 //  content: unicode(e054)
 
 @import "themes"
+
+
+// these styles need to be after the themes
+.jsPanel-content.jsPanel-content-noheader
+  border-top-left-radius: 3px
+  border-top-right-radius: 3px
+  border: none !important
+
+.jsPanel-content.jsPanel-content-nofooter
+  border-bottom-left-radius: 3px
+  border-bottom-right-radius: 3px
+
