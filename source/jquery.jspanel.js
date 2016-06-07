@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.0.0-rc2.3 2016-06-05 16:22:02 */
+/* file version and date: 3.0.0-rc2.4 2016-06-07 14:00:00 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 if (!Object.assign) {
@@ -115,8 +115,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version: '3.0.0 RC2.3',
-    date:    '2016-06-05 16:22:02',
+    version: '3.0.0 RC2.4',
+    date:    '2016-06-07 14:00:00',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -1473,6 +1473,15 @@ var jsPanel = {
 
         let oAjax = panel.option.contentAjax;
 
+        if (oAjax.then) {
+            if (oAjax.then[0]) {
+                oAjax.done = oAjax.then[0]
+            }
+            if (oAjax.then[1]) {
+                oAjax.fail = oAjax.then[1]
+            }
+        }
+
         $.ajax(oAjax)
             .done( (data, textStatus, jqXHR) => {
 
@@ -1489,26 +1498,7 @@ var jsPanel = {
 
                 if ($.isFunction(oAjax.always)) {oAjax.always.call(panel, arg1, textStatus, arg3, panel);}
 
-            })
-            .then( (data, textStatus, jqXHR) => {
-
-                if (oAjax.then && $.isArray(oAjax.then)) {
-
-                    if ($.isFunction(oAjax.then[0])) {oAjax.then[0].call(panel, data, textStatus, jqXHR, panel);}
-
-                }
-
-            }, (jqXHR, textStatus, errorThrown) => {
-
-                if ($.isArray(oAjax.then)) {
-
-                    if ($.isFunction(oAjax.then[1])) {oAjax.then[1].call(panel, jqXHR, textStatus, errorThrown, panel);}
-
-                }
-
-            }
-
-        );
+            });
 
         panel.data("ajaxURL", oAjax.url); // needed for exportPanels()
 

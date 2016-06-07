@@ -28,7 +28,7 @@ Array.prototype.includes || (Array.prototype.includes = function (b, c) {
 });String.prototype.includes || (String.prototype.includes = function () {
   return -1 !== String.prototype.indexOf.apply(this, arguments);
 });
-var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBase: 100, zi: 100, modalcount: 0, autopositionSpacing: 5, pbTreshold: .556, lastbeforeclose: !1, template: '<div class="jsPanel">\n                <div class="jsPanel-hdr">\n                    <div class="jsPanel-headerbar">\n                        <div class="jsPanel-titlebar">\n                            <h3 class="jsPanel-title"></h3>\n                        </div>\n                        <div class="jsPanel-controlbar">\n                            <div class="jsPanel-btn jsPanel-btn-smallify"><span class="jsglyph jsglyph-chevron-up"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-smallifyrev"><span class="jsglyph jsglyph-chevron-down"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-minimize"><span class="jsglyph jsglyph-minimize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-normalize"><span class="jsglyph jsglyph-normalize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-maximize"><span class="jsglyph jsglyph-maximize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-close"><span class="jsglyph jsglyph-close"></span></div>\n                        </div>\n                    </div>\n                    <div class="jsPanel-hdr-toolbar"></div>\n                </div>\n                <div class="jsPanel-content"></div>\n                <div class="jsPanel-ftr"></div>\n               </div>',
+var jsPanel = { version: "3.0.0 RC2.4", date: "2016-06-07 14:00:00", id: 0, ziBase: 100, zi: 100, modalcount: 0, autopositionSpacing: 5, pbTreshold: .556, lastbeforeclose: !1, template: '<div class="jsPanel">\n                <div class="jsPanel-hdr">\n                    <div class="jsPanel-headerbar">\n                        <div class="jsPanel-titlebar">\n                            <h3 class="jsPanel-title"></h3>\n                        </div>\n                        <div class="jsPanel-controlbar">\n                            <div class="jsPanel-btn jsPanel-btn-smallify"><span class="jsglyph jsglyph-chevron-up"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-smallifyrev"><span class="jsglyph jsglyph-chevron-down"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-minimize"><span class="jsglyph jsglyph-minimize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-normalize"><span class="jsglyph jsglyph-normalize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-maximize"><span class="jsglyph jsglyph-maximize"></span></div>\n                            <div class="jsPanel-btn jsPanel-btn-close"><span class="jsglyph jsglyph-close"></span></div>\n                        </div>\n                    </div>\n                    <div class="jsPanel-hdr-toolbar"></div>\n                </div>\n                <div class="jsPanel-content"></div>\n                <div class="jsPanel-ftr"></div>\n               </div>',
   replacementTemplate: '<div class="jsPanel-replacement">\n                            <div class="jsPanel-hdr">\n                                <div class="jsPanel-headerbar">\n                                    <div class="jsPanel-titlebar">\n                                        <h3 class="jsPanel-title"></h3>\n                                    </div>\n                                    <div class="jsPanel-controlbar">\n                                        <div class="jsPanel-btn jsPanel-btn-normalize"><span class="jsglyph jsglyph-normalize"></span></div>\n                                        <div class="jsPanel-btn jsPanel-btn-maximize"><span class="jsglyph jsglyph-maximize"></span></div>\n                                        <div class="jsPanel-btn jsPanel-btn-close"><span class="jsglyph jsglyph-close"></span></div>\n                                    </div>\n                                </div>\n                            </div>\n                          </div>',
   themes: "default primary info success warning danger".split(" "), tplHeaderOnly: '<div class="jsPanel">\n                        <div class="jsPanel-hdr">\n                            <div class="jsPanel-headerbar">\n                                <div class="jsPanel-titlebar">\n                                    <h3 class="jsPanel-title"></h3>\n                                </div>\n                                <div class="jsPanel-controlbar">\n                                    <div class="jsPanel-btn jsPanel-btn-close"><span class="jsglyph jsglyph-close"></span></div>\n                                </div>\n                            </div>\n                            <div class="jsPanel-hdr-toolbar"></div>\n                        </div>\n                    </div>',
   tplContentOnly: '<div class="jsPanel">\n                        <div class="jsPanel-content jsPanel-content-noheader jsPanel-content-nofooter"></div>\n                     </div>', activePanels: { list: [], getPanel: function getPanel(b) {
@@ -48,10 +48,10 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
           c = m(f.of);u.includes(a) ? b.left = c.left : v.includes(a) ? b.left = c.left + c.width / 2 : w.includes(a) ? b.left = c.left + c.width : b.left = c.left;x.includes(a) ? b.top = c.top : y.includes(a) ? b.top = c.top + c.height / 2 : z.includes(a) ? b.top = c.top + c.height : b.top = c.top;return b;
     }function g(a) {
       var b = {},
-          c = p.getBoundingClientRect();u.includes(a) ? b.left = 0 : v.includes(a) ? b.left = c.width / 2 : w.includes(a) ? b.left = c.width : b.left = 0;x.includes(a) ? b.top = 0 : y.includes(a) ? b.top = c.height / 2 : z.includes(a) ? b.top = c.height : b.top = 0;return b;
+          c = r.getBoundingClientRect();u.includes(a) ? b.left = 0 : v.includes(a) ? b.left = c.width / 2 : w.includes(a) ? b.left = c.width : b.left = 0;x.includes(a) ? b.top = 0 : y.includes(a) ? b.top = c.height / 2 : z.includes(a) ? b.top = c.height : b.top = 0;return b;
     }function l(a) {
       var b = {},
-          c = p.getBoundingClientRect(),
+          c = r.getBoundingClientRect(),
           d = document.querySelector(f.of).getBoundingClientRect(),
           m = d.left - c.left,
           c = d.top - c.top;u.includes(a) ? b.left = m : v.includes(a) ? b.left = m + d.width / 2 : w.includes(a) ? b.left = m + d.width : b.left = m;x.includes(a) ? b.top = c : y.includes(a) ? b.top = c + d.height / 2 : z.includes(a) ? b.top = c + d.height : b.top = c;return b;
@@ -60,9 +60,9 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
     }var h,
         k,
         f,
-        p,
+        r,
         t = 0,
-        q = 0,
+        p = 0,
         n,
         u = ["left-top", "left-center", "left-bottom"],
         v = ["center-top", "center", "center-bottom"],
@@ -70,21 +70,21 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
         x = ["left-top", "center-top", "right-top"],
         y = ["left-center", "center", "right-center"],
         z = ["left-bottom", "center-bottom", "right-bottom"];if ("string" === typeof c) {
-      h = c.match(/\b[a-z]{4,6}-{1}[a-z]{3,6}\b/);k = c.match(/DOWN|UP|RIGHT|LEFT/);var r = c.match(/[+-]?\d+\.?\d*%?/g);c = $.isArray(h) ? { my: h[0], at: h[0] } : { my: "center", at: "center" };$.isArray(k) && (c.autoposition = k[0]);$.isArray(r) && (c.offsetX = r[0], 2 === r.length && (c.offsetY = r[1]));
+      h = c.match(/\b[a-z]{4,6}-{1}[a-z]{3,6}\b/);k = c.match(/DOWN|UP|RIGHT|LEFT/);var q = c.match(/[+-]?\d+\.?\d*%?/g);c = $.isArray(h) ? { my: h[0], at: h[0] } : { my: "center", at: "center" };$.isArray(k) && (c.autoposition = k[0]);$.isArray(q) && (c.offsetX = q[0], 2 === q.length && (c.offsetY = q[1]));
     }f = Object.assign({ my: "center",
-      at: "center", offsetX: 0, offsetY: 0, modify: !1, fixed: "true" }, c);h = "string" === typeof b ? document.querySelector(b) : b.jquery ? b[0] : b;p = h.parentElement;f.of || (p === document.body ? f.of = "window" : f.of = p);k = m(h);"string" === typeof f.offsetX && "%" === f.offsetX.slice(-1) ? f.offsetX = "window" === f.of ? window.innerWidth * (parseInt(f.offsetX, 10) / 100) : p.clientWidth * (parseInt(f.offsetX, 10) / 100) : "string" === typeof f.offsetX ? f.offsetX = parseFloat(f.offsetX) : $.isFunction(f.offsetX) && (f.offsetX = parseInt(f.offsetX.call(b, b)));"string" === typeof f.offsetY && "%" === f.offsetY.slice(-1) ? f.offsetY = "window" === f.of ? window.innerHeight * (parseInt(f.offsetY, 10) / 100) : p.clientHeight * (parseInt(f.offsetY, 10) / 100) : "string" === typeof f.offsetY ? f.offsetY = parseFloat(f.offsetY) : $.isFunction(f.offsetY) && (f.offsetY = parseInt(f.offsetY.call(b, b)));r = parseInt(d(p, "border-left-width"));u.includes(f.my) ? t = r : v.includes(f.my) ? t = k.width / 2 + r : w.includes(f.my) && (t = k.width + r);r = parseInt(d(p, "border-top-width"));x.includes(f.my) ? q = r : y.includes(f.my) ? q = k.height / 2 + r : z.includes(f.my) && (q = k.height + r);h.parentElement === document.body ? "window" === f.of ? (k = e(f.at), f.fixed ? (t = k.left - t + f.offsetX - window.pageXOffset, q = k.top - q + f.offsetY - window.pageYOffset) : (t = k.left - t + f.offsetX, q = k.top - q + f.offsetY)) : (k = a(f.at), t = k.left - t + f.offsetX, q = k.top - q + f.offsetY) : (k = "string" === typeof f.of ? document.querySelector(f.of) : f.of.jquery ? f.of[0] : f.of, k = p === k ? g(f.at) : l(f.at), t = k.left - t + f.offsetX, q = k.top - q + f.offsetY);if (f.autoposition) {
-      k = [];r = this.autopositionSpacing;f.my === f.at && (n = f.my);h.setAttribute("data-autoposition", f.autoposition);$.isFunction(f.offsetX) || h.setAttribute("data-offsetx", f.offsetX);$.isFunction(f.offsetY) || h.setAttribute("data-offsety", f.offsetY);h.classList.add(n);n = document.getElementsByClassName(n);for (var A = 0; A < n.length; A++) {
-        n[A].parentElement === p && k.push(n[A]);
+      at: "center", offsetX: 0, offsetY: 0, modify: !1, fixed: "true" }, c);h = "string" === typeof b ? document.querySelector(b) : b.jquery ? b[0] : b;r = h.parentElement;f.of || (r === document.body ? f.of = "window" : f.of = r);k = m(h);"string" === typeof f.offsetX && "%" === f.offsetX.slice(-1) ? f.offsetX = "window" === f.of ? window.innerWidth * (parseInt(f.offsetX, 10) / 100) : r.clientWidth * (parseInt(f.offsetX, 10) / 100) : "string" === typeof f.offsetX ? f.offsetX = parseFloat(f.offsetX) : $.isFunction(f.offsetX) && (f.offsetX = parseInt(f.offsetX.call(b, b)));"string" === typeof f.offsetY && "%" === f.offsetY.slice(-1) ? f.offsetY = "window" === f.of ? window.innerHeight * (parseInt(f.offsetY, 10) / 100) : r.clientHeight * (parseInt(f.offsetY, 10) / 100) : "string" === typeof f.offsetY ? f.offsetY = parseFloat(f.offsetY) : $.isFunction(f.offsetY) && (f.offsetY = parseInt(f.offsetY.call(b, b)));q = parseInt(d(r, "border-left-width"));u.includes(f.my) ? t = q : v.includes(f.my) ? t = k.width / 2 + q : w.includes(f.my) && (t = k.width + q);q = parseInt(d(r, "border-top-width"));x.includes(f.my) ? p = q : y.includes(f.my) ? p = k.height / 2 + q : z.includes(f.my) && (p = k.height + q);h.parentElement === document.body ? "window" === f.of ? (k = e(f.at), f.fixed ? (t = k.left - t + f.offsetX - window.pageXOffset, p = k.top - p + f.offsetY - window.pageYOffset) : (t = k.left - t + f.offsetX, p = k.top - p + f.offsetY)) : (k = a(f.at), t = k.left - t + f.offsetX, p = k.top - p + f.offsetY) : (k = "string" === typeof f.of ? document.querySelector(f.of) : f.of.jquery ? f.of[0] : f.of, k = r === k ? g(f.at) : l(f.at), t = k.left - t + f.offsetX, p = k.top - p + f.offsetY);if (f.autoposition) {
+      k = [];q = this.autopositionSpacing;f.my === f.at && (n = f.my);h.setAttribute("data-autoposition", f.autoposition);$.isFunction(f.offsetX) || h.setAttribute("data-offsetx", f.offsetX);$.isFunction(f.offsetY) || h.setAttribute("data-offsety", f.offsetY);h.classList.add(n);n = document.getElementsByClassName(n);for (var A = 0; A < n.length; A++) {
+        n[A].parentElement === r && k.push(n[A]);
       }if ("DOWN" === f.autoposition) for (n = 0; n < k.length - 1; n++) {
-        q += k[n].getBoundingClientRect().height + r;
+        p += k[n].getBoundingClientRect().height + q;
       } else if ("UP" === f.autoposition) for (n = 0; n < k.length - 1; n++) {
-        q -= k[n].getBoundingClientRect().height + r;
+        p -= k[n].getBoundingClientRect().height + q;
       } else if ("RIGHT" === f.autoposition) for (n = 0; n < k.length - 1; n++) {
-        t += k[n].getBoundingClientRect().width + r;
+        t += k[n].getBoundingClientRect().width + q;
       } else if ("LEFT" === f.autoposition) for (n = 0; n < k.length - 1; n++) {
-        t -= k[n].getBoundingClientRect().width + r;
+        t -= k[n].getBoundingClientRect().width + q;
       }
-    }n = { left: t, top: q };"function" === typeof f.modify && (n = f.modify.call(n, n));h.style.position = "absolute";h.style.left = n.left + "px";h.style.top = n.top + "px";h.style.opacity = 1;"window" === f.of && f.fixed && p === document.body && (h.style.position = "fixed");return h;
+    }n = { left: t, top: p };"function" === typeof f.modify && (n = f.modify.call(n, n));h.style.position = "absolute";h.style.left = n.left + "px";h.style.top = n.top + "px";h.style.opacity = 1;"window" === f.of && f.fixed && r === document.body && (h.style.position = "fixed");return h;
   }, addCustomTheme: function addCustomTheme(b) {
     this.themes.includes(b) || this.themes.push(b);
   }, hslToRgb: function hslToRgb(b, c, d) {
@@ -172,16 +172,12 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
       b.close();$(c).removeClass("hasTooltip");
     });
   }, ajax: function ajax(b) {
-    var c = b.option.contentAjax;$.ajax(c).done(function (d, e, a) {
+    var c = b.option.contentAjax;c.then && (c.then[0] && (c.done = c.then[0]), c.then[1] && (c.fail = c.then[1]));$.ajax(c).done(function (d, e, a) {
       c.autoload && b.content.append(d);$.isFunction(c.done) && c.done.call(b, d, e, a, b);
     }).fail(function (d, e, a) {
       $.isFunction(c.fail) && c.fail.call(b, d, e, a, b);
     }).always(function (d, e, a) {
       $.isFunction(c.always) && c.always.call(b, d, e, a, b);
-    }).then(function (d, e, a) {
-      c.then && $.isArray(c.then) && $.isFunction(c.then[0]) && c.then[0].call(b, d, e, a, b);
-    }, function (d, e, a) {
-      $.isArray(c.then) && $.isFunction(c.then[1]) && c.then[1].call(b, d, e, a, b);
     });b.data("ajaxURL", c.url);
   }, iframe: function iframe(b) {
     var c = $("<iframe></iframe>"),
@@ -206,8 +202,7 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
     });return b;
   }, dblclickhelper: function dblclickhelper(b, c) {
     if ("string" === typeof b) if ("maximize" === b || "normalize" === b) "normalized" === c.data("status") ? c.maximize() : c.normalize();else if ("minimize" === b || "smallify" === b || "close" === b) c[b]();
-  },
-  exportPanels: function exportPanels(b, c) {
+  }, exportPanels: function exportPanels(b, c) {
     b = void 0 === b ? ".jsPanel" : b;c = void 0 === c ? "jspanels" : c;var d,
         e,
         a,
@@ -217,11 +212,13 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
         h,
         k = [],
         f,
-        p = $(".jsPanel").not(".jsPanel-tooltip, .jsPanel-hint, .jsPanel-modal").filter(b);p.each(function (a, b) {
+        r = $(".jsPanel").not(".jsPanel-tooltip, .jsPanel-hint, .jsPanel-modal").filter(b);r.each(function (a, b) {
       "normalized" !== $(b).data("status") && $(".jsPanel-btn-normalize", b).trigger("click");
-    });p.each(function (b, c) {
-      h = $(c).data("container");d = $(c).offset();e = $(c).position();"body" === h.toLowerCase() ? (a = Math.floor(d.top - $(window).scrollTop()), g = Math.floor(d.left - $(window).scrollLeft())) : (a = Math.floor(e.top), g = Math.floor(e.left));l = $(c).css("width");m = $(".jsPanel-content", c).css("height");f = { status: $(c).data("status"), id: $(c).prop("id"), headerTitle: $(".jsPanel-title", c).html(), custom: $(c).data("custom"), content: $(c).data("content"), contentSize: { width: l, height: m }, position: { my: "left-top", at: "left-top", offsetX: g, offsetY: a } };$(c).data("ajaxURL") && (f.contentAjax = { url: $(c).data("ajaxURL"), autoload: !0 });if ($(c).data("iframeDOC") || $(c).data("iframeSRC")) f.contentIframe = { src: $(c).data("iframeSRC") || "", srcdoc: $(c).data("iframeDOC") || "" };k.push(f);switch (f.status) {case "minimized":
-          $(".jsPanel-btn-minimize", c).trigger("click");break;case "maximized":
+    });r.each(function (b, c) {
+      h = $(c).data("container");d = $(c).offset();e = $(c).position();"body" === h.toLowerCase() ? (a = Math.floor(d.top - $(window).scrollTop()), g = Math.floor(d.left - $(window).scrollLeft())) : (a = Math.floor(e.top), g = Math.floor(e.left));l = $(c).css("width");m = $(".jsPanel-content", c).css("height");f = { status: $(c).data("status"),
+        id: $(c).prop("id"), headerTitle: $(".jsPanel-title", c).html(), custom: $(c).data("custom"), content: $(c).data("content"), contentSize: { width: l, height: m }, position: { my: "left-top", at: "left-top", offsetX: g, offsetY: a } };$(c).data("ajaxURL") && (f.contentAjax = { url: $(c).data("ajaxURL"), autoload: !0 });if ($(c).data("iframeDOC") || $(c).data("iframeSRC")) f.contentIframe = { src: $(c).data("iframeSRC") || "", srcdoc: $(c).data("iframeDOC") || "" };k.push(f);switch (f.status) {case "minimized":
+          $(".jsPanel-btn-minimize", c).trigger("click");
+          break;case "maximized":
           $(".jsPanel-btn-maximize", c).trigger("click");break;case "smallified":
           $(".jsPanel-btn-smallify", c).trigger("click");break;case "smallifiedMax":
           $(".jsPanel-btn-smallify", c).trigger("click");}
@@ -232,7 +229,8 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
         a;d.forEach(function (c) {
       a = "string" === typeof c.custom.config ? $.extend(!0, {}, e, b[c.custom.config], c) : $.extend(!0, {}, e, c);$.jsPanel(a);
     });
-  }, setZi: function setZi(b) {
+  },
+  setZi: function setZi(b) {
     b.hasClass("jsPanel-modal") || (this.zi += 1) > b.css("z-index") && b.css("z-index", this.zi);
   }, resetZis: function resetZis() {
     var b = [];$(".jsPanel:not(.jsPanel-modal):not(.jsPanel-hint)").each(function (c, d) {
@@ -257,16 +255,16 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
         l;"tooltip" === e.paneltype && (e.paneltype = { tooltip: !0 });e.paneltype ? "modal" === e.paneltype ? a.option = b.extend(!0, {}, b.jsPanel.defaults, b.jsPanel.modaldefaults, e) : e.paneltype.tooltip ? a.option = b.extend(!0, {}, b.jsPanel.defaults, b.jsPanel.tooltipdefaults, e) : "hint" === e.paneltype && (a.option = b.extend(!0, {}, b.jsPanel.defaults, b.jsPanel.hintdefaults, e)) : a.option = b.extend(!0, {}, b.jsPanel.defaults, e);if (a.option.paneltype.tooltip && (g = jsPanel.setTrigger(a.option.position), b(g).hasClass("hasTooltip"))) return !1;"string" === typeof a.option.id ? d = a.option.id : b.isFunction(a.option.id) && (a.option.id = d = a.option.id());if (0 < b("#" + d).length) return console.warn("jsPanel Error: No jsPanel created - id attribute passed with option.id already exists in document"), !1;a.attr("id", d);a.data("custom", a.option.custom);a.header = b(".jsPanel-hdr", a);a.header.headerbar = b(".jsPanel-headerbar", a.header);a.header.title = b(".jsPanel-title", a.header.headerbar);a.header.controls = b(".jsPanel-controlbar", a.header.headerbar);a.header.toolbar = b(".jsPanel-hdr-toolbar", a.header);a.content = b(".jsPanel-content", a);a.footer = b(".jsPanel-ftr", a);a.data("status", "initialized");a.cachedData = {};a.close = function (c) {
       b(document).trigger("jspanelbeforeclose", d);if (b.isFunction(a.option.onbeforeclose) && !1 === a.option.onbeforeclose.call(a, a)) return a;var h = a.option.position;if (h.autoposition || "string" === typeof h && h.match(/DOWN|RIGHT|UP|LEFT/)) {
         var h = b("#" + d).parent(),
-            e = document.getElementById(d).className.match(/left-top|center-top|right-top|left-center|center|right-center|left-bottom|center-bottom|right-bottom/);e && (jsPanel.lastbeforeclose = { parent: h, "class": e[0] });
+            k = document.getElementById(d).className.match(/left-top|center-top|right-top|left-center|center|right-center|left-bottom|center-bottom|right-bottom/);k && (jsPanel.lastbeforeclose = { parent: h, "class": k[0] });
       }a.closeChildpanels().remove();h = jsPanel.activePanels.list.findIndex(function (a) {
         return a === d;
       });-1 < h && jsPanel.activePanels.list.splice(h, 1);b("#" + d + "-min").remove();"modal" === a.option.paneltype && b("#jsPanel-modal-backdrop-" + a.attr("id")).remove();a.option.paneltype.tooltip && b(g).removeClass("hasTooltip");
-      b(document).trigger("jspanelclosed", d);b(document).trigger("jspanelstatuschange", d);var f, p;jsPanel.lastbeforeclose && (f = jsPanel.lastbeforeclose.parent, f = b("." + jsPanel.lastbeforeclose["class"], f), p = jsPanel.lastbeforeclose["class"]);f && (f.each(function (a, c) {
-        b(c).removeClass(p);
+      b(document).trigger("jspanelclosed", d);b(document).trigger("jspanelstatuschange", d);var f, e;jsPanel.lastbeforeclose && (f = jsPanel.lastbeforeclose.parent, f = b("." + jsPanel.lastbeforeclose["class"], f), e = jsPanel.lastbeforeclose["class"]);f && (f.each(function (a, c) {
+        b(c).removeClass(e);
       }), f.each(function (a, b) {
         var c = b.getAttribute("data-autoposition"),
             d = b.getAttribute("data-offsetx"),
-            m = b.getAttribute("data-offsety");jsPanel.position(b, { my: p, at: p, autoposition: c, offsetX: d, offsetY: m });
+            m = b.getAttribute("data-offsety");jsPanel.position(b, { my: e, at: e, autoposition: c, offsetX: d, offsetY: m });
       }));jsPanel.lastbeforeclose = !1;b.isFunction(a.option.onclosed) && a.option.onclosed.call(a, a);c && b.isFunction(c) && c.call(a, a);jsPanel.resetZis();
     };a.closeChildpanels = function () {
       return jsPanel.closeChildpanels(a);
@@ -321,12 +319,12 @@ var jsPanel = { version: "3.0.0 RC2.3", date: "2016-06-05 16:22:02", id: 0, ziBa
           f,
           g,
           l,
-          q;jsPanel.themes.forEach(function (b, c, d) {
+          p;jsPanel.themes.forEach(function (b, c, d) {
         a.removeClass("panel card card-inverse jsPanel-theme-" + b + "  panel-" + b + " card-" + b);
       });a.header.removeClass("panel-heading").title.removeClass("panel-title");a.content.removeClass("panel-body").css("border-top-color", "");a.footer.removeClass("panel-footer card-footer");
       a.css("background", "").content.css({ borderTop: "", backgroundColor: "", color: "" });a.css({ borderWidth: "", borderStyle: "", borderColor: "" });b(".jsPanel-hdr *", a).css({ color: "" });a.header.toolbar.css({ boxShadow: "", width: "", marginLeft: "" });"filled" === c.substr(-6, 6) ? (e[1] = "filled", e[0] = c.substr(0, c.length - 6)) : "filledlight" === c.substr(-11, 11) ? (e[1] = "filledlight", e[0] = c.substr(0, c.length - 11)) : (e[1] = "", e[0] = c);e[0].match("-") && (f = e[0].split("-"), g = !0);g ? (a.addClass("panel panel-" + f[1]).addClass("card card-inverse card-" + f[1]).header.addClass("panel-heading").title.addClass("panel-title"), a.content.addClass("panel-body").css("border-top-color", function () {
         return a.header.css("border-top-color");
-      }), a.footer.addClass("panel-footer card-footer"), q = "transparent" === b(".panel-heading", a).css("background-color") ? a.css("background-color").replace(/\s+/g, "") : b(".panel-heading", a).css("background-color").replace(/\s+/g, ""), f = jsPanel.calcColors(q), b("*", a.header).css("color", f[3]), a.option.headerToolbar ? a.header.toolbar.css({ boxShadow: "0 0 1px " + f[3] + " inset", width: "calc(100% + 4px)", marginLeft: "-2px" }) : a.content.css({ borderTop: "1px solid " + f[3] }), "filled" === e[1] ? a.content.css({ backgroundColor: q, color: f[3] }) : "filledlight" === e[1] && a.content.css({ backgroundColor: f[1], color: "#000000" })) : jsPanel.themes.includes(e[0]) ? (a.addClass("jsPanel-theme-" + e[0]), "filled" === e[1] ? a.content.css("background", "").addClass("jsPanel-content-filled") : "filledlight" === e[1] && a.content.css("background", "").addClass("jsPanel-content-filledlight"), a.option.headerToolbar || a.content.css({ borderTop: "1px solid " + a.header.title.css("color") })) : (l = jsPanel.calcColors(e[0]), a.css("background-color", l[0]), b(".jsPanel-hdr *", a).css({ color: l[3] }), a.option.headerToolbar ? a.header.toolbar.css({ boxShadow: "0 0 1px " + l[3] + " inset", width: "calc(100% + 4px)", marginLeft: "-2px" }) : a.content.css({ borderTop: "1px solid " + l[3] }), "filled" === e[1] ? a.content.css({ "background-color": l[0], color: l[3] }) : "filledlight" === e[1] && a.content.css({ "background-color": l[1] }));a.option.border ? (f = a.option.border.split(" "), a.css({ "border-width": f[0], "border-style": f[1] }), g ? a.css("border-color", q) : jsPanel.themes.includes(e[0]) || a.css("border-color", l[0])) : a.css({ borderWidth: "", borderStyle: "", borderColor: "" });d && b.isFunction(d) && d.call(a, a);return a;
+      }), a.footer.addClass("panel-footer card-footer"), p = "transparent" === b(".panel-heading", a).css("background-color") ? a.css("background-color").replace(/\s+/g, "") : b(".panel-heading", a).css("background-color").replace(/\s+/g, ""), f = jsPanel.calcColors(p), b("*", a.header).css("color", f[3]), a.option.headerToolbar ? a.header.toolbar.css({ boxShadow: "0 0 1px " + f[3] + " inset", width: "calc(100% + 4px)", marginLeft: "-2px" }) : a.content.css({ borderTop: "1px solid " + f[3] }), "filled" === e[1] ? a.content.css({ backgroundColor: p, color: f[3] }) : "filledlight" === e[1] && a.content.css({ backgroundColor: f[1], color: "#000000" })) : jsPanel.themes.includes(e[0]) ? (a.addClass("jsPanel-theme-" + e[0]), "filled" === e[1] ? a.content.css("background", "").addClass("jsPanel-content-filled") : "filledlight" === e[1] && a.content.css("background", "").addClass("jsPanel-content-filledlight"), a.option.headerToolbar || a.content.css({ borderTop: "1px solid " + a.header.title.css("color") })) : (l = jsPanel.calcColors(e[0]), a.css("background-color", l[0]), b(".jsPanel-hdr *", a).css({ color: l[3] }), a.option.headerToolbar ? a.header.toolbar.css({ boxShadow: "0 0 1px " + l[3] + " inset", width: "calc(100% + 4px)", marginLeft: "-2px" }) : a.content.css({ borderTop: "1px solid " + l[3] }), "filled" === e[1] ? a.content.css({ "background-color": l[0], color: l[3] }) : "filledlight" === e[1] && a.content.css({ "background-color": l[1] }));a.option.border ? (f = a.option.border.split(" "), a.css({ "border-width": f[0], "border-style": f[1] }), g ? a.css("border-color", p) : jsPanel.themes.includes(e[0]) || a.css("border-color", l[0])) : a.css({ borderWidth: "", borderStyle: "", borderColor: "" });d && b.isFunction(d) && d.call(a, a);return a;
     };a.smallify = function (c) {
       if ("normalized" === a.data("status") || "maximized" === a.data("status")) {
         if ("smallified" !== a.data("status") && "smallifiedMax" !== a.data("status")) {
