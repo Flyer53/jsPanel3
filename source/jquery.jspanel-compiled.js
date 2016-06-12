@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.0.0-rc2.4 2016-06-07 14:00:00 */
+/* file version and date: 3.0.0 2016-06-12 14:50 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 
@@ -119,8 +119,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-            version: '3.0.0 RC2.4',
-            date: '2016-06-07 14:00:00',
+            version: '3.0.0',
+            date: '2016-06-12 14:50',
             id: 0, // counter to add to automatically generated id attribute
             ziBase: 100, // the lowest z-index a jsPanel may have
             zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -2580,8 +2580,8 @@ var jsPanel = {
                                                                                     jsP.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev");
                                                                                     jsP.data('status', 'normalized');
                                                                                     $(document).trigger('jspanelnormalized', id);
-                                                                                    if ($.isFunction(jsP.option.onbeforenormalize)) {
-                                                                                                if (jsP.option.onbeforenormalize.call(jsP, jsP) === false) {
+                                                                                    if ($.isFunction(jsP.option.onnormalized)) {
+                                                                                                if (jsP.option.onnormalized.call(jsP, jsP) === false) {
                                                                                                             return jsP;
                                                                                                 }
                                                                                     }
@@ -2589,13 +2589,14 @@ var jsPanel = {
                                                                                     jsP.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev");
                                                                                     jsP.data('status', 'maximized');
                                                                                     $(document).trigger('jspanelmaximized', id);
-                                                                                    if ($.isFunction(jsP.option.onbeforemaximize)) {
-                                                                                                if (jsP.option.onbeforemaximize.call(jsP, jsP) === false) {
+                                                                                    if ($.isFunction(jsP.option.onmaximized)) {
+                                                                                                if (jsP.option.onmaximized.call(jsP, jsP) === false) {
                                                                                                             return jsP;
                                                                                                 }
                                                                                     }
                                                                         }
 
+                                                                        $(document).trigger('jspanelunsmallified', id);
                                                                         $(document).trigger('jspanelstatuschange', id);
                                                                         if ($.isFunction(jsP.option.onunsmallified)) {
                                                                                     jsP.option.onunsmallified.call(jsP, jsP);

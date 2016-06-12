@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.0.0-rc.2.4 released 2016-06-07](#)
+## [jsPanel 3.0.0 released 2016-06-12](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -44,7 +44,7 @@
 **If you used jsPanel 2.x already please check the API docs for the migration infos on each jsPanel 3.x option/method/property since a few things changed significantly in jsPanel 3.x.**
 
 ### [Dependencies]()
-+ **jQuery v2.x** (jQuery 3 rc1 seems to work fine)
++ **jQuery v2.x** (jQuery 3 seems to work fine)
 + **jQuery UI >= v1.9.2 (js and css)** with at least core, widget, mouse, resizable and draggable
 + **jQuery UI Touch Punch** needed only to enable touch events
 + **HTML5/CSS3 compatible browser** like FF, Chrome, EDGE, Brave and IE11. IE10 and other older browsers are not supported by jsPanel 3.
@@ -221,6 +221,7 @@ $.jsPanel({
 + `jspanelsmallified`
 + `jspanelsmallifiedmax`
 + `jspanelbeforeunsmallify`
++ `jspanelunsmallified`
 + `jspanelstatuschange`
 
 ### [jsPanel defaults:]() | [API &#x1f517;](http://jspanel.de/api/#defaults)<a href="" id="jspanel-defaults"></a>
