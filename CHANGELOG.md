@@ -1,5 +1,21 @@
 ## CHANGELOG
 
+### Version 3.0.1
+
++ method **maximize()**
+  + method can now be called even if a panel is already maximized
+  + better support in IE11 and EDGE
++ method **close()** improved
++ **option.onmaximized callback** removed from method **smallify()**
++ **option.onnormalized callback** removed from method **smallify()** and after a resize with mouse
++ **bugfix** for smallified panels that are resized only horizontally
++ **bugfix** for minimized panels in IE11
++ new properties of the **global jsPanel object**
+  + **jsPanel.isIE** is true if browser is MS IE11
+  + **jsPanel.isEdge** is true if browser is MS EDGE
+
+---
+
 ### Version 3.0.0
 
 **jsPanel version 3 is a complete rewrite of the plugin.**

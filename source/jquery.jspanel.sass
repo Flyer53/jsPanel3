@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-06-05 12:48:20 */
+/* jspanel.sass: 2016-06-24 22:17 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -97,10 +97,6 @@
 
   .jsPanel-ftr.active
     +flex-mixin
-
-//.jsPanel > .jsPanel-content.jsPanel-content-noheader
-//  border-top-left-radius: 0
-//  border-top-right-radius: 0
 
 .jsPanel-headerbar, .jsPanel-hdr-toolbar
   font-size: 18px
@@ -303,16 +299,15 @@
 
   .jsPanel-replacement
     width: 200px
-    //height: 40px
     height: 30px
     margin: 1px 1px 0 0
     z-index: 9999
 
     .jsPanel-hdr
-      //padding: 5px 5px 5px 10px
       padding: 0
 
     .jsPanel-titlebar
+      max-width: 92px  // for IE only
       -ms-flex: 1 1 0
       flex: 1 1 0
 
@@ -391,7 +386,6 @@
 .card-warning > .jsPanel-content.jsPanel-content-filled,
 .card-danger > .jsPanel-content.jsPanel-content-filled
   background: transparent
-  //border-top: 1px solid #f5f5f5
   color: #f5f5f5
 
 .card-default > .jsPanel-content.jsPanel-content-filled
@@ -424,22 +418,6 @@
   animation-duration: 600ms
 
 
-
-
-// uncomment to show a lower left resize icon
-//.ui-resizable-handle.ui-resizable-sw
-//  background: none repeat scroll 0 0 rgba(0, 0, 0, 0)
-//  color: #000
-//  font-family: jsglyph
-//  font-size: 22px
-//  line-height: 22px
-//  text-indent: 4px
-//  bottom: 0
-//  width: 22px
-//  height: 22px
-//
-//.ui-resizable-handle.ui-resizable-sw:before
-//  content: unicode(e054)
 
 @import "themes"
 

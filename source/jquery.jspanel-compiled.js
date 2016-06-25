@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.0.0 2016-06-12 14:50 */
+/* file version and date: 3.0.1 2016-06-25 12:00 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 
@@ -119,8 +119,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-            version: '3.0.0',
-            date: '2016-06-12 14:50',
+            version: '3.0.1',
+            date: '2016-06-25 12:00',
             id: 0, // counter to add to automatically generated id attribute
             ziBase: 100, // the lowest z-index a jsPanel may have
             zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -143,6 +143,12 @@ var jsPanel = {
 
             },
             closeOnEscape: false,
+            isIE: function () {
+                        return navigator.appVersion.includes('Trident');
+            }(),
+            isEdge: function () {
+                        return navigator.appVersion.includes('Edge');
+            }(),
 
             position: function position(elmt, options) {
                         /*
@@ -1738,10 +1744,7 @@ var jsPanel = {
                             passedconfig = $.extend(true, {}, optConfig, panelconfig),
                             template = panelconfig.template || jsPanel.template,
                             jsP = $(template),
-                            trigger = void 0,
-                            // elmt triggering the tooltip
-                        oH = void 0,
-                            oW = void 0;
+                            trigger = void 0; // elmt triggering the tooltip
 
                         // enable paneltype: 'tooltip' for default tooltips
                         if (passedconfig.paneltype === "tooltip") {
@@ -1807,6 +1810,7 @@ var jsPanel = {
                         jsP.header.controls = $('.jsPanel-controlbar', jsP.header.headerbar);
                         jsP.header.toolbar = $('.jsPanel-hdr-toolbar', jsP.header);
                         jsP.content = $('.jsPanel-content', jsP);
+                        jsP.content.height = '';
                         jsP.footer = $('.jsPanel-ftr', jsP);
                         jsP.data('status', 'initialized');
                         jsP.cachedData = {};
@@ -1843,79 +1847,84 @@ var jsPanel = {
                                     // close all childpanels and then the panel itself
                                     jsP.closeChildpanels().remove();
 
-                                    // remove id from activePanels.list
-                                    var index = jsPanel.activePanels.list.findIndex(function (element) {
-                                                return element === id;
-                                    });
-                                    if (index > -1) {
-                                                jsPanel.activePanels.list.splice(index, 1);
-                                    }
-
-                                    // remove replacement if present
-                                    $('#' + id + '-min').remove();
-
-                                    // remove modal backdrop of corresponding modal jsPanel
-                                    if (jsP.option.paneltype === 'modal') {
-                                                $('#jsPanel-modal-backdrop-' + jsP.attr('id')).remove();
-                                    }
-
-                                    // remove class hasTooltip from tooltip trigger if panel to close is tooltip
-                                    if (jsP.option.paneltype.tooltip) {
-                                                $(trigger).removeClass('hasTooltip');
-                                    }
-
-                                    $(document).trigger('jspanelclosed', id);
-                                    $(document).trigger('jspanelstatuschange', id);
-
-                                    // this code block is only relevant if panel uses autoposition ------------------------------
-                                    var container = void 0,
-                                        panels = void 0,
-                                        pos = void 0;
-                                    if (jsPanel.lastbeforeclose) {
-                                                container = jsPanel.lastbeforeclose.parent;
-                                                panels = $('.' + jsPanel.lastbeforeclose.class, container);
-                                                pos = jsPanel.lastbeforeclose.class;
-                                    }
-
-                                    // than reposition all elmts
-                                    if (panels) {
-
-                                                // remove classname from all panels
-                                                panels.each(function (index, elmt) {
-
-                                                            $(elmt).removeClass(pos);
-                                                });
-
-                                                // reposition remaining autopositioned panels
-                                                panels.each(function (index, elmt) {
-
-                                                            var direction = elmt.getAttribute('data-autoposition'),
-                                                                oX = elmt.getAttribute('data-offsetx'),
-                                                                oY = elmt.getAttribute('data-offsety');
-
-                                                            jsPanel.position(elmt, {
-                                                                        my: pos,
-                                                                        at: pos,
-                                                                        autoposition: direction,
-                                                                        offsetX: oX,
-                                                                        offsetY: oY
+                                    // execute the following code only when panel really was removed
+                                    if (!$('#' + id).length) {
+                                                (function () {
+                                                            // remove id from activePanels.list
+                                                            var index = jsPanel.activePanels.list.findIndex(function (element) {
+                                                                        return element === id;
                                                             });
-                                                });
-                                    }
+                                                            if (index > -1) {
+                                                                        jsPanel.activePanels.list.splice(index, 1);
+                                                            }
 
-                                    jsPanel.lastbeforeclose = false;
-                                    // -----------------------------------------------------------------------------------------------
+                                                            // remove replacement if present
+                                                            $('#' + id + '-min').remove();
 
-                                    // call onclosed callback of panel to close
-                                    if ($.isFunction(jsP.option.onclosed)) {
-                                                jsP.option.onclosed.call(jsP, jsP);
-                                    }
-                                    // call individual callback
-                                    if (callback && $.isFunction(callback)) {
-                                                callback.call(jsP, jsP);
-                                    }
+                                                            // remove modal backdrop of corresponding modal jsPanel
+                                                            if (jsP.option.paneltype === 'modal') {
+                                                                        $('#jsPanel-modal-backdrop-' + jsP.attr('id')).remove();
+                                                            }
 
-                                    jsPanel.resetZis();
+                                                            // remove class hasTooltip from tooltip trigger if panel to close is tooltip
+                                                            if (jsP.option.paneltype.tooltip) {
+                                                                        $(trigger).removeClass('hasTooltip');
+                                                            }
+
+                                                            $(document).trigger('jspanelclosed', id);
+                                                            $(document).trigger('jspanelstatuschange', id);
+
+                                                            // this code block is only relevant if panel uses autoposition ------------------------------
+                                                            var container = void 0,
+                                                                panels = void 0,
+                                                                pos = void 0;
+                                                            if (jsPanel.lastbeforeclose) {
+                                                                        container = jsPanel.lastbeforeclose.parent;
+                                                                        panels = $('.' + jsPanel.lastbeforeclose.class, container);
+                                                                        pos = jsPanel.lastbeforeclose.class;
+                                                            }
+
+                                                            // than reposition all elmts
+                                                            if (panels) {
+
+                                                                        // remove classname from all panels
+                                                                        panels.each(function (index, elmt) {
+
+                                                                                    $(elmt).removeClass(pos);
+                                                                        });
+
+                                                                        // reposition remaining autopositioned panels
+                                                                        panels.each(function (index, elmt) {
+
+                                                                                    var direction = elmt.getAttribute('data-autoposition'),
+                                                                                        oX = elmt.getAttribute('data-offsetx'),
+                                                                                        oY = elmt.getAttribute('data-offsety');
+
+                                                                                    jsPanel.position(elmt, {
+                                                                                                my: pos,
+                                                                                                at: pos,
+                                                                                                autoposition: direction,
+                                                                                                offsetX: oX,
+                                                                                                offsetY: oY
+                                                                                    });
+                                                                        });
+                                                            }
+
+                                                            jsPanel.lastbeforeclose = false;
+                                                            // -----------------------------------------------------------------------------------------------
+
+                                                            // call onclosed callback of panel to close
+                                                            if ($.isFunction(jsP.option.onclosed)) {
+                                                                        jsP.option.onclosed.call(jsP, jsP);
+                                                            }
+                                                            // call individual callback
+                                                            if (callback && $.isFunction(callback)) {
+                                                                        callback.call(jsP, jsP);
+                                                            }
+
+                                                            jsPanel.resetZis();
+                                                })();
+                                    }
                         };
 
                         // this is a method of global jsPanel because it can be called on any container
@@ -1959,15 +1968,13 @@ var jsPanel = {
 
                         jsP.front = function (callback) {
 
-                                    //if ($(target).hasClass('jsglyph-close') || $(target).hasClass('jsglyph-minimize')) { return; }
-
                                     jsP.css('z-index', jsPanel.setZi(jsP));
                                     jsPanel.resetZis();
                                     $(document).trigger('jspanelfronted', id);
 
                                     if ($.isFunction(jsP.option.onfronted)) {
 
-                                                // do not close panel if onfronted callback returns false
+                                                // do not front panel if onfronted callback returns false
                                                 if (jsP.option.onfronted.call(jsP, jsP) === false) {
                                                             return jsP;
                                                 } else {
@@ -2049,10 +2056,6 @@ var jsPanel = {
                                     var margins = jsP.option.maximizedMargin,
                                         pnt = jsP[0].parentNode;
 
-                                    if (jsP.data('status') === 'maximized') {
-                                                return jsP;
-                                    }
-
                                     // cache panel data like size and position etc. for later use
                                     if (jsP.data('status') === 'normalized') {
                                                 jsP.updateCachedData();
@@ -2071,33 +2074,32 @@ var jsPanel = {
 
                                     if (pnt === document.body) {
                                                 // maximize within window
-                                                jsP.css({
 
-                                                            width: document.documentElement.clientWidth - margins.left - margins.right + 'px',
+                                                var ieMargin = void 0;
+                                                jsPanel.isIE || jsPanel.isEdge ? ieMargin = 11 : ieMargin = 0;
+                                                // document.documentElement.clientWidth doesn't work in IE and EDGE as expected
+
+                                                jsP.css({
+                                                            width: document.documentElement.clientWidth - margins.left - margins.right - ieMargin + 'px',
                                                             height: document.documentElement.clientHeight - margins.top - margins.bottom + 'px',
                                                             left: margins.left + 'px',
                                                             top: margins.top + 'px'
-
                                                 });
 
                                                 if (jsP.option.position.fixed === false) {
 
                                                             jsP.css({
-
                                                                         left: window.pageXOffset + margins.left + 'px',
                                                                         top: window.pageYOffset + margins.top + 'px'
-
                                                             });
                                                 }
                                     } else {
                                                 // maximize within parentNode
                                                 jsP.css({
-
                                                             width: pnt.clientWidth - margins.left - margins.right + 'px',
                                                             height: pnt.clientHeight - margins.top - margins.bottom + 'px',
                                                             left: margins.left + 'px',
                                                             top: margins.top + 'px'
-
                                                 });
                                     }
 
@@ -2580,20 +2582,10 @@ var jsPanel = {
                                                                                     jsP.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev");
                                                                                     jsP.data('status', 'normalized');
                                                                                     $(document).trigger('jspanelnormalized', id);
-                                                                                    if ($.isFunction(jsP.option.onnormalized)) {
-                                                                                                if (jsP.option.onnormalized.call(jsP, jsP) === false) {
-                                                                                                            return jsP;
-                                                                                                }
-                                                                                    }
                                                                         } else {
                                                                                     jsP.hideControls(".jsPanel-btn-maximize, .jsPanel-btn-smallifyrev");
                                                                                     jsP.data('status', 'maximized');
                                                                                     $(document).trigger('jspanelmaximized', id);
-                                                                                    if ($.isFunction(jsP.option.onmaximized)) {
-                                                                                                if (jsP.option.onmaximized.call(jsP, jsP) === false) {
-                                                                                                            return jsP;
-                                                                                                }
-                                                                                    }
                                                                         }
 
                                                                         $(document).trigger('jspanelunsmallified', id);
@@ -3005,20 +2997,20 @@ var jsPanel = {
                         }
 
                         // handlers to normalize a panel and reset controls when resizing a smallified panel with mouse
-                        jsP.on("resizestart", function () {
-                                    oH = jsP.outerHeight();
-                        });
-                        // but only when panel height changed (it's possible to resize only width of smallified panel)
                         jsP.on("resizestop", function () {
-                                    if (jsP.outerHeight() !== oH) {
+                                    // but only when panel height changed (it's possible to resize only width of smallified panel)
+                                    if (jsP.data('status') === 'maximized' || jsP.data('status') === 'normalized') {
                                                 jsP.hideControls(".jsPanel-btn-normalize, .jsPanel-btn-smallifyrev");
                                                 jsP.data('status', 'normalized');
                                                 $(document).trigger('jspanelnormalized', id);
                                                 $(document).trigger('jspanelstatuschange', id);
-                                                if ($.isFunction(jsP.option.onnormalized)) {
-                                                            jsP.option.onnormalized.call(jsP, jsP);
+                                                //if ($.isFunction(jsP.option.onnormalized)) {jsP.option.onnormalized.call(jsP, jsP);}
+                                    } else if (jsP.data('status') === 'smallified' || jsP.data('status') === 'smallifiedMax') {
+                                                            // when resizing only width of a smallified panel content height is set to 0 for some reason (probably a jquery ui issue)
+                                                            // the following 2 lines of code reset content height to the proper value
+                                                            var h = parseInt(jsP.smallify.height) - jsP.header.outerHeight();
+                                                            jsP.content.css('height', h);
                                                 }
-                                    }
                         });
 
                         /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */

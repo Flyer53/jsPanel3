@@ -1,11 +1,9 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-06-05 12:48:20 */
+/* jspanel.sass: 2016-06-24 22:17 */
 @font-face {
   font-family: "jsglyph";
-  src: url("fonts/jsglyph.eot?wbr2mk");
-  src: url("fonts/jsglyph.eot?wbr2mk#iefix") format("embedded-opentype"), url("fonts/jsglyph.ttf?wbr2mk") format("truetype"), url("fonts/jsglyph.woff?wbr2mk") format("woff"), url("fonts/jsglyph.svg?wbr2mk#jsglyph") format("svg");
-  font-weight: normal;
-  font-style: normal; }
+  src: url("fonts/jsglyph.eot");
+  src: url("fonts/jsglyph.eot?#iefix") format("embedded-opentype"), url("fonts/jsglyph.ttf") format("truetype"), url("fonts/jsglyph.woff") format("woff"), url("fonts/jsglyph.svg#jsglyph") format("svg"); }
 .jsglyph {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "jsglyph" !important;
@@ -359,6 +357,7 @@
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr {
       padding: 0; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-titlebar, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-titlebar {
+      max-width: 92px;
       -ms-flex: 1 1 0;
       flex: 1 1 0; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-btn.jsPanel-btn-normalize, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-btn.jsPanel-btn-normalize {
