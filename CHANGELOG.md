@@ -1,5 +1,22 @@
 ## CHANGELOG
 
+### Version 3.1.0
+
+Changes in version 3.1.0 are all about the **.resize()** method:
+
++ better support of using **"auto"** for width/height values
++ .resize() now optionally accepts a **config object** with the props:
+  + width
+  + height
+  + minwidth
+  + maxwidth
+  + minheight
+  + maxheight
+  + callback
++ calling .resize() without any argument is the same as calling .resize( config ) where all config parameters are set to their defaults
+
+---
+
 ### Version 3.0.1
 
 + method **maximize()**

@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.0.1 2016-06-25 12:00 */
+/* file version and date: 3.1.0 2016-07-11 11:10 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 
@@ -119,8 +119,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-            version: '3.0.1',
-            date: '2016-06-25 12:00',
+            version: '3.1.0',
+            date: '2016-07-11 11:10',
             id: 0, // counter to add to automatically generated id attribute
             ziBase: 100, // the lowest z-index a jsPanel may have
             zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -2345,6 +2345,11 @@ var jsPanel = {
                         jsP.resize = function (width, height, callback) {
                                     if (jsP.data('status') !== "minimized") {
 
+                                                // arrow functions don't have their own arguments property -> use of 'normal' function
+                                                if (!arguments.length) {
+                                                            return jsP.resize({});
+                                                }
+
                                                 // callback to execute before a jsP is resized
                                                 if ($.isFunction(jsP.option.onbeforeresize)) {
                                                             if (jsP.option.onbeforeresize.call(jsP, jsP) === false) {
@@ -2352,30 +2357,92 @@ var jsPanel = {
                                                             }
                                                 }
 
-                                                if (width && width !== null) {
+                                                if (arguments.length === 1 && $.isPlainObject(arguments[0])) {
 
-                                                            jsP.css("width", width);
+                                                            var arg = $.extend({}, false, $.jsPanel.resizedefaults, arguments[0]),
+                                                                panelW = void 0,
+                                                                panelH = void 0;
+
+                                                            if (arg.width && arg.width === 'auto') {
+                                                                        jsP.content.css('width', 'auto');
+                                                                        jsP.css("width", 'auto');
+                                                                        jsP.css('width', jsP.outerWidth()); // we need explicit pixel value in order to prevent panel being 'glued' to window border
+                                                            } else if (arg.width) {
+                                                                                    jsP.css("width", arg.width);
+                                                                        }
+
+                                                            if (arg.height && arg.height === 'auto') {
+                                                                        jsP.content.css('height', 'auto');
+                                                                        jsP.css("height", 'auto');
+                                                            } else if (arg.height) {
+                                                                        jsP.css("height", arg.height);
+                                                            }
+
+                                                            // checks for min and max values
+                                                            panelW = jsP.outerWidth();
+                                                            panelH = jsP.outerHeight();
+
+                                                            if (arg.minwidth && panelW < arg.minwidth) {
+                                                                        jsP.css("width", arg.minwidth);
+                                                            }
+                                                            if (arg.maxwidth && panelW > arg.maxwidth) {
+                                                                        jsP.css("width", arg.maxwidth);
+                                                            }
+                                                            if (arg.minheight && panelH < arg.minheight) {
+                                                                        jsP.css("height", arg.minheight);
+                                                            }
+                                                            if (arg.maxheight && panelH > arg.maxheight) {
+                                                                        jsP.css("height", arg.maxheight);
+                                                            }
+
+                                                            jsP.contentResize();
+
+                                                            // callback to execute after a jsP was resized
+                                                            if ($.isFunction(jsP.option.onresized)) {
+                                                                        if (jsP.option.onresized.call(jsP, jsP) === false) {
+                                                                                    return jsP;
+                                                                        }
+                                                            }
+                                                            // call individual callback only if not called already (0 or 1 argument)
+                                                            if (arg.callback && $.isFunction(arg.callback)) {
+                                                                        arg.callback.call(jsP, jsP);
+                                                            }
                                                 } else {
 
-                                                            var newWidth = jsP.content.css("width") + jsP.content.css('border-left-width');
-                                                            jsP.css("width", newWidth);
-                                                }
+                                                            if (width && width !== null) {
 
-                                                if (height && height !== null) {
-                                                            jsP.css("height", height);
-                                                }
+                                                                        if (width === 'auto') {
+                                                                                    jsP.content.css('width', 'auto');
+                                                                        }
+                                                                        jsP.css("width", width);
+                                                                        jsP.css('width', jsP.outerWidth()); // we need explicit pixel value in order to prevent panel being 'glued' to window border
+                                                            } else {
 
-                                                jsP.contentResize();
+                                                                                    // if width === null
+                                                                                    var newWidth = jsP.content.css("width") + jsP.content.css('border-left-width');
+                                                                                    jsP.css("width", newWidth);
+                                                                        }
 
-                                                // callback to execute after a jsP was resized
-                                                if ($.isFunction(jsP.option.onresized)) {
-                                                            if (jsP.option.onresized.call(jsP, jsP) === false) {
-                                                                        return jsP;
+                                                            if (height && height !== null) {
+
+                                                                        if (height === 'auto') {
+                                                                                    jsP.content.css('height', 'auto');
+                                                                        }
+                                                                        jsP.css("height", height);
                                                             }
-                                                }
-                                                // call individual callback
-                                                if (callback && $.isFunction(callback)) {
-                                                            callback.call(jsP, jsP);
+
+                                                            jsP.contentResize();
+
+                                                            // callback to execute after a jsP was resized
+                                                            if ($.isFunction(jsP.option.onresized)) {
+                                                                        if (jsP.option.onresized.call(jsP, jsP) === false) {
+                                                                                    return jsP;
+                                                                        }
+                                                            }
+                                                            // call individual callback only if not called already (0 or 1 argument)
+                                                            if (callback && $.isFunction(callback)) {
+                                                                        callback.call(jsP, jsP);
+                                                            }
                                                 }
                                     }
 
@@ -3198,6 +3265,16 @@ var jsPanel = {
                         "draggable": false,
                         "headerControls": { controls: "closeonly" },
                         "resizable": false
+            };
+
+            $.jsPanel.resizedefaults = {
+                        width: false,
+                        height: false,
+                        minwidth: false,
+                        maxwidth: false,
+                        minheight: false,
+                        maxheight: false,
+                        callback: false
             };
 
             /* body click handler: remove all tooltips on click in body except click is inside a jsPanel or trigger of tooltip */
