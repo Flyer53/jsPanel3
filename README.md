@@ -44,7 +44,7 @@
 **If you used jsPanel 2.x already please check the API docs for the migration infos on each jsPanel 3.x option/method/property since a few things changed significantly in jsPanel 3.x.**
 
 ### [Dependencies]()
-+ **jQuery v2.x** (jQuery 3.x seems to work fine)
++ **jQuery 2.x** or **3.x**
 + **jQuery UI >= v1.9.2 (js and css)** with at least core, widget, mouse, resizable and draggable
 + **jQuery UI Touch Punch** needed only to enable touch events
 + **HTML5/CSS3 compatible browser** like FF, Chrome, EDGE, Brave and IE11. IE10 and other older browsers are not supported by jsPanel 3.
@@ -68,7 +68,7 @@ The following example shows a complete html file with the minimium setup:
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>jsPanel - a jQuery Plugin</title>
         <!-- loading jQuery UI css (which theme doesn't matter regarding jsPanel) -->
-        <link rel="stylesheet" href="vendor/jquery-ui-1.11.4.complete/jquery-ui.min.css">
+        <link rel="stylesheet" href="vendor/jquery-ui-1.12.0.complete/jquery-ui.min.css">
         <!-- loading jsPanel css -->
         <link rel="stylesheet" href="source/jquery.jspanel.css">
     </head>
@@ -77,8 +77,8 @@ The following example shows a complete html file with the minimium setup:
         <!-- Your HTML goes here -->
 
         <!-- loading jQuery, jQuery UI and jQuery UI Touch Punch -->
-        <script src="vendor/jquery-2.2.4.min.js"></script>
-        <script src="vendor/jquery-ui-1.11.4.complete/jquery-ui.min.js"></script>
+        <script src="vendor/jquery-3.1.0.min.js"></script>
+        <script src="vendor/jquery-ui-1.12.0.complete/jquery-ui.min.js"></script>
         <script src="vendor/jquery.ui.touch-punch.min.js"></script>
         <!-- loading jsPanel javascript -->
         <script src="source/jquery.jspanel-compiled.js"></script>
