@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.1.0 2016-07-11 11:10 */
+/* file version and date: 3.1.1 2016-07-25 10:58 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 if (!Object.assign) {
@@ -115,8 +115,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version: '3.1.0',
-    date:    '2016-07-11 11:10',
+    version: '3.1.1',
+    date:    '2016-07-25 10:58',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -200,7 +200,6 @@ var jsPanel = {
          fixed:   boolean, default true (effects only elmt appended to body when positioned relative to window
          autoposition: string, default false, can be one of 'DOWN', 'RIGHT', 'UP', 'LEFT'
          }
-         options can also be a shorthandstring like "right-top 10 50 DOWN"
 
          return value: the positioned element
 
@@ -479,42 +478,63 @@ var jsPanel = {
 
         }
 
-        // normalize string shorthand values of config.position
         if (typeof options === 'string') {
 
+            // convert options string to object accepted by jsPanel.position()
             let rxpos = /\b[a-z]{4,6}-{1}[a-z]{3,6}\b/,
                 rxautopos = /DOWN|UP|RIGHT|LEFT/,
                 rxoffset = /[+-]?\d+\.?\d*%?/g,
                 posValue = options.match(rxpos),
                 autoposValue = options.match(rxautopos),
-                offsetValue = options.match(rxoffset);
+                offsetValue = options.match(rxoffset),
+                position;
 
             if ($.isArray(posValue)) {
-
-                options = {my: posValue[0], at: posValue[0]};
-
+                position = {my: posValue[0], at: posValue[0]};
             } else {
-
-                options = {my: 'center', at: 'center'};
-
+                position = {my: 'center', at: 'center'};
             }
 
             if ($.isArray(autoposValue)) {
-
-                options.autoposition = autoposValue[0];
-
+                position.autoposition = autoposValue[0];
             }
 
             if ($.isArray(offsetValue)) {
-
-                options.offsetX = offsetValue[0];
-
+                position.offsetX = offsetValue[0];
                 if (offsetValue.length === 2) {
-
-                    options.offsetY = offsetValue[1];
-
+                    position.offsetY = offsetValue[1];
                 }
+            }
+            options = position;
 
+        } else {
+
+            // convert options with left, top, right, bottom values
+            let posLeft = (options.left === 0 || options.left) ? true : false;
+            let posTop = (options.top === 0 || options.top) ? true : false;
+            let posRight = (options.right === 0 || options.right) ? true : false;
+            let posBottom = (options.bottom === 0 || options.bottom) ? true : false;
+
+            if (posLeft && posTop) {
+                options.my = 'left-top';
+                options.at = 'left-top';
+                options.offsetX = options.left;
+                options.offsetY = options.top;
+            } else if (posLeft && posBottom) {
+                options.my = 'left-bottom';
+                options.at = 'left-bottom';
+                options.offsetX = options.left;
+                options.offsetY = -(options.bottom);
+            } else if (posRight && posTop) {
+                options.my = 'right-top';
+                options.at = 'right-top';
+                options.offsetX = -(options.right);
+                options.offsetY = options.top;
+            } else if (posRight && posBottom) {
+                options.my = 'right-bottom';
+                options.at = 'right-bottom';
+                options.offsetX = -(options.right);
+                options.offsetY = -(options.bottom);
             }
 
         }
@@ -523,26 +543,18 @@ var jsPanel = {
         option = Object.assign(optionDefaults, options);
 
         if (typeof elmt === 'string') {
-
             elmtToPosition = document.querySelector(elmt);
-
         } else if (elmt.jquery) {
-
             elmtToPosition = elmt[0];
-
         } else {
-
             elmtToPosition = elmt;
-
         }
 
-        parentElmt = elmtToPosition.parentElement;
+        parentElmt = elmtToPosition.parentElement || document.body;
 
         // set option.of defaults
         if (!option.of) {
-
             parentElmt === document.body ? option.of = 'window' : option.of = parentElmt;
-
         }
 
         elmtData = getElementData(elmtToPosition);
@@ -551,13 +563,9 @@ var jsPanel = {
         if (typeof option.offsetX === 'string' && option.offsetX.slice(-1) === '%') {
 
             if (option.of === 'window') {
-
                 option.offsetX = window.innerWidth * (parseInt(option.offsetX, 10)/100);
-
             } else {
-
                 option.offsetX = parentElmt.clientWidth * (parseInt(option.offsetX, 10)/100);
-
             }
 
         } else if (typeof option.offsetX === 'string') {
@@ -573,13 +581,9 @@ var jsPanel = {
         if (typeof option.offsetY === 'string' && option.offsetY.slice(-1) === '%') {
 
             if (option.of === 'window') {
-
                 option.offsetY = window.innerHeight * (parseInt(option.offsetY, 10)/100);
-
             } else {
-
                 option.offsetY = parentElmt.clientHeight * (parseInt(option.offsetY, 10)/100);
-
             }
 
         } else if (typeof option.offsetY === 'string') {
@@ -662,17 +666,11 @@ var jsPanel = {
             let targetCoords, optionOf;
 
             if (typeof option.of === 'string') {
-
                 optionOf = document.querySelector(option.of);
-
             } else if (option.of.jquery) {
-
                 optionOf = option.of[0];
-
             } else {
-
                 optionOf = option.of;
-
             }
 
             if (parentElmt === optionOf) {
@@ -705,9 +703,7 @@ var jsPanel = {
 
             // add a class to recognize panels for autoposition
             if (option.my === option.at) {
-
                 newClass = option.my;
-
             }
 
             // store option.position.autoposition and more value in data attr
@@ -715,15 +711,11 @@ var jsPanel = {
             elmtToPosition.setAttribute('data-autoposition', option.autoposition);
 
             if (!$.isFunction(option.offsetX)) {
-
                 elmtToPosition.setAttribute('data-offsetx', option.offsetX);
-
             }
 
             if (!$.isFunction(option.offsetY)) {
-
                 elmtToPosition.setAttribute('data-offsety', option.offsetY);
-
             }
 
             elmtToPosition.classList.add(newClass); // IE9 doesn't support classList
@@ -3023,21 +3015,13 @@ var jsPanel = {
             // or if content section is removed prior positioning
             //width: jsP.content.outerWidth() + 'px',
             width: function() {
-
                 if ($('.jsPanel-content', jsP).length > 0) {
-
                     return jsP.content.outerWidth() + 'px';
-
                 } else {
-
                     return jsP.option.contentSize.width || $.jsPanel.defaults.contentSize.width;
-
                 }
-
             },
-
             zIndex: function(){jsPanel.setZi(jsP);} // set z-index to get new panel to front;
-
         });
 
         // after content width is set and jsP width is set accordingly set content width to 100%
@@ -3108,13 +3092,13 @@ var jsPanel = {
         } else if (jsP.option.draggable === 'disabled') {
 
             // reset cursor, draggable deactivated
-            $('.jsPanel-hdr, .jsPanel-ftr', jsP).css('cursor', 'default');
+            $('.jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
             // jquery ui draggable initialize disabled to allow to query status
             jsP.draggable({disabled: true});
 
         } else {
             // draggable is not even initialised
-            $('.jsPanel-hdr, .jsPanel-ftr', jsP).css('cursor', 'default');
+            $('.jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
         }
 
         /* option.resizable ----------------------------------------------------------------------------------------- */
@@ -3203,6 +3187,36 @@ var jsPanel = {
                 jsP.content.css('height', h);
             }
         });
+
+        // handlers to activate some responsiveness
+        if (jsP.option.responsiveTo.windowresize) {
+            window.onresize = function(e) {
+                if (e.target == window) {       // see https://bugs.jqueryui.com/ticket/7514
+                    if (jsP.data('status') === 'maximized') {
+                        jsP.maximize();
+                    } else if (jsP.data('status') === 'normalized' || jsP.data('status') === 'smallified') {
+                        let param = jsP.option.responsiveTo.windowresize;
+                        if (typeof param === 'string' || typeof param === 'object') {
+                            jsP.position(param);
+                        } else {
+                            jsP.reposition();
+                        }
+                    }
+                }
+            };
+        }
+        if (jsP.option.responsiveTo.panelresize) {
+            jsP.on("resize", function() {
+                if (jsP.data('status') === 'normalized' || jsP.data('status') === 'smallified') {
+                    let param = jsP.option.responsiveTo.panelresize;
+                    if (typeof param === 'string' || typeof param === 'object') {
+                        jsP.position(param);
+                    } else {
+                        jsP.reposition();
+                    }
+                }
+            });
+        }
 
         /* adding a few methods/props directly to the HTMLElement --------------------------------------------------- */
         jsP[0].jspanel = {
@@ -3305,7 +3319,7 @@ var jsPanel = {
         "custom": false,
         "dblclicks": false,
         "draggable": {
-            handle: 'div.jsPanel-hdr, div.jsPanel-ftr',
+            handle: 'div.jsPanel-titlebar, div.jsPanel-ftr',
             opacity: 0.8
         },
         "footerToolbar": false,
@@ -3355,6 +3369,10 @@ var jsPanel = {
             autoHide: false,
             minWidth: 40,
             minHeight: 40
+        },
+        "responsiveTo": {
+            windowresize: false,
+            panelresize: false
         },
         "rtl": false,
         "setstatus": false,

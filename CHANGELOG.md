@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### Version 3.1.1
+
+**Bugfix:** Controls did not work on some mobile browsers.
+
+---
+
 ### Version 3.1.0
 
 Changes in version 3.1.0 are all about the **.resize()** method:

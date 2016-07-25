@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-06-24 22:17 */
+/* jspanel.sass: 2016-07-25 10:58 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -68,7 +68,7 @@
     border-top-right-radius: 3px
     font-size: 18px
     padding: 3px 0 0
-    cursor: move
+    //cursor: move
     min-height: 40px /* don't remove - otherwise header shrinks vertically on smallify */
     overflow: hidden
 
@@ -111,6 +111,7 @@
 .jsPanel-titlebar
   -ms-flex: 1 1 auto
   flex: 1 1 auto
+  cursor: move
   min-height: 32px
   padding-right: 6px
   overflow: hidden
