@@ -6,7 +6,7 @@
 **jsPanels** can be used as a floating, **draggable and resizable panel**, **modal**, **tooltip** or **hint/notifier**.
 
 ### jsPanel homepage: [http://jspanel.de](http://jspanel.de/)
-### API and examples: [http://jspanel.de/api.html](http://jspanel.de/api.html)
+### API and examples: [http://jspanel.de/api](http://jspanel.de/api)
 
 + [Getting started](#getting-started)
 + [jsPanel options](#jspanel-options)
