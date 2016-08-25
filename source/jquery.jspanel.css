@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-07-25 10:58 */
+/* jspanel.sass: 2016-07-27 22:16 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot");
@@ -372,11 +372,15 @@
   cursor: default; }
 
 .jsPanel-modal-backdrop {
+  background: rgba(0, 0, 0, 0.65);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%; }
+
+.jsPanel-modal-backdrop-multi {
+  background: rgba(0, 0, 0, 0.15); }
 
 /* css for the hints --------------------------------------- */
 .jsPanel-hint .jsPanel-hdr, .jsPanel-hint .jsPanel-ftr {

@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.1.1 released 2016-07-25](#)
+## [jsPanel 3.2.0 released 2016-08-25](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -164,6 +164,7 @@ $.jsPanel({
 | `onresized` | sets a hendler for the jspanelresized event | [API](http://jspanel.de/api/#option/onresized) |
 | `onsmallified` | sets a hendler for the jspanelsmallified event | [API](http://jspanel.de/api/#option/onsmallified) |
 | `onunsmallified` | sets a hendler to call after a smallified jsPanel was unsmallified | [API](http://jspanel.de/api/#option/onunsmallified) |
+| `onwindowresize` | enables responsivenes to a window resize event | [API](http://jspanel.de/api/#option/onwindowresize) |
 | `paneltype` | configures a jsPanel for use as **modal**, **tooltip** or **hint/notifier** | [API](http://jspanel.de/api/#option/paneltype) |
 | `position` | sets the position of a jsPanel | [API](http://jspanel.de/api/#option/position) |
 | `resizable` | configures the resizable interaction | [API](http://jspanel.de/api/#option/resizable) |

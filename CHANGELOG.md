@@ -1,5 +1,13 @@
 ## CHANGELOG
 
+### Version 3.2.0
+
++ new **option.onwindowresize** allows to enable panel responsivenes to a window resize event
++ method **.reposition()** now supports repositioning of tooltips (including the connector)
++ a lot of internal code improvements
+
+---
+
 ### Version 3.1.1
 
 **Bugfix:** Controls did not work on some mobile browsers.
