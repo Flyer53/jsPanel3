@@ -281,8 +281,8 @@ $.jsPanel.defaults = {
     "onsmallified": false,
     "onunsmallified": false,
     "onfronted": false,
+    "onwindowresize": false,
     "position": {
-        elmt: jsP,
         my: 'center',
         at: 'center'
     },
@@ -296,18 +296,16 @@ $.jsPanel.defaults = {
     "setstatus": false,
     "show": false,
     "template": false,
-    "theme": 'bluegrey'
+    "theme": 'default'
 };
 
 // deviating defaults for modal jsPanels
 $.jsPanel.modaldefaults = {
-    "draggable": "disabled",
-    "headerControls": {buttons: "closeonly"},
-    "position": {
-        my: 'center',
-        at: 'center'
-    },
-    "resizable": "disabled"
+    "draggable": 'disabled',
+    "headerControls": {controls: "closeonly"},
+    "position": 'center',
+    "resizable": 'disabled',
+    "onwindowresize": true,
 };
 
 // deviating defaults for jsPanel tooltips
