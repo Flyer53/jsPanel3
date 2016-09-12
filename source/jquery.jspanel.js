@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.2.0 2016-08-25 17:28 */
+/* file version and date: 3.3.0 2016-09-10 10:38 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 if (!Object.assign) {
@@ -115,8 +115,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version: '3.2.0',
-    date:    '2016-08-25 17:28',
+    version: '3.3.0',
+    date:    '2016-09-10 10:38',
     id: 0,                  // counter to add to automatically generated id attribute
     ziBase: 100,            // the lowest z-index a jsPanel may have
     zi: 100,                // z-index counter, has initially to be the same as ziBase
@@ -127,6 +127,7 @@ var jsPanel = {
     template: `<div class="jsPanel">
                 <div class="jsPanel-hdr">
                     <div class="jsPanel-headerbar">
+                        <div class="jsPanel-headerlogo"></div>
                         <div class="jsPanel-titlebar">
                             <h3 class="jsPanel-title"></h3>
                         </div>
@@ -162,6 +163,7 @@ var jsPanel = {
     tplHeaderOnly: `<div class="jsPanel">
                         <div class="jsPanel-hdr">
                             <div class="jsPanel-headerbar">
+                                <div class="jsPanel-headerlogo"></div>
                                 <div class="jsPanel-titlebar">
                                     <h3 class="jsPanel-title"></h3>
                                 </div>
@@ -1904,6 +1906,7 @@ var jsPanel = {
         // panel properties
         jsP.header = $('.jsPanel-hdr', jsP);
         jsP.header.headerbar = $('.jsPanel-headerbar', jsP.header);
+        jsP.header.logo = $('.jsPanel-headerlogo', jsP.header.headerbar);
         jsP.header.title = $('.jsPanel-title', jsP.header.headerbar);
         jsP.header.controls = $('.jsPanel-controlbar', jsP.header.headerbar);
         jsP.header.toolbar = $('.jsPanel-hdr-toolbar', jsP.header);
@@ -2230,7 +2233,7 @@ var jsPanel = {
 
             if (!jsP.hasClass('panel')) {
                 // if not a bootstrap theme
-                bgColor = jsP.css('background-color');
+                bgColor = jsP.header.css('background-color');
 
             } else {
 
@@ -2264,6 +2267,12 @@ var jsPanel = {
                        .find('h3').css({color: fontColor})
                        .prop('title', jsP.header.title[0].textContent)
                        .html(jsP.headerTitle());
+
+            // add logo
+            if (jsP.header.logo.children().length) {
+                let logo = jsP.header.logo.clone();
+                $('.jsPanel-headerbar', replacement).prepend(logo);
+            }
 
             // set replacement iconfont
             let iconfont = jsP.option.headerControls.iconfont;
@@ -2550,14 +2559,14 @@ var jsPanel = {
             // first remove all theme related syles
             jsPanel.themes.forEach(function (value, index, array) {
                 jsP.removeClass('panel card card-inverse jsPanel-theme-' + value + '  panel-' + value + ' card-' + value);
+                jsP.header.removeClass('panel-heading jsPanel-theme-' + value);
             });
-            jsP.header.removeClass('panel-heading').title.removeClass('panel-title');
-            jsP.content.removeClass('panel-body').css('border-top-color', '');
-            jsP.footer.removeClass('panel-footer card-footer');
-            jsP.css('background', '').content.css({borderTop:'', backgroundColor: '', color:''});
             jsP.css({borderWidth: '', borderStyle: '', borderColor: ''});
-            $('.jsPanel-hdr *', jsP).css({color: ''});
+            $('*', jsP).css({background: '', color: ''});
+            jsP.header.title.removeClass('panel-title');
             jsP.header.toolbar.css({boxShadow:'', width: '', marginLeft: ''});
+            jsP.content.removeClass('panel-body').css({borderTop:'', borderTopColor: ''});
+            jsP.footer.removeClass('panel-footer card-footer');
 
             if (passedtheme.substr(-6, 6) === 'filled') {
                 theme[1] = 'filled';
@@ -2580,7 +2589,8 @@ var jsPanel = {
 
                 if (jsPanel.themes.includes(theme[0])) {
 
-                    jsP.addClass('jsPanel-theme-' + theme[0]);
+                    jsP.addClass('jsPanel-theme-' + theme[0])  // do not remove theme from jsP
+                       .header.addClass('jsPanel-theme-' + theme[0]);
 
                     // optionally set theme style
                     if (theme[1] === 'filled') {
@@ -2595,12 +2605,12 @@ var jsPanel = {
 
                     // arbitrary colors themes
                     colors = jsPanel.calcColors(theme[0]); // colors: [primeColor, secondColor, fontColorForPrimary]
-                    jsP.css('background-color', colors[0]);
+                    jsP.header.css('background-color', colors[0]);
                     $('.jsPanel-hdr *', jsP).css({color: colors[3]});
 
                     if (jsP.option.headerToolbar) {
 
-                        jsP.header.toolbar.css({boxShadow:'0 0 1px ' + colors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
+                        jsP.header.toolbar.css({boxShadow:'0 0 1px ' + colors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-1px'});
 
                     } else  {
 
@@ -2645,7 +2655,7 @@ var jsPanel = {
                 $('*', jsP.header).css('color', bsColors[3]);
 
                 if (jsP.option.headerToolbar) {
-                    jsP.header.toolbar.css({boxShadow:'0 0 1px ' + bsColors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-2px'});
+                    jsP.header.toolbar.css({boxShadow:'0 0 1px ' + bsColors[3] + ' inset', width: 'calc(100% + 4px)', marginLeft: '-1px'});
                 } else  {
                     jsP.content.css({borderTop:'1px solid ' + bsColors[3]});
                 }
@@ -2661,6 +2671,7 @@ var jsPanel = {
             if (jsP.option.border) {
                 bordervalues = jsP.option.border.split(' ');
                 jsP.css({'border-width': bordervalues[0], 'border-style': bordervalues[1]});
+                jsP.header.css({'border-top-left-radius': 0, 'border-top-right-radius': 0});
 
                 if (!bstheme) {
                     if (!jsPanel.themes.includes(theme[0])) {
@@ -2884,6 +2895,22 @@ var jsPanel = {
                     }
 
                 });
+
+            }
+
+            /* option.logo ------------------------------------------------------------------------------------------ */
+            if (jsP.option.headerLogo) {
+                let logo = jsP.option.headerLogo;
+
+                if (typeof logo === 'string' && logo.substring(0,1) !== '<') {
+
+                    jsP.header.logo.append(`<img src="${logo}" height="38" alt="logo">`);
+
+                } else {
+
+                    jsP.header.logo.append(logo);
+
+                }
 
             }
 
@@ -3321,6 +3348,7 @@ var jsPanel = {
             controls: 'all',
             iconfont: 'jsglyph'
         },
+        "headerLogo": false,
         "headerRemove": false,
         "headerTitle": 'jsPanel',
         "headerToolbar": false,

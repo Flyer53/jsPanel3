@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.2.0 released 2016-08-25](#)
+## [jsPanel 3.3.0 released 2016-09-12](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -20,7 +20,7 @@
     bower install jspanel3
 
 #### A few standard example jsPanels
-<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269301/collection_standard_panels_mdou5n.jpg">
+<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1473692768/collection_standard_panels_ulffys.jpg">
 
 #### modal jsPanel
 <img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1462269129/jspanel-modal-1_sbr7ku.jpg">
@@ -144,6 +144,7 @@ $.jsPanel({
 | `draggable` | configures the draggable interaction | [API](http://jspanel.de/api/#option/draggable) |
 | `footerToolbar` | configures a toolbar for the footer section | [API](http://jspanel.de/api/#option/footerToolbar) |
 | `headerControls` | configures the controls (close, minimize buttons etc.) | [API](http://jspanel.de/api/#option/headerControls) |
+| `headerLogo` | adds a logo to the header bar | [API](http://jspanel.de/api/#option/headerLogo) |
 | `headerTitle` | sets the title/heading of the jsPanel | [API](http://jspanel.de/api/#option/headerTitle) |
 | `headerRemove` | removes the complete header section | [API](http://jspanel.de/api/#option/headerRemove) |
 | `headerToolbar` | configures a toolbar for the header section | [API](http://jspanel.de/api/#option/headerToolbar) |
@@ -199,6 +200,7 @@ $.jsPanel({
 | `content` | represents the jqueryfied div element holding all the content of the jsPanel | [API](http://jspanel.de/api/#property/content) |
 | `footer` | references the jqueryfied div element holding the footer toolbar items | [API](http://jspanel.de/api/#property/footer) |
 | `header` | references the header section of the jsPanel | [API](http://jspanel.de/api/#property/header) |
+| `header.logo` | references the logo container | [API](http://jspanel.de/api/#property/header) |
 | `header.title` | references the title element | [API](http://jspanel.de/api/#property/header) |
 | `header.controls` | references the container for the controls | [API](http://jspanel.de/api/#property/header) |
 | `header.toolbar` | references the header toolbar | [API](http://jspanel.de/api/#property/header) |
@@ -256,6 +258,7 @@ $.jsPanel.defaults = {
         normalize: false,
         smallify: false
     },
+    "headerLogo": false,
     "headerRemove": false,
     "headerTitle": 'jsPanel',
     "headerToolbar": false,
