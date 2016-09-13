@@ -4,8 +4,7 @@
 
 + **CSS** for header section (including header toolbar) and footer toolbar is modified. **In case you use header and/or footer toolbars you might have to change custom css you applied.**
 + **new option.headerLogo** to add a logo to the top left corner of the panel - [jspanel.de/api/#option/headerLogo](http://jspanel.de/api/#option/headerLogo)
-<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1473692889/panel-logo_qdjqzt.png">
-
+<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1473779671/panel-logo-collection_zaugxs.jpg">
 
 ---
 
