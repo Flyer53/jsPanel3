@@ -1,10 +1,17 @@
 ## CHANGELOG
 
+### Version 3.3.1
+
++ **Bugfix:** With version 3.3.0 some tooltip connectors had no background color depending on configuration
++ **Code:** In the js development file (jquery.jspanel.js) most occurrences of standard string concatenations are replaced with template literals
+
+---
+
 ### Version 3.3.0
 
 + **CSS** for header section (including header toolbar) and footer toolbar is modified. **In case you use header and/or footer toolbars you might have to change custom css you applied.**
 + **new option.headerLogo** to add a logo to the top left corner of the panel - [jspanel.de/api/#option/headerLogo](http://jspanel.de/api/#option/headerLogo)
-<img src="http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1473779671/panel-logo-collection_zaugxs.jpg">
+![panels with logo](http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1473779671/panel-logo-collection_zaugxs.jpg)
 
 ---
 

@@ -1,5 +1,5 @@
 /* global console, jQuery */
-/* file version and date: 3.3.0 2016-09-10 10:38 */
+/* file version and date: 3.3.1 2016-09-17 11:34 */
 "use strict";
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
 
@@ -119,8 +119,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version: '3.3.0',
-    date: '2016-09-10 10:38',
+    version: '3.3.1',
+    date: '2016-09-17 11:34',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -1061,7 +1061,7 @@ var jsPanel = {
         var bgColor = panel.option.paneltype.connectorBG || null,
             bgColor_content = panel.content.css('background-color'),
             bgColor_ftr = panel.footer.css('background-color'),
-            bgColor_panel = panel.css('background-color');
+            bgColor_panel = panel.header.css('background-color');
 
         function calcConnectorBgTop(connector) {
 
@@ -1762,7 +1762,7 @@ var jsPanel = {
         }
 
         // check whether id already exists in document
-        if ($("#" + id).length > 0) {
+        if ($('#' + id).length > 0) {
 
             console.warn("jsPanel Error: No jsPanel created - id attribute passed with option.id already exists in document");
             return false;
@@ -2170,10 +2170,11 @@ var jsPanel = {
             if (!cont.length) {
                 $('#jsPanel-replacement-container').append(replacement);
             } else {
-                if (!$('.jsPanel-minimized-box').length) {
+                var minBox = $('.jsPanel-minimized-box');
+                if (!minBox.length) {
                     $(cont[0]).append("<div class='jsPanel-minimized-box'>");
                 }
-                $('.jsPanel-minimized-box').append(replacement);
+                minBox.append(replacement);
             }
 
             $(document).trigger('jspanelminimized', id);
@@ -2516,10 +2517,10 @@ var jsPanel = {
 
                     if (theme[1] === 'filled') {
 
-                        jsP.content.css({ 'background-color': colors[0], color: colors[3] });
+                        jsP.content.css({ backgroundColor: colors[0], color: colors[3] });
                     } else if (theme[1] === 'filledlight') {
 
-                        jsP.content.css({ 'background-color': colors[1] });
+                        jsP.content.css({ backgroundColor: colors[1] });
                     }
                 }
             } else {
@@ -3215,26 +3216,26 @@ var jsPanel = {
     };
 
     $.jsPanel.defaults = {
-        "autoclose": false,
-        "border": false,
-        "callback": false,
-        "container": 'body',
-        "content": false,
-        "contentAjax": false,
-        "contentIframe": false,
-        "contentOverflow": 'hidden',
-        "contentSize": {
+        autoclose: false,
+        border: false,
+        callback: false,
+        container: 'body',
+        content: false,
+        contentAjax: false,
+        contentIframe: false,
+        contentOverflow: 'hidden',
+        contentSize: {
             width: 400,
             height: 200
         },
-        "custom": false,
-        "dblclicks": false,
-        "draggable": {
+        custom: false,
+        dblclicks: false,
+        draggable: {
             handle: 'div.jsPanel-titlebar, div.jsPanel-ftr',
             opacity: 0.8
         },
-        "footerToolbar": false,
-        "headerControls": {
+        footerToolbar: false,
+        headerControls: {
             close: false,
             maximize: false,
             minimize: false,
@@ -3243,75 +3244,75 @@ var jsPanel = {
             controls: 'all',
             iconfont: 'jsglyph'
         },
-        "headerLogo": false,
-        "headerRemove": false,
-        "headerTitle": 'jsPanel',
-        "headerToolbar": false,
-        "id": function id() {
+        headerLogo: false,
+        headerRemove: false,
+        headerTitle: 'jsPanel',
+        headerToolbar: false,
+        id: function id() {
             return 'jsPanel-' + (jsPanel.id += 1);
         },
-        "load": false,
-        "maximizedMargin": {
+        load: false,
+        maximizedMargin: {
             top: 5,
             right: 5,
             bottom: 5,
             left: 5
         },
-        "onbeforeclose": false,
-        "onbeforemaximize": false,
-        "onbeforeminimize": false,
-        "onbeforenormalize": false,
-        "onbeforesmallify": false,
-        "onbeforeunsmallify": false,
-        "onclosed": false,
-        "onmaximized": false,
-        "onminimized": false,
-        "onnormalized": false,
-        "onbeforeresize": false,
-        "onresized": false,
-        "onsmallified": false,
-        "onunsmallified": false,
-        "onfronted": false,
-        "onwindowresize": false,
-        "paneltype": false,
-        "position": {
+        onbeforeclose: false,
+        onbeforemaximize: false,
+        onbeforeminimize: false,
+        onbeforenormalize: false,
+        onbeforesmallify: false,
+        onbeforeunsmallify: false,
+        onclosed: false,
+        onmaximized: false,
+        onminimized: false,
+        onnormalized: false,
+        onbeforeresize: false,
+        onresized: false,
+        onsmallified: false,
+        onunsmallified: false,
+        onfronted: false,
+        onwindowresize: false,
+        paneltype: false,
+        position: {
             my: 'center',
             at: 'center'
             // all other defaults are set in jsPanel.position()
         },
-        "resizable": {
+        resizable: {
             handles: 'n, e, s, w, ne, se, sw, nw',
             autoHide: false,
             minWidth: 40,
             minHeight: 40
         },
-        "rtl": false,
-        "setstatus": false,
-        "show": false,
-        "template": false,
-        "theme": 'default'
+        rtl: false,
+        setstatus: false,
+        show: false,
+        template: false,
+        theme: 'default'
     };
 
     $.jsPanel.modaldefaults = {
-        "draggable": 'disabled',
-        "headerControls": { controls: "closeonly" },
-        "position": 'center',
-        "resizable": 'disabled',
-        "onwindowresize": true
+        draggable: 'disabled',
+        headerControls: { controls: 'closeonly' },
+        position: 'center',
+        resizable: 'disabled',
+        onwindowresize: true
     };
 
     $.jsPanel.tooltipdefaults = {
-        "draggable": false,
-        "headerControls": { controls: "closeonly" },
-        "position": { fixed: false },
-        "resizable": false
+        draggable: false,
+        headerControls: { controls: 'closeonly' },
+        position: { fixed: false },
+        resizable: false
     };
 
     $.jsPanel.hintdefaults = {
-        "autoclose": 8000,
-        "draggable": false,
-        "headerControls": { controls: "closeonly" },
-        "resizable": false
+        autoclose: 8000,
+        draggable: false,
+        headerControls: { controls: 'closeonly' },
+        resizable: false
     };
 
     $.jsPanel.resizedefaults = {
