@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.3.1 released 2016-09-17](#)
+## [jsPanel 3.4.0 released 2016-10-27](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -55,6 +55,9 @@ Download and extract the jsPanel package to a folder of your choice. You find at
 The **source** folder contains all the necessary jsPanel specific files (.js, .css and font). Copy this folder to your project and rename it as you like if necessary.
 
 The **vendor** folder contains the dependencies jsPanel relies on. Whether you use these files, load them from a CDN or download the desired versions yourself doesn't matter.
+
+#### [CDN]()
+jsPanel v3.x is available via [CDNJS](https://cdnjs.com/libraries/jspanel3) as well
 
 ### [Include the files]()
 The following example shows a complete html file with the minimium setup:
@@ -141,6 +144,7 @@ $.jsPanel({
 | `contentOverflow` | sets the overflow property for the content section | [API](http://jspanel.de/api/#option/contentOverflow) |
 | `contentSize` | sets the size of the content section of the jsPanel | [API](http://jspanel.de/api/#option/contentSize) |
 | `dblclicks` | configures doubleclick handlers for header, content and footer sections | [API](http://jspanel.de/api/#option/dblclicks) |
+| `delayClose` | sets a delay for the actual removal of a panel upon closing it | [API](http://jspanel.de/api/#option/delayClose) |
 | `draggable` | configures the draggable interaction | [API](http://jspanel.de/api/#option/draggable) |
 | `footerToolbar` | configures a toolbar for the footer section | [API](http://jspanel.de/api/#option/footerToolbar) |
 | `headerControls` | configures the controls (close, minimize buttons etc.) | [API](http://jspanel.de/api/#option/headerControls) |
@@ -150,6 +154,7 @@ $.jsPanel({
 | `headerToolbar` | configures a toolbar for the header section | [API](http://jspanel.de/api/#option/headerToolbar) |
 | `id` | sets the id attribute for the jsPanel | [API](http://jspanel.de/api/#option/id) |
 | `maximizedMargin` | sets margins for a maximized jsPanel | [API](http://jspanel.de/api/#option/maximizedMargin) |
+| `minimizeTo` | allows to select a container the minimnized replacement is appanded to or to skip the replacement element | [API](http://jspanel.de/api/#option/minimizeTo) |
 | `onbeforeclose` | sets a hendler for the jspanelbeforeclose event | [API](http://jspanel.de/api/#option/onbeforeclose) |
 | `onbeforemaximize` | sets a hendler for the jspanelbeforemaximize event | [API](http://jspanel.de/api/#option/onbeforemaximize) |
 | `onbeforeminimize` | sets a hendler for the jspanelbeforeminimize event | [API](http://jspanel.de/api/#option/onbeforeminimize) |

@@ -1,5 +1,20 @@
 ## CHANGELOG
 
+### Version 3.4.0
+
++ **.setTheme()** and **option.theme** can now be used with a value of *none*. Creates an all white panel without any theme related classes/styles applied
+    
+    ![panels with logo](http://res.cloudinary.com/stefanstraesser-eu/image/upload/v1475681301/jspanel-theme-none-2_gebtql.jpg)
++ **.setTheme()** and **option.theme** added support for Material Design for Bootstrap themes
++ **.close()** added parameters *skipOnbeforeClose* and *skipOnclosed*
++ **new option.minimizeTo** allows to specify a container a minimized panel is appended to or prevents a minimized replacement from being created at all
++ **new option.delayClose** allows to set a delay when closing a panel (useful when you want apply an animation before the panel is actually removed)
++ **new** option.border now supports passing a border-color overriding the theme color which would otherwise be used as border-color
++ **new:** support for **Material icons** for the controls
++ various internal code changes and minor **bugfixes**
+
+---
+
 ### Version 3.3.1
 
 + **Bugfix:** With version 3.3.0 some tooltip connectors had no background color depending on configuration

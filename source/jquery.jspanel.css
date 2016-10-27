@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-09-09 19:45 */
+/* jspanel.sass: 2016-10-20 15:08 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot");
@@ -70,6 +70,8 @@
     font-size: 12px;
     position: relative;
     overflow: hidden; }
+    .jsPanel .jsPanel-content pre {
+      color: inherit; }
   .jsPanel .jsPanel-ftr {
     -ms-flex-direction: row;
     flex-direction: row;
@@ -89,7 +91,8 @@
     height: auto;
     background: #f5f5f5;
     font-weight: normal;
-    color: black; }
+    color: black;
+    overflow: hidden; }
   .jsPanel .jsPanel-ftr.active {
     display: -ms-flexbox;
     display: flex; }
@@ -111,7 +114,7 @@
   flex-wrap: nowrap;
   -ms-flex-align: center;
   align-items: center;
-  min-height: 36px; }
+  min-height: 38px; }
   .jsPanel-headerbar img {
     vertical-align: middle; }
 
@@ -139,12 +142,15 @@
 
 .jsPanel-controlbar {
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  align-items: center; }
   .jsPanel-controlbar div span:hover {
     opacity: 0.5; }
   .jsPanel-controlbar .jsPanel-btn {
     padding: 0 3px;
     cursor: pointer; }
+    .jsPanel-controlbar .jsPanel-btn span {
+      vertical-align: middle; }
   .jsPanel-controlbar .jsPanel-btn-normalize {
     display: none; }
   .jsPanel-controlbar .jsPanel-btn-smallifyrev {
@@ -342,7 +348,7 @@
   height: auto;
   left: 0;
   position: fixed;
-  width: 100%;
+  width: auto;
   z-index: 9998; }
   #jsPanel-replacement-container .jsPanel-replacement, .jsPanel-minimized-box .jsPanel-replacement {
     width: 200px;
@@ -352,7 +358,7 @@
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr {
       padding: 0; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-titlebar, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-titlebar {
-      -ms-flex: 1 1 0;
+      -ms-flex: 1 1 60%;
       flex: 1 1 0; }
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-btn.jsPanel-btn-normalize, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-btn.jsPanel-btn-normalize {
       display: block; }
@@ -366,7 +372,8 @@
   cursor: default; }
 
 .jsPanel-modal-backdrop {
-  background: rgba(0, 0, 0, 0.65);
+  background: black;
+  opacity: 0;
   position: fixed;
   top: 0;
   left: 0;
@@ -608,8 +615,8 @@
   color: #e65100; }
 
 .jsPanel-content.jsPanel-content-noheader {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
   border: none !important; }
 
 .jsPanel-content.jsPanel-content-nofooter {
