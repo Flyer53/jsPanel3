@@ -2289,7 +2289,7 @@ var jsPanel = {
                     panel.content.css('height', 'auto');
                     panel.css('height', 'auto');
                 } else if (arg.height) {
-                    panel.css('height', arg.height);
+                    panel.css('height', arg.height + panel.header.outerHeight());
                 }
 
                 // checks for min and max values
