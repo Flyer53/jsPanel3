@@ -2289,7 +2289,71 @@ var jsPanel = {
                     panel.content.css('height', 'auto');
                     panel.css('height', 'auto');
                 } else if (arg.height) {
-                    panel.css('height', arg.height + panel.header.outerHeight());
+                    panel.css('height', arg.height)
+                }
+
+                // checks for min and max values
+                panelW = panel.outerWidth();
+                panelH = panel.outerHeight();
+
+                if (arg.minwidth && panelW < arg.minwidth) {
+                    panel.css('width', arg.minwidth);
+                }
+                if (arg.maxwidth && panelW > arg.maxwidth) {
+                    panel.css('width', arg.maxwidth);
+                }
+                if (arg.minheight && panelH < arg.minheight) {
+                    panel.css('height', arg.minheight);
+                }
+                if (arg.maxheight && panelH > arg.maxheight) {
+                    panel.css('height', arg.maxheight);
+                }
+
+                this.contentResize(panel);
+
+                // callback to execute after a panel was resized
+                if ($.isFunction(panel.option.onresized)) {
+                    if (panel.option.onresized.call(panel, panel) === false) {
+                        return panel;
+                    }
+                }
+                // call individual callback
+                if (arg.callback && $.isFunction(arg.callback)) {
+                    arg.callback.call(panel, panel);
+                }
+            }
+
+        }
+        return panel;
+    },
+    
+    contentResize(panel, config) {
+        if (panel.data('status') !== 'minimized') {
+
+            // callback to execute before a panel is resized
+            if ($.isFunction(panel.option.onbeforeresize)) {
+                if (panel.option.onbeforeresize.call(panel, panel) === false) {
+                    return panel;
+                }
+            }
+
+            if ($.isPlainObject(config)) {
+                let arg = $.extend({}, false, $.jsPanel.resizedefaults, config),
+                    panelW, panelH;
+
+                if (arg.width && arg.width === 'auto') {
+                    panel.content.css('width', 'auto');
+                    panel.css('width', 'auto');
+                    panel.css('width', panel.outerWidth()); // we need explicit pixel value in order to prevent panel being 'glued' to window border
+                } else if (arg.width) {
+                    panel.css('width', arg.width);
+                }
+
+                if (arg.height && arg.height === 'auto') {
+                    panel.content.css('height', 'auto');
+                    panel.css('height', 'auto');
+                } else if (arg.height) {
+                    panel.css('height', arg.height + panel.header.outerHeight())
                 }
 
                 // checks for min and max values
