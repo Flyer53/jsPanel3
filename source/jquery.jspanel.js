@@ -1,4 +1,4 @@
-/* jquery.jspanel.js file version and date: 3.4.0 2016-10-27 13:45 */
+/* jquery.jspanel.js file version and date: 3.4.0.2 2016-10-31 10:57 */
 /* global jsPanel */
 'use strict';
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
@@ -117,8 +117,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version:             '3.4.0',
-    date:                '2016-10-27 13:45',
+    version:             '3.4.0.2',
+    date:                '2016-10-31 10:57',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -164,6 +164,7 @@ var jsPanel = {
                           </div>`,
     themes:              ['default', 'primary', 'info', 'success', 'warning', 'danger'],
     mdbthemes:           ['secondary', 'elegant', 'stylish', 'unique', 'special'], // just the extra themes which are not contained in jsPanel.themes
+    controls:            ['close', 'maximize', 'minimize', 'normalize', 'smallify', 'smallifyrev'],
     tplHeaderOnly:       `<div class="jsPanel">
                         <div class="jsPanel-hdr">
                             <div class="jsPanel-headerbar">
@@ -2289,71 +2290,7 @@ var jsPanel = {
                     panel.content.css('height', 'auto');
                     panel.css('height', 'auto');
                 } else if (arg.height) {
-                    panel.css('height', arg.height)
-                }
-
-                // checks for min and max values
-                panelW = panel.outerWidth();
-                panelH = panel.outerHeight();
-
-                if (arg.minwidth && panelW < arg.minwidth) {
-                    panel.css('width', arg.minwidth);
-                }
-                if (arg.maxwidth && panelW > arg.maxwidth) {
-                    panel.css('width', arg.maxwidth);
-                }
-                if (arg.minheight && panelH < arg.minheight) {
-                    panel.css('height', arg.minheight);
-                }
-                if (arg.maxheight && panelH > arg.maxheight) {
-                    panel.css('height', arg.maxheight);
-                }
-
-                this.contentResize(panel);
-
-                // callback to execute after a panel was resized
-                if ($.isFunction(panel.option.onresized)) {
-                    if (panel.option.onresized.call(panel, panel) === false) {
-                        return panel;
-                    }
-                }
-                // call individual callback
-                if (arg.callback && $.isFunction(arg.callback)) {
-                    arg.callback.call(panel, panel);
-                }
-            }
-
-        }
-        return panel;
-    },
-    
-    contentResize(panel, config) {
-        if (panel.data('status') !== 'minimized') {
-
-            // callback to execute before a panel is resized
-            if ($.isFunction(panel.option.onbeforeresize)) {
-                if (panel.option.onbeforeresize.call(panel, panel) === false) {
-                    return panel;
-                }
-            }
-
-            if ($.isPlainObject(config)) {
-                let arg = $.extend({}, false, $.jsPanel.resizedefaults, config),
-                    panelW, panelH;
-
-                if (arg.width && arg.width === 'auto') {
-                    panel.content.css('width', 'auto');
-                    panel.css('width', 'auto');
-                    panel.css('width', panel.outerWidth()); // we need explicit pixel value in order to prevent panel being 'glued' to window border
-                } else if (arg.width) {
-                    panel.css('width', arg.width);
-                }
-
-                if (arg.height && arg.height === 'auto') {
-                    panel.content.css('height', 'auto');
-                    panel.css('height', 'auto');
-                } else if (arg.height) {
-                    panel.css('height', arg.height + panel.header.outerHeight())
+                    panel.css('height', arg.height);
                 }
 
                 // checks for min and max values
@@ -2848,19 +2785,21 @@ var jsPanel = {
         jsP.reposition = (o$position, callback) => jsPanel.reposition(jsP, o$position, callback);
 
         jsP.resize = function (width = $.jsPanel.resizedefaults.width, height = $.jsPanel.resizedefaults.height, callback = $.jsPanel.resizedefaults.callback) {
-
             let passedconfig = {},
                 config = width;
-
             if (!$.isPlainObject(config)) {
                 passedconfig.width = width;
                 passedconfig.height = height;
                 passedconfig.callback = callback;
                 config = $.extend({}, false, $.jsPanel.resizedefaults, passedconfig);
+            } else {
+                if (config.resize === 'content') {
+                    // here config.width/height have to be numbers
+                    config.height = parseInt(config.height, 10) + jsP.header.outerHeight() + parseInt(jsP.css('border-top-width'), 10) + parseInt(jsP.css('border-bottom-width'), 10);
+                    config.width = parseInt(config.width, 10) + parseInt(jsP.css('border-left-width'), 10) + parseInt(jsP.css('border-right-width'), 10);
+                }
             }
-
             jsPanel.resize(jsP, config);
-
             return jsP;
         };
 
@@ -2977,20 +2916,22 @@ var jsPanel = {
 
             if (o$headerControls.controls === 'closeonly') {
 
-                ['maximize', 'minimize', 'normalize', 'smallify'].forEach(ctrl => {
-                    jsPanel.setControlStatus(jsP, ctrl, 'remove');
+                jsPanel.controls.forEach(ctrl => {
+                    if (ctrl !== 'close') {
+                        jsPanel.setControlStatus(jsP, ctrl, 'remove');
+                    }
                 });
 
             } else if (o$headerControls.controls === 'none') {
 
-                ['close', 'maximize', 'minimize', 'normalize', 'smallify', 'smallifyrev'].forEach(ctrl => {
+                jsPanel.controls.forEach(ctrl => {
                     jsPanel.setControlStatus(jsP, ctrl, 'remove');
                 });
 
             } else {
 
                 // disable controls individually
-                ['close', 'maximize', 'minimize', 'normalize', 'smallify'].forEach(ctrl => {
+                jsPanel.controls.forEach(ctrl => {
 
                     if (o$headerControls[ctrl] === 'disable') {
 
@@ -3031,7 +2972,7 @@ var jsPanel = {
 
             jsP.header.remove();
             jsP.content.addClass('jsPanel-content-noheader');
-            ['close', 'maximize', 'minimize', 'normalize', 'smallify', 'smallifyrev'].forEach(ctrl => {
+            jsPanel.controls.forEach(ctrl => {
                 jsP[0].setAttribute(`data-btn${ctrl}`, 'removed');
             });
 
@@ -3530,6 +3471,7 @@ var jsPanel = {
         maxwidth:  false,
         minheight: false,
         maxheight: false,
+        resize:    false,
         callback:  false
     };
 
