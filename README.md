@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.4.0 released 2016-10-27](#)
+## [jsPanel 3.4.1 released 2016-11-04](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -114,18 +114,18 @@ $.jsPanel({
     },
     contentAjax: {
     	url:  // some url,
-        done: function (data, textStatus, jqXHR, jsPanel) {
-        	// the keyword "this" inside the function refers to the jsPanel
+        done: function (data, textStatus, jqXHR, panel) {
+        	// the keyword "this" inside the function refers to the panel
         },
-        fail: function (jqXHR, textStatus, errorThrown, jsPanel) {
-        	//the keyword "this" inside the function refers to the jsPanel
+        fail: function (jqXHR, textStatus, errorThrown, panel) {
+        	//the keyword "this" inside the function refers to the panel
         }
     },
     headerTitle: "my example jsPanel",
     theme:       "rebeccapurple",
-    callback: function (jsPanel) {
+    callback: function (panel) {
     	// do whatever you like
-        // the keyword "this" inside the callback function refers to the jsPanel
+        // the keyword "this" inside the callback function refers to the panel
     }
 });
 ```
@@ -235,26 +235,26 @@ $.jsPanel({
 ### [jsPanel defaults:]() | [API &#x1f517;](http://jspanel.de/api/#defaults)<a href="" id="jspanel-defaults"></a>
 ```javascript
 $.jsPanel.defaults = {
-    "autoclose": false,
-    "border": false,
-    "callback": false,
-    "container": 'body',
-    "content": false,
-    "contentAjax": false,
-    "contentIframe": false,
-    "contentOverflow": 'hidden',
-    "contentSize": {
+    autoclose: false,
+    border: false,
+    callback: false,
+    container: 'body',
+    content: false,
+    contentAjax: false,
+    contentIframe: false,
+    contentOverflow: 'hidden',
+    contentSize: {
         width: 400,
         height: 200
     },
-    "custom": false,
-    "dblclicks": false,
-    "draggable": {
+    custom: false,
+    dblclicks: false,
+    draggable: {
         handle: 'div.jsPanel-hdr, div.jsPanel-ftr',
         opacity: 0.8
     },
-    "footerToolbar": false,
-    "headerControls": {
+    footerToolbar: false,
+    headerControls: {
         buttons: true,
         iconfont: 'jsglyph',
         close: false,
@@ -263,72 +263,73 @@ $.jsPanel.defaults = {
         normalize: false,
         smallify: false
     },
-    "headerLogo": false,
-    "headerRemove": false,
-    "headerTitle": 'jsPanel',
-    "headerToolbar": false,
-    "id": () => `jsPanel-${jsPanel.ID += 1}`,
-    "maximizedMargin": {
+    headerLogo: false,
+    headerRemove: false,
+    headerTitle: 'jsPanel',
+    headerToolbar: false,
+    id: () => `jsPanel-${jsPanel.ID += 1}`,
+    maximizedMargin: {
         top: 5,
         right: 5,
         bottom: 5,
         left: 5
     },
-    "onbeforeclose": false,
-    "onbeforemaximize": false,
-    "onbeforeminimize": false,
-    "onbeforenormalize": false,
-    "onbeforesmallify": false,
-    "onbeforeunsmallify": false,
-    "onclosed": false,
-    "onmaximized": false,
-    "onminimized": false,
-    "onnormalized": false,
-    "onbeforeresize": false,
-    "onresized": false,
-    "onsmallified": false,
-    "onunsmallified": false,
-    "onfronted": false,
-    "onwindowresize": false,
-    "position": {
+    minimizeTo: true,
+    onbeforeclose: false,
+    onbeforemaximize: false,
+    onbeforeminimize: false,
+    onbeforenormalize: false,
+    onbeforesmallify: false,
+    onbeforeunsmallify: false,
+    onclosed: false,
+    onmaximized: false,
+    onminimized: false,
+    onnormalized: false,
+    onbeforeresize: false,
+    onresized: false,
+    onsmallified: false,
+    onunsmallified: false,
+    onfronted: false,
+    onwindowresize: false,
+    position: {
         my: 'center',
         at: 'center'
     },
-    "resizable": {
+    resizable: {
         handles: 'n, e, s, w, ne, se, sw, nw',
         autoHide: false,
         minWidth: 40,
         minHeight: 40
     },
-    "rtl": false,
-    "setstatus": false,
-    "show": false,
-    "template": false,
-    "theme": 'default'
+    rtl: false,
+    setstatus: false,
+    show: false,
+    template: false,
+    theme: 'default'
 };
 
 // deviating defaults for modal jsPanels
 $.jsPanel.modaldefaults = {
-    "draggable": 'disabled',
-    "headerControls": {controls: "closeonly"},
-    "position": 'center',
-    "resizable": 'disabled',
-    "onwindowresize": true,
+    draggable: 'disabled',
+    headerControls: {controls: 'closeonly'},
+    position: 'center',
+    resizable: 'disabled',
+    onwindowresize: true,
 };
 
 // deviating defaults for jsPanel tooltips
 $.jsPanel.tooltipdefaults = {
-    "draggable": "disabled"
-    "headerControls": {buttons: "closeonly"},
-    "position": {fixed: false},
-    "resizable": "disabled"
+    draggable: 'disabled',
+    headerControls: {buttons: 'closeonly'},
+    position: {fixed: false},
+    resizable: disabled
 };
 
 // deviating defaults for jsPanel hints
 $.jsPanel.hintdefaults = {
-    "autoclose": 8000,
-    "draggable": "disabled",
-    "headerControls": {buttons: "closeonly"},
-    "resizable": "disabled"
+    autoclose: 8000,
+    draggable: 'disabled',
+    headerControls: {buttons: 'closeonly'},
+    resizable: 'disabled'
 };
 ```

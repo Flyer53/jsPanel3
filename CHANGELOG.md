@@ -1,5 +1,13 @@
 ## CHANGELOG
 
+### Version 3.4.1
+
++ **bugfix in option.border**
++ **new** added parameter **resize** to method .resize() in order to allow passing values for content section size instead of panel size 
++ a few internal code improvements
+
+---
+
 ### Version 3.4.0
 
 + **.setTheme()** and **option.theme** can now be used with a value of *none*. Creates an all white panel without any theme related classes/styles applied
