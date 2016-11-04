@@ -71,7 +71,7 @@ The following example shows a complete html file with the minimium setup:
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>jsPanel - a jQuery Plugin</title>
         <!-- loading jQuery UI css (which theme doesn't matter regarding jsPanel) -->
-        <link rel="stylesheet" href="vendor/jquery-ui-1.12.0.complete/jquery-ui.min.css">
+        <link rel="stylesheet" href="vendor/jquery-ui-1.12.1.complete/jquery-ui.min.css">
         <!-- loading jsPanel css -->
         <link rel="stylesheet" href="source/jquery.jspanel.css">
     </head>
@@ -80,8 +80,8 @@ The following example shows a complete html file with the minimium setup:
         <!-- Your HTML goes here -->
 
         <!-- loading jQuery, jQuery UI and jQuery UI Touch Punch -->
-        <script src="vendor/jquery-3.1.0.min.js"></script>
-        <script src="vendor/jquery-ui-1.12.0.complete/jquery-ui.min.js"></script>
+        <script src="vendor/jquery-3.1.1.min.js"></script>
+        <script src="vendor/jquery-ui-1.12.1.complete/jquery-ui.min.js"></script>
         <script src="vendor/jquery.ui.touch-punch.min.js"></script>
         <!-- loading jsPanel javascript -->
         <script src="source/jquery.jspanel-compiled.js"></script>
