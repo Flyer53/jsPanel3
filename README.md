@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.4.1 released 2016-11-04](#)
+## [jsPanel 3.5.0 released 2016-12-08](#)
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
@@ -45,9 +45,8 @@
 
 ### [Dependencies]()
 + **jQuery 2.x** or **3.x**
-+ **jQuery UI >= v1.9.2 (js and css)** with at least core, widget, mouse, resizable and draggable
-+ **jQuery UI Touch Punch** needed only to enable touch events
 + **HTML5/CSS3 compatible browser** like FF, Chrome, EDGE, Brave and IE11. IE10 and other older browsers are not supported by jsPanel 3.
++ As of version 3.5.0 jQuery ui and jQuery ui touch punch are only required if you still want to use the jQuery ui draggable/resizable interactions
 
 ### [Get the files]()
 Download and extract the jsPanel package to a folder of your choice. You find at least the two folders **source** and **vendor**.
@@ -70,7 +69,7 @@ The following example shows a complete html file with the minimium setup:
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>jsPanel - a jQuery Plugin</title>
-        <!-- loading jQuery UI css (which theme doesn't matter regarding jsPanel) -->
+        <!--  optional: loading jQuery UI css (which theme doesn't matter regarding jsPanel) -->
         <link rel="stylesheet" href="vendor/jquery-ui-1.12.1.complete/jquery-ui.min.css">
         <!-- loading jsPanel css -->
         <link rel="stylesheet" href="source/jquery.jspanel.css">
@@ -79,8 +78,9 @@ The following example shows a complete html file with the minimium setup:
 
         <!-- Your HTML goes here -->
 
-        <!-- loading jQuery, jQuery UI and jQuery UI Touch Punch -->
+        <!-- loading jQuery -->
         <script src="vendor/jquery-3.1.1.min.js"></script>
+        <!-- optional: loading jQuery UI and jQuery UI Touch Punch -->
         <script src="vendor/jquery-ui-1.12.1.complete/jquery-ui.min.js"></script>
         <script src="vendor/jquery.ui.touch-punch.min.js"></script>
         <!-- loading jsPanel javascript -->
@@ -145,6 +145,7 @@ $.jsPanel({
 | `contentSize` | sets the size of the content section of the jsPanel | [API](http://jspanel.de/api/#option/contentSize) |
 | `dblclicks` | configures doubleclick handlers for header, content and footer sections | [API](http://jspanel.de/api/#option/dblclicks) |
 | `delayClose` | sets a delay for the actual removal of a panel upon closing it | [API](http://jspanel.de/api/#option/delayClose) |
+| `dragit` | configures the buitl-in draggable interaction | [API](http://jspanel.de/api/#option/dragit) |
 | `draggable` | configures the draggable interaction | [API](http://jspanel.de/api/#option/draggable) |
 | `footerToolbar` | configures a toolbar for the footer section | [API](http://jspanel.de/api/#option/footerToolbar) |
 | `headerControls` | configures the controls (close, minimize buttons etc.) | [API](http://jspanel.de/api/#option/headerControls) |
@@ -173,7 +174,8 @@ $.jsPanel({
 | `onwindowresize` | enables responsivenes to a window resize event | [API](http://jspanel.de/api/#option/onwindowresize) |
 | `paneltype` | configures a jsPanel for use as **modal**, **tooltip** or **hint/notifier** | [API](http://jspanel.de/api/#option/paneltype) |
 | `position` | sets the position of a jsPanel | [API](http://jspanel.de/api/#option/position) |
-| `resizable` | configures the resizable interaction | [API](http://jspanel.de/api/#option/resizable) |
+| `resizeit` | configures the built-in resizable interaction | [API](http://jspanel.de/api/#option/resizable) |
+| `resizable` | configures the resizable interaction | [API](http://jspanel.de/api/#option/resizeit) |
 | `rtl` | set RTL text direction for the complete jsPanel | [API](http://jspanel.de/api/#option/rtl) |
 | `setstatus` | creates a jsPanel with a specified status (maximized, minimized etc.) | [API](http://jspanel.de/api/#option/setstatus) |
 | `show` | set an entry animation for the jsPanel | [API](http://jspanel.de/api/#option/show) |
@@ -253,6 +255,16 @@ $.jsPanel.defaults = {
         handle: 'div.jsPanel-hdr, div.jsPanel-ftr',
         opacity: 0.8
     },
+    dragit: {
+        axis:        false,
+        containment: false,
+        handles:     '.jsPanel-titlebar, .jsPanel-ftr.active',
+        opacity:     0.8,
+        start:       false,
+        drag:        false,
+        stop:        false,
+        disableui:   false
+    },
     footerToolbar: false,
     headerControls: {
         buttons: true,
@@ -301,6 +313,18 @@ $.jsPanel.defaults = {
         minWidth: 40,
         minHeight: 40
     },
+    resizeit: {
+        containment: false,
+        handles:     'n, e, s, w, ne, se, sw, nw',
+        minWidth:    40,
+        minHeight:   40,
+        maxWidth:    10000,
+        maxHeight:   10000,
+        start:       false,
+        resize:      false,
+        stop:        false,
+        disableui:   false
+    },
     rtl: false,
     setstatus: false,
     show: false,
@@ -311,25 +335,31 @@ $.jsPanel.defaults = {
 // deviating defaults for modal jsPanels
 $.jsPanel.modaldefaults = {
     draggable: 'disabled',
+    dragit: false,
     headerControls: {controls: 'closeonly'},
     position: 'center',
     resizable: 'disabled',
+    resizeit: false,
     onwindowresize: true,
 };
 
 // deviating defaults for jsPanel tooltips
 $.jsPanel.tooltipdefaults = {
     draggable: 'disabled',
+    dragit: false,
     headerControls: {buttons: 'closeonly'},
     position: {fixed: false},
-    resizable: disabled
+    resizable: disabled,
+    resizeit: false,
 };
 
 // deviating defaults for jsPanel hints
 $.jsPanel.hintdefaults = {
     autoclose: 8000,
     draggable: 'disabled',
+    dragit: false,
     headerControls: {buttons: 'closeonly'},
-    resizable: 'disabled'
+    resizable: 'disabled',
+    resizeit: false,
 };
 ```

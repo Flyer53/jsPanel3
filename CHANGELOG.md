@@ -1,5 +1,25 @@
 ## CHANGELOG
 
+### Version 3.5.0
+
+The most important changes to v3.5.0 are the new options **dragit** and **resizeit** which implement a
+**built-in draggable/resizable capability** with pointerEvent and touch support independent from jQuery ui.
+Therefore as of version 3.5.0 jsPanel no longer requires jQuery ui and jQuery ui touch punch.
+But in order not to break existing code the jQuery ui daggable/resizable interactions are still
+supported and used by default if available.
+
+Further changes:
++ **css fix** affecting only childpanels (panels that are appended to content section of other panel)
++ **css tweaks** for minimized replacements, panels without header/footer section
++ **css/js tweaks** for header logos
++ **option.template** now works also within a predefined configuration used with option.config
++ **option.maximizedMargin** now also accepts a configuration passed as array
++ **option.maximizedMargin** array can be used to synchronize maximizedMargin, option.dragit.containment and option.resizeit.containment
++ **new:** option.position parameter `false` to skip positioning completely
++ **jsPanel.closeOnEscape** now also accepts a string "closeparent" to directly close a parentpanel
+
+---
+
 ### Version 3.4.1
 
 + **bugfix in option.border**

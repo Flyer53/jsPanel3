@@ -1,5 +1,5 @@
 @charset "UTF-8"
-/* jspanel.sass: 2016-10-20 15:08 */
+/* jspanel.sass: 2016-12-06 12:58 */
 // http://stackoverflow.com/questions/30421570/sass-unicode-escape-is-not-preserved-in-css-file
 @function unicode($str)
   @return unquote("\"")+unquote(str-insert($str, "\\", 1))+unquote("\"")
@@ -115,6 +115,7 @@
 
   img
     vertical-align: middle
+    max-height: 38px
 
 
 .jsPanel-titlebar
@@ -305,16 +306,25 @@
 
   .jsPanel-replacement
     width: 200px
-    height: 36px
+    height: 40px
     margin: 1px 1px 0 0
     z-index: 9999
 
     .jsPanel-hdr
       padding: 0
 
+      .jsPanel-headerlogo
+        max-width: 50%
+        overflow: hidden
+
+        img
+          max-width: 100px
+          max-height: 38px
+
     .jsPanel-titlebar
       -ms-flex: 1 1 60%
       flex: 1 1 0
+      cursor: default
 
     .jsPanel-btn.jsPanel-btn-normalize
       display: block
@@ -364,6 +374,70 @@
   flex-flow: row wrap
 
 
+/* css for resizeit handles ------------------------- */
+.jsPanel-resizeit-handle
+  display: block
+  font-size: 0.1px
+  position: absolute
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-n
+  cursor: n-resize
+  height: 10px
+  left: 0
+  top: -5px
+  width: 100%
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-e
+  cursor: e-resize
+  height: 100%
+  right: -5px
+  top: 0
+  width: 10px
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-s
+  bottom: -5px
+  cursor: s-resize
+  height: 10px
+  left: 0
+  width: 100%
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-w
+  cursor: w-resize
+  height: 100%
+  left: -5px
+  top: 0
+  width: 10px
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-ne
+  cursor: ne-resize
+  height: 12px
+  right: -6px
+  top: -6px
+  width: 12px
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-se
+  bottom: 1px
+  cursor: se-resize
+  height: 12px
+  right: 1px
+  width: 12px
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-sw
+  bottom: -6px
+  cursor: sw-resize
+  height: 12px
+  left: -6px
+  width: 12px
+
+.jsPanel-resizeit-handle.jsPanel-resizeit-nw
+  cursor: nw-resize
+  height: 12px
+  left: -6px
+  top: -6px
+  width: 12px
+
+
+
 
 /* bootstrap adjustments */
 .jsPanel.panel-default, .jsPanel.panel-primary, .jsPanel.panel-info, .jsPanel.panel-success, .jsPanel.panel-warning, .jsPanel.panel-danger, .jsPanel.card.card-inverse
@@ -409,16 +483,6 @@
 
 
 
-/* jQuery-UI adjustments */
-.ui-icon-gripsmall-diagonal-se 
-  background: none repeat scroll 0 0 rgba(0, 0, 0, 0)
-  color: #fff
-
-.ui-icon-gripsmall-diagonal-se:before 
-  content: ''
-
-
-
 /* css3 animations */
 @keyframes jsPanelFadeIn
   0%
@@ -439,8 +503,8 @@
 
 // these styles need to be after the themes
 .jsPanel-content.jsPanel-content-noheader
-  border-top-left-radius: 0
-  border-top-right-radius: 0
+  border-top-left-radius: 3px
+  border-top-right-radius: 3px
   border: none !important
 
 .jsPanel-content.jsPanel-content-nofooter
