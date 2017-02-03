@@ -1,4 +1,4 @@
-/* jquery.jspanel.js file version and date: 3.5.0 2016-12-08 12:25 */
+/* jquery.jspanel.js file version and date: 3.5.1 2017-01-31 16:14 */
 /* global jsPanel */
 'use strict';
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
@@ -117,8 +117,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version:             '3.5.0',
-    date:                '2016-12-08 12:25',
+    version:             '3.6.0',
+    date:                '2017-01-31 16:14',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -202,78 +202,78 @@ var jsPanel = {
     addConnector(panel) {
         const bgColor = panel.option.paneltype.connectorBG || null;
 
-        if (panel.hasClass('jsPanel-tooltip-top')) {
+        if (panel[0].classList.contains('jsPanel-tooltip-top')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-top">');
             $('.jsPanel-connector-top', panel).css('border-top-color', bgColor || this.calcConnectorBg(panel, 'top'));
             panel.option.position.offsetY = panel.option.position.offsetY - 10 || -10;
 
-        } else if (panel.hasClass('jsPanel-tooltip-bottom')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-bottom')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-bottom">');
             $('.jsPanel-connector-bottom', panel).css('border-bottom-color', bgColor || this.calcConnectorBg(panel, 'bottom'));
             panel.option.position.offsetY = panel.option.position.offsetY + 10 || 10;
 
-        } else if (panel.hasClass('jsPanel-tooltip-left')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-left')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-left">');
             $('.jsPanel-connector-left', panel).css('border-left-color', bgColor || this.calcConnectorBg(panel, 'left'));
             panel.option.position.offsetX = panel.option.position.offsetX - 12 || -12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-right')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-right')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-right">');
             $('.jsPanel-connector-right', panel).css('border-right-color', bgColor || this.calcConnectorBg(panel, 'right'));
             panel.option.position.offsetX = panel.option.position.offsetX + 12 || 12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-lefttopcorner')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-lefttopcorner')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-lefttopcorner">');
             $('.jsPanel-connector-lefttopcorner', panel).css('background-color', bgColor || this.calcConnectorBg(panel, 'lefttopcorner'));
 
-        } else if (panel.hasClass('jsPanel-tooltip-righttopcorner')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-righttopcorner')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-righttopcorner">');
             $('.jsPanel-connector-righttopcorner', panel).css('background-color', bgColor || this.calcConnectorBg(panel, 'righttopcorner'));
 
-        } else if (panel.hasClass('jsPanel-tooltip-rightbottomcorner')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-rightbottomcorner')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-rightbottomcorner">');
             $('.jsPanel-connector-rightbottomcorner', panel).css('background-color', bgColor || this.calcConnectorBg(panel, 'rightbottomcorner'));
 
-        } else if (panel.hasClass('jsPanel-tooltip-leftbottomcorner')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-leftbottomcorner')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-leftbottomcorner">');
             $('.jsPanel-connector-leftbottomcorner', panel).css('background-color', bgColor || this.calcConnectorBg(panel, 'leftbottomcorner'));
 
-        } else if (panel.hasClass('jsPanel-tooltip-lefttop')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-lefttop')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-lefttop">');
             $('.jsPanel-connector-lefttop', panel).css('border-left-color', bgColor || this.calcConnectorBg(panel, 'lefttop'));
             panel.option.position.offsetX = panel.option.position.offsetX - 12 || -12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-leftbottom')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-leftbottom')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-leftbottom">');
             $('.jsPanel-connector-leftbottom', panel).css('border-left-color', bgColor || this.calcConnectorBg(panel, 'leftbottom'));
             panel.option.position.offsetX = panel.option.position.offsetX - 12 || -12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-topleft')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-topleft')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-topleft">');
             $('.jsPanel-connector-topleft', panel).css('border-top-color', bgColor || this.calcConnectorBg(panel, 'topleft'));
             panel.option.position.offsetY = panel.option.position.offsetY - 10 || -10;
 
-        } else if (panel.hasClass('jsPanel-tooltip-topright')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-topright')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-topright">');
             $('.jsPanel-connector-topright', panel).css('border-top-color', bgColor || this.calcConnectorBg(panel, 'topright'));
             panel.option.position.offsetY = panel.option.position.offsetY - 10 || -10;
 
-        } else if (panel.hasClass('jsPanel-tooltip-righttop')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-righttop')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-righttop">');
             $('.jsPanel-connector-righttop', panel).css('border-right-color', bgColor || this.calcConnectorBg(panel, 'righttop'));
             panel.option.position.offsetX = panel.option.position.offsetX + 12 || 12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-rightbottom')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-rightbottom')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-rightbottom">');
             $('.jsPanel-connector-rightbottom', panel).css('border-right-color', bgColor || this.calcConnectorBg(panel, 'rightbottom'));
             panel.option.position.offsetX = panel.option.position.offsetX + 12 || 12;
 
-        } else if (panel.hasClass('jsPanel-tooltip-bottomleft')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-bottomleft')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-bottomleft">');
             $('.jsPanel-connector-bottomleft', panel).css('border-bottom-color', bgColor || this.calcConnectorBg(panel, 'bottomleft'));
             panel.option.position.offsetY = panel.option.position.offsetY + 10 || 10;
 
-        } else if (panel.hasClass('jsPanel-tooltip-bottomright')) {
+        } else if (panel[0].classList.contains('jsPanel-tooltip-bottomright')) {
             panel.append('<div class="jsPanel-connector jsPanel-connector-bottomright">');
             $('.jsPanel-connector-bottomright', panel).css('border-bottom-color', bgColor || this.calcConnectorBg(panel, 'bottomright'));
             panel.option.position.offsetY = panel.option.position.offsetY + 10 || 10;
@@ -331,21 +331,21 @@ var jsPanel = {
     },
 
     applyBuiltInTheme(panel, themeDetails) {
+        panel[0].classList.add(`jsPanel-theme-${themeDetails.color}`);  // do not remove theme from jsP
+        if (panel.header[0]) {
+            panel.header[0].classList.add(`jsPanel-theme-${themeDetails.color}`);
+        }
 
-        panel.addClass(`jsPanel-theme-${themeDetails.color}`)  // do not remove theme from jsP
-            .header.addClass(`jsPanel-theme-${themeDetails.color}`);
-
-        // optionally set theme style
+        // optionally set theme filling
         if (themeDetails.filling === 'filled') {
-            panel.content.css('background', '').addClass('jsPanel-content-filled');
+            panel.content.css('background', '')[0].classList.add('jsPanel-content-filled');
         } else if (themeDetails.filling === 'filledlight') {
-            panel.content.css('background', '').addClass('jsPanel-content-filledlight');
+            panel.content.css('background', '')[0].classList.add('jsPanel-content-filledlight');
         }
 
         if (!panel.option.headerToolbar) {
             panel.content.css({borderTop: `1px solid ${panel.header.title.css('color')}`});
         }
-
     },
 
     applyArbitraryTheme(panel, themeDetails) {
@@ -380,12 +380,13 @@ var jsPanel = {
     },
 
     applyBootstrapTheme(panel, themeDetails) {
-
         let pColor;
 
-        panel.addClass(`panel panel-${themeDetails.bstheme} card card-inverse card-${themeDetails.bstheme}`)
-            .header.addClass('panel-heading')
-            .title.addClass('panel-title');
+        panel.addClass(`panel panel-${themeDetails.bstheme} card card-inverse card-${themeDetails.bstheme}`);
+        if (panel.header[0]) {
+            panel.header[0].classList.add('panel-heading');
+            panel.header.title[0].classList.add('panel-title');
+        }
 
         // added support for material-design-for-bootstrap 4.x colors
         if (themeDetails.bs === 'mdb') {
@@ -393,16 +394,16 @@ var jsPanel = {
             if (themeDetails.mdbStyle) {
                 mdbColor = `${mdbColor}-dark`;
             }
-            panel.removeClass(`panel panel-${themeDetails.bstheme}`)
-                .addClass(mdbColor);
+            panel.removeClass(`panel panel-${themeDetails.bstheme}`);
+            panel[0].classList.add(mdbColor);
         }
         // ----------------------------------------------------
 
-        panel.content.addClass('panel-body')
+        panel.content[0].classList.add('panel-body');
             // fix css problems for panels nested in other bootstrap panels
-            .css('border-top-color', () => {
-                return panel.header.css('border-top-color');
-            });
+        panel.content.css('border-top-color', () => {
+            return panel.header.css('border-top-color');
+        });
 
         panel.footer.addClass('panel-footer card-footer');
 
@@ -519,13 +520,13 @@ var jsPanel = {
             panel.removeClass(`panel card card-inverse jsPanel-theme-${value} panel-${value} card-${value} ${value}-color`);
             panel.header.removeClass(`panel-heading jsPanel-theme-${value}`);
         });
-        $('.jsPanel-content', panel).removeClass('jsPanel-content-filled jsPanel-content-filledlight');
+        panel.content.removeClass('panel-body jsPanel-content-filled jsPanel-content-filledlight');
         panel.css({borderWidth: '', borderStyle: '', borderColor: ''});
         $('.jsPanel-hdr, .jsPanel-content', panel).css({background: ''});
         $('.jsPanel-headerlogo, .jsPanel-title, .jsPanel-controlbar .jsPanel-btn .jsglyph, .jsPanel-hdr-toolbar, .jsPanel-content', panel).css({color: ''});
         panel.header.title.removeClass('panel-title');
         panel.header.toolbar.css({boxShadow: '', width: '', marginLeft: ''});
-        panel.content.removeClass('panel-body').css({borderTop: '', borderTopColor: ''});
+        panel.css({borderTop: '', borderTopColor: ''});
         panel.footer.removeClass('panel-footer card-footer');
     },
 
@@ -583,7 +584,7 @@ var jsPanel = {
 
                 // remove class hasTooltip from tooltip trigger if panel to close is tooltip
                 if (panel.option.paneltype.tooltip) {
-                    $(trigger).removeClass('hasTooltip');
+                    trigger.classList.remove('hasTooltip');
                 }
 
                 $(document).trigger('jspanelclosed', id);
@@ -602,7 +603,7 @@ var jsPanel = {
 
                     // remove classname from all panels
                     panels.each(function (index, elmt) {
-                        $(elmt).removeClass(pos);
+                        elmt.classList.remove(pos);
                     });
 
                     // reposition remaining autopositioned panels
@@ -975,18 +976,16 @@ var jsPanel = {
                 }
                 // add class to button
                 if (typeof item.btnclass === 'string') {
-                    el.addClass(item.btnclass);
+                    el[0].classList.add(item.btnclass);
                 }
 
                 toolbarplace.append(el);
 
                 // bind handler to the item
                 if ($.isFunction(item.callback)) {
-
                     const elEvent = item.event || 'click';
                     el.on(elEvent, panel, item.callback);
                     // jsP is accessible in the handler as "event.data"
-
                 }
 
             }
@@ -1013,7 +1012,7 @@ var jsPanel = {
     },
 
     contentResize(panel, callback) {
-        const hdrftr = panel.footer.hasClass('active') ? panel.header.outerHeight() + panel.footer.outerHeight() : panel.header.outerHeight(),
+        const hdrftr = panel.footer[0].classList.contains('active') ? panel.header.outerHeight() + panel.footer.outerHeight() : panel.header.outerHeight(),
             borderWidth = parseInt(panel.css('border-top-width'), 10) + parseInt(panel.css('border-bottom-width'), 10);
 
         panel.content.css({height: panel.outerHeight() - hdrftr - borderWidth});
@@ -1611,7 +1610,7 @@ var jsPanel = {
                 //  jsPanel specific code ---------------------------------------
                 if (($(elmt).data('status') === 'smallified' || $(elmt).data('status') === 'smallifiedMax') && $(elmt).height() > $(elmt).header.height()) {
                 // ... and only when element height changed
-                $(elmt).hideControls('.jsPanel-btn-normalize, .jsPanel-btn-smallifyrev');
+                $(elmt).hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
                 $(elmt).data('status', 'normalized');
                 $(document).trigger('jspanelnormalized');
                 $(document).trigger('jspanelstatuschange');
@@ -1795,9 +1794,7 @@ var jsPanel = {
     // get panel with highest z-index (only standard and modal panels, no hints or tooltips)
     getTopmostPanel() {
         let array = [];
-        const panels = $('.jsPanel:not(.jsPanel-tooltip):not(.jsPanel-hint)');
-
-        panels.each(function (index, item) {
+        $('.jsPanel:not(.jsPanel-tooltip):not(.jsPanel-hint)').each(function (index, item) {
             array.push(item);
         });
 
@@ -1924,11 +1921,10 @@ var jsPanel = {
          *       panelConfig = { default: { } [, config1 [, config2 [, configN ]]] };
          */
 
-        const savedPanels = JSON.parse(localStorage[name]),
-            defaultConfig = predefinedConfigs['default'] || {};
+        const defaultConfig = predefinedConfigs['default'] || {};
         let restoredConfig;
 
-        savedPanels.forEach((savedconfig) => {
+        JSON.parse(localStorage[name]).forEach((savedconfig) => {
 
             // savedconfig represents one item in savedPanels
             if (typeof savedconfig.custom.config === 'string') {
@@ -1953,10 +1949,17 @@ var jsPanel = {
         const backdropCount = $('.jsPanel-modal-backdrop').length,
             backdropClass = backdropCount === 0 ? 'jsPanel-modal-backdrop' : 'jsPanel-modal-backdrop jsPanel-modal-backdrop-multi',
             backdrop = `<div id="jsPanel-modal-backdrop-${panel.attr('id')}" class="${backdropClass}" style="z-index:${this.modalcount + 9999}"></div>`;
-
         $('body').append(backdrop);
         this.modalcount += 1;
-        $(`#jsPanel-modal-backdrop-${panel.attr('id')}`).animate({opacity: 0.65}, 750);
+    },
+
+    removeModalBackdrop(panel) {
+        const backdrop = $(`#jsPanel-modal-backdrop-${panel.attr('id')}`);
+        backdrop[0].classList.add('jsPanel-modal-backdrop-out');
+        const delay = parseFloat(backdrop.css('animation-duration'), 10) * 1000;
+        window.setTimeout(function() {
+            backdrop.remove();
+        }, delay);
     },
 
     lighten(val, amount) {
@@ -2039,7 +2042,7 @@ var jsPanel = {
             panel.css('z-index', this.setZi(panel));
         }
 
-        panel.hideControls('.jsPanel-btn-maximize, .jsPanel-btn-smallifyrev');
+        panel.hideControls(['.jsPanel-btn-maximize', '.jsPanel-btn-smallifyrev']);
 
         // remove replacement if present
         this.remMinReplacement(panel);
@@ -2192,8 +2195,7 @@ var jsPanel = {
             },
             overflow: 'visible'
         }).data('status', 'normalized').contentResize();
-
-        panel.hideControls('.jsPanel-btn-normalize, .jsPanel-btn-smallifyrev');
+        panel.hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
 
         // remove replacement
         this.remMinReplacement(panel);
@@ -2642,44 +2644,34 @@ var jsPanel = {
             elmtToPosition.classList.add(newClass); // IE9 doesn't support classList
 
             // get all elmts with 'newClass' within parent of elmtToPosition
-            const list = document.getElementsByClassName(newClass);
-
-            for (let i = 0; i < list.length; i++) {
-
-                if (list[i].parentElement === parentElmt) {
-
-                    allNewClass.push(list[i]);
-
-                }
-
-            }
+            allNewClass = Array.prototype.slice.call(parentElmt.getElementsByClassName(newClass));
 
             if (option.autoposition === 'DOWN') {
-
                 // collect heights of all elmts to calc new top position
-                for (let i = 0; i < allNewClass.length - 1; i++) {
-                    newCoordsTop += allNewClass[i].getBoundingClientRect().height + this.autopositionSpacing;
-                }
-
+                allNewClass.forEach(function (item, index) {
+                    if (index > 0) {
+                        newCoordsTop += allNewClass[--index].getBoundingClientRect().height + jsPanel.autopositionSpacing;
+                    }
+                });
             } else if (option.autoposition === 'UP') {
-
-                for (let i = 0; i < allNewClass.length - 1; i++) {
-                    newCoordsTop -= allNewClass[i].getBoundingClientRect().height + this.autopositionSpacing;
-                }
-
+                allNewClass.forEach(function (item, index) {
+                    if (index > 0) {
+                        newCoordsTop -= allNewClass[--index].getBoundingClientRect().height + jsPanel.autopositionSpacing;
+                    }
+                });
             } else if (option.autoposition === 'RIGHT') {
-
                 // collect widths of all elmts to calc new left position
-                for (let i = 0; i < allNewClass.length - 1; i++) {
-                    newCoordsLeft += allNewClass[i].getBoundingClientRect().width + this.autopositionSpacing;
-                }
-
+                allNewClass.forEach(function (item, index) {
+                    if (index > 0) {
+                        newCoordsLeft += allNewClass[--index].getBoundingClientRect().width + jsPanel.autopositionSpacing;
+                    }
+                });
             } else if (option.autoposition === 'LEFT') {
-
-                for (let i = 0; i < allNewClass.length - 1; i++) {
-                    newCoordsLeft -= allNewClass[i].getBoundingClientRect().width + this.autopositionSpacing;
-                }
-
+                allNewClass.forEach(function (item, index) {
+                    if (index > 0) {
+                        newCoordsLeft -= allNewClass[--index].getBoundingClientRect().width + jsPanel.autopositionSpacing;
+                    }
+                });
             }
 
         }
@@ -2714,17 +2706,6 @@ var jsPanel = {
     remMinReplacement(panel) {
         $(`[id^="${panel.prop('id')}-min"]`).remove();
         // see http://stackoverflow.com/questions/22755867/javascript-call-remove-twice-to-remove-element
-    },
-
-    removeModalBackdrop(panel) {
-        $(`#jsPanel-modal-backdrop-${panel.attr('id')}`).animate({
-            opacity: 0
-        }, {
-            duration: 500,
-            done:     function () {
-                $(this).remove();
-            }
-        });
     },
 
     reposition(panel, position = panel.option.position, callback) {
@@ -2767,9 +2748,7 @@ var jsPanel = {
     // reset all z-index values for non-modal jsPanels
     resetZis() {
         let array = [];
-        const panels = $('.jsPanel:not(.jsPanel-modal):not(.jsPanel-hint)');
-
-        panels.each(function (index, item) {
+        $('.jsPanel:not(.jsPanel-modal):not(.jsPanel-hint)').each(function (index, item) {
             array.push(item);
         });
 
@@ -2920,79 +2899,77 @@ var jsPanel = {
     },
 
     setTooltipClass(panel) {
-
         const pos = panel.option.position.my + panel.option.position.at;
 
         if (pos === 'center-bottomcenter-top') {
 
-            panel.addClass('jsPanel-tooltip-top');
+            panel[0].classList.add('jsPanel-tooltip-top');
 
         } else if (pos === 'left-bottomright-top') {
 
-            panel.addClass('jsPanel-tooltip-righttopcorner');
+            panel[0].classList.add('jsPanel-tooltip-righttopcorner');
 
         } else if (pos === 'left-centerright-center') {
 
-            panel.addClass('jsPanel-tooltip-right');
+            panel[0].classList.add('jsPanel-tooltip-right');
 
         } else if (pos === 'left-topright-bottom') {
 
-            panel.addClass('jsPanel-tooltip-rightbottomcorner');
+            panel[0].classList.add('jsPanel-tooltip-rightbottomcorner');
 
         } else if (pos === 'center-topcenter-bottom') {
 
-            panel.addClass('jsPanel-tooltip-bottom');
+            panel[0].classList.add('jsPanel-tooltip-bottom');
 
         } else if (pos === 'right-topleft-bottom') {
 
-            panel.addClass('jsPanel-tooltip-leftbottomcorner');
+            panel[0].classList.add('jsPanel-tooltip-leftbottomcorner');
 
         } else if (pos === 'right-centerleft-center') {
 
-            panel.addClass('jsPanel-tooltip-left');
+            panel[0].classList.add('jsPanel-tooltip-left');
 
         } else if (pos === 'right-bottomleft-top') {
 
-            panel.addClass('jsPanel-tooltip-lefttopcorner');
+            panel[0].classList.add('jsPanel-tooltip-lefttopcorner');
 
         } else if (pos === 'centercenter') {
 
-            panel.addClass('jsPanel-tooltip-center');
+            panel[0].classList.add('jsPanel-tooltip-center');
 
         } else if (pos === 'right-topleft-top') {
 
-            panel.addClass('jsPanel-tooltip-lefttop');
+            panel[0].classList.add('jsPanel-tooltip-lefttop');
 
         } else if (pos === 'right-bottomleft-bottom') {
 
-            panel.addClass('jsPanel-tooltip-leftbottom');
+            panel[0].classList.add('jsPanel-tooltip-leftbottom');
 
         } else if (pos === 'left-bottomleft-top') {
 
-            panel.addClass('jsPanel-tooltip-topleft');
+            panel[0].classList.add('jsPanel-tooltip-topleft');
 
         } else if (pos === 'right-bottomright-top') {
 
-            panel.addClass('jsPanel-tooltip-topright');
+            panel[0].classList.add('jsPanel-tooltip-topright');
 
         } else if (pos === 'left-topright-top') {
 
-            panel.addClass('jsPanel-tooltip-righttop');
+            panel[0].classList.add('jsPanel-tooltip-righttop');
 
         } else if (pos === 'left-bottomright-bottom') {
 
-            panel.addClass('jsPanel-tooltip-rightbottom');
+            panel[0].classList.add('jsPanel-tooltip-rightbottom');
 
         } else if (pos === 'left-topleft-bottom') {
 
-            panel.addClass('jsPanel-tooltip-bottomleft');
+            panel[0].classList.add('jsPanel-tooltip-bottomleft');
 
         } else if (pos === 'right-topright-bottom') {
 
-            panel.addClass('jsPanel-tooltip-bottomright');
+            panel[0].classList.add('jsPanel-tooltip-bottomright');
 
         }
-
     },
 
     setTooltipMode(panel, trigger) {
@@ -3001,7 +2978,7 @@ var jsPanel = {
                 () => $.noop(),
                 () => {
                     panel.close();
-                    $(trigger).removeClass('hasTooltip');
+                    trigger.classList.remove('hasTooltip');
                 }
             );
         } else if (panel.option.paneltype.mode === 'sticky') {
@@ -3011,7 +2988,7 @@ var jsPanel = {
             // tooltip will be removed whenever mouse leaves trigger
             $(trigger).mouseout(() => {
                 panel.close();
-                $(trigger).removeClass('hasTooltip');
+                trigger.classList.remove('hasTooltip');
             });
         }
     },
@@ -3031,7 +3008,7 @@ var jsPanel = {
 
     // returns a z-index value for a panel in order to have it on top
     setZi(panel) {
-        if (!panel.hasClass('jsPanel-modal')) {
+        if (!panel[0].classList.contains('jsPanel-modal')) {
             if ((this.zi += 1) > panel.css('z-index')) {
                 panel.css('z-index', this.zi);
             }
@@ -3061,11 +3038,11 @@ var jsPanel = {
                     done: function () {
 
                         if (panel.data('status') === 'maximized') {
-                            panel.hideControls('.jsPanel-btn-maximize, .jsPanel-btn-smallify');
+                            panel.hideControls(['.jsPanel-btn-maximize', '.jsPanel-btn-smallify']);
                             panel.data('status', 'smallifiedMax');
                             $(document).trigger('jspanelsmallifiedmax', id);
                         } else {
-                            panel.hideControls('.jsPanel-btn-normalize, .jsPanel-btn-smallify');
+                            panel.hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallify']);
                             panel.data('status', 'smallified');
                             $(document).trigger('jspanelsmallified', id);
                         }
@@ -3095,11 +3072,11 @@ var jsPanel = {
             }, {
                 done: function () {
                     if (panel.data('status') === 'smallified') {
-                        panel.hideControls('.jsPanel-btn-normalize, .jsPanel-btn-smallifyrev');
+                        panel.hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
                         panel.data('status', 'normalized');
                         $(document).trigger('jspanelnormalized', id);
                     } else {
-                        panel.hideControls('.jsPanel-btn-maximize, .jsPanel-btn-smallifyrev');
+                        panel.hideControls(['.jsPanel-btn-maximize', '.jsPanel-btn-smallifyrev']);
                         panel.data('status', 'maximized');
                         $(document).trigger('jspanelmaximized', id);
                     }
@@ -3127,7 +3104,7 @@ var jsPanel = {
     toolbarAdd(panel, place, items, callback) {
         if (place === 'header') {
 
-            panel.header.toolbar.addClass('active');
+            panel.header.toolbar[0].classList.add('active');
             if ($.isArray(items)) {
                 this.configToolbar(items, panel.header.toolbar, panel);
             } else if ($.isFunction(items)) {
@@ -3138,8 +3115,8 @@ var jsPanel = {
 
         } else if (place === 'footer') {
 
-            panel.content.removeClass('jsPanel-content-nofooter');
-            panel.footer.addClass('active');
+            panel.content[0].classList.remove('jsPanel-content-nofooter');
+            panel.footer[0].classList.add('active');
             if (panel.option.theme === 'none') {
                 panel.footer.css({background: 'transparent', borderTop: 'none'});
             }
@@ -3213,7 +3190,7 @@ var jsPanel = {
 
         // create a variable for every option used within $.jsPanel()
         let {
-            autoclose: o$autoclose, border: o$border, callback: o$callback, container: o$container, content: o$content,
+            autoclose: o$autoclose, border: o$border, callback: o$callback, closeOnEscape: o$closeOnEsc, container: o$container, content: o$content,
             contentAjax: o$contentAjax, contentIframe: o$contentIframe, contentOverflow: o$contentOverflow,
             contentSize: o$contentSize, custom: o$custom, dblclicks: o$dblclicks, draggable: o$draggable, dragit: o$dragit,
             footerToolbar: o$footerToolbar, headerControls: o$headerControls, headerLogo: o$headerLogo,
@@ -3226,26 +3203,22 @@ var jsPanel = {
         if (o$paneltype.tooltip) {
             // the elmt triggering the tooltip
             trigger = jsPanel.setTrigger(o$position);
-
             // if panel to create is a tooltip and the trigger already has a tooltip exit jsPanel()
-            if ($(trigger).hasClass('hasTooltip')) {
-                return false;
-            }
+            if (trigger.classList.contains('hasTooltip')) {return false;}
         }
 
         // option.id ---------------------------------------------------------------------------------------------------
         if (typeof o$id === 'string') {
             pid = o$id;
-        } else if ($.isFunction(o$id)) {
+        } else if (typeof o$id === 'function') {
             pid = o$id();
         }
-
         // check whether id already exists in document
         if ($(`#${pid}`).length > 0) {
             console.warn('jsPanel Error: No jsPanel created - id attribute passed with option.id already exists in document');
             return false;
         } else {
-            jsP.attr('id', pid);
+            jsP[0].id = pid;
         }
 
         jsP.data('custom', o$custom);
@@ -3276,9 +3249,13 @@ var jsPanel = {
         jsP.headerTitle = (text) => jsPanel.headerTitle(jsP, text);
 
         jsP.hideControls = (sel) => {
-            const controls = jsP.header.controls;
-            $('div', controls).css('display', 'block');
-            $(sel, controls).css('display', 'none');
+            // NodeList.forEach() is not supported by all browsers yet -> convert to array
+            Array.prototype.slice.call(jsP.header.controls[0].getElementsByClassName('jsPanel-btn')).forEach(function (item) {
+                item.style.display = 'block';
+            });
+            sel.forEach(function (item) {
+                jsP.header.controls[0].querySelector(item).style.display = 'none';
+            });
         }; /* used only internally */
 
         jsP.maximize = (callback) => jsPanel.maximize(jsP, callback);
@@ -3457,7 +3434,7 @@ var jsPanel = {
 
         } else {
             jsP.header.remove();
-            jsP.content.addClass('jsPanel-content-noheader');
+            jsP.content[0].classList.add('jsPanel-content-noheader');
             jsPanel.controls.forEach(ctrl => {
                 jsP[0].setAttribute(`data-btn${ctrl}`, 'removed');
             });
@@ -3474,16 +3451,18 @@ var jsPanel = {
         if (o$paneltype === 'modal') {
 
             jsPanel.insertModalBackdrop(jsP);
-            jsP.addClass('jsPanel-modal').css('z-index', jsPanel.modalcount + 9999);
+            jsP[0].classList.add('jsPanel-modal');
+            jsP.css('z-index', jsPanel.modalcount + 9999);
 
         } else if (o$paneltype === 'hint') {
 
-            jsP.addClass('jsPanel-hint').css('z-index', 10000);
+            jsP[0].classList.add('jsPanel-hint');
+            jsP.css('z-index', 10000);
 
         } else if (o$paneltype.tooltip) {
 
             trigger = jsPanel.setTrigger(o$position); // elmt triggering the tooltip
-            jsP.addClass('jsPanel-tooltip');
+            jsP[0].classList.add('jsPanel-tooltip');
             jsPanel.setTooltipClass(jsP);
             if (o$paneltype.solo) {
                 jsPanel.closeTooltips();
@@ -3492,7 +3471,7 @@ var jsPanel = {
 
         }
 
-        if (o$paneltype.tooltip) {$(trigger).addClass('hasTooltip');}
+        if (o$paneltype.tooltip) {trigger.classList.add('hasTooltip');}
 
         /* option.headerToolbar | default: false -------------------------------------------------------------------- */
         if (o$headerToolbar && !o$headerRemove) {jsP.toolbarAdd('header', o$headerToolbar);}
@@ -3668,7 +3647,9 @@ var jsPanel = {
         }
 
         /* option.show ---------------------------------------------------------------------------------------------- */
-        if (typeof o$show === 'string') {jsP.addClass(o$show).css('opacity', 1);} //extra call to jQuery.css() needed for EDGE
+        if (typeof o$show === 'string') {
+            jsP.addClass(o$show).css('opacity', 1); //extra call to jQuery.css() needed for EDGE
+        }
 
         /* option.headerTitle | needs to be late in the file! ------------------------------------------------------- */
         jsP.header.title.empty().prepend(o$headerTitle);
@@ -3692,7 +3673,7 @@ var jsPanel = {
             jsP.on('resizestop', function () {
                 if (jsP.data('status') === 'smallified' || jsP.data('status') === 'smallifiedMax') {
                     // ... and only when panel height changed
-                    jsP.hideControls('.jsPanel-btn-normalize, .jsPanel-btn-smallifyrev');
+                    jsP.hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
                     jsP.data('status', 'normalized');
                     $(document).trigger('jspanelnormalized', pid);
                     $(document).trigger('jspanelstatuschange', pid);
@@ -3705,15 +3686,20 @@ var jsPanel = {
         }
         jsP.on('mousedown', (e) => {
 
-            if ($(e.target).hasClass('jsglyph-close') || $(e.target).hasClass('jsglyph-minimize')) {
+            if (e.target.classList.contains('jsglyph-close') || e.target.classList.contains('jsglyph-minimize')) {
                 return;
             }
             const zi = $(e.target).closest('.jsPanel').css('z-index');
-            if (!jsP.hasClass('jsPanel-modal') && zi <= jsPanel.zi) {
+            if (!jsP[0].classList.contains('jsPanel-modal') && zi <= jsPanel.zi) {
                 jsP.front();
             }
 
         }); // handler to move panel to foreground
+
+        /* option.closeOnEscape ------------------------------------------------------------------------------------- */
+        if (o$closeOnEsc) {
+            jsP[0].setAttribute('data-closeonescape', 'true');
+        }
 
         /* option.onwindowresize ------------------------------------------------------------------------------------ */
         if (o$onwindowresize) {
@@ -3832,6 +3818,7 @@ var jsPanel = {
         autoclose:          false,
         border:             false,
         callback:           false,
+        closeOnEscape:      false,
         container:          'body',
         content:            false,
         contentAjax:        false,
@@ -3967,7 +3954,7 @@ var jsPanel = {
 
         document.body.addEventListener('click', e => {
             const isTT = $(e.target).closest('.jsPanel').length;
-            if (isTT < 1 && !$(e.target).hasClass('hasTooltip')) {
+            if (isTT < 1 && !e.target.classList.contains('hasTooltip')) {
                 jsPanel.closeTooltips();
                 $('.hasTooltip').removeClass('hasTooltip');
             }
@@ -3978,15 +3965,21 @@ var jsPanel = {
         window.addEventListener('keydown', e => {
             const key = e.key || e.code;
             if (key === 'Escape' || key === 'Esc') {
-                if (jsPanel.closeOnEscape) {
-                    let panel = jsPanel.activePanels.getPanel(jsPanel.getTopmostPanel()),
+                jsPanel.activePanels.list.sort(function (a, b) {
+                    return document.getElementById(b).style.zIndex - document.getElementById(a).style.zIndex; // sort array in reverse order, panel with highest z-index is first in array
+                }).some(function (item) {
+                    let panel = $('#'+ item),
                         parent = panel.parent().closest('.jsPanel');
-                    if (parent.length && jsPanel.closeOnEscape === 'closeparent') {
-                        jsPanel.activePanels.getPanel(parent[0].id).close();
-                    } else {
-                        panel.close();
+                    if (jsPanel.closeOnEscape || panel[0].getAttribute('data-closeonescape')) {
+                        if (parent.length && (jsPanel.closeOnEscape === 'closeparent' || panel[0].getAttribute('data-closeonescape')) || e.shiftKey) {
+                            jsPanel.activePanels.getPanel(parent[0].id).close();
+                            return true;
+                        } else {
+                            jsPanel.activePanels.getPanel(panel[0].id).close();
+                            return true;
+                        }
                     }
-                }
+                });
             }
         }, false);
 

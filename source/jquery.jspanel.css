@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2016-12-06 12:59 */
+/* jspanel.sass: 2017-01-26 12:10 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot");
@@ -126,6 +126,7 @@
   min-height: 32px;
   overflow: hidden; }
   .jsPanel-titlebar h3 {
+    color: #000000;
     font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     white-space: nowrap;
     overflow: hidden;
@@ -379,18 +380,6 @@
 .jsPanel-modal .jsPanel-hdr, .jsPanel-modal .jsPanel-ftr {
   cursor: default; }
 
-.jsPanel-modal-backdrop {
-  background: black;
-  opacity: 0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%; }
-
-.jsPanel-modal-backdrop-multi {
-  background: rgba(0, 0, 0, 0.15); }
-
 /* css for the hints --------------------------------------- */
 .jsPanel-hint .jsPanel-hdr, .jsPanel-hint .jsPanel-ftr {
   cursor: default; }
@@ -505,15 +494,44 @@
 
 /* css3 animations */
 @keyframes jsPanelFadeIn {
-  0% {
+  from {
     opacity: 0; }
-  100% {
+  to {
     opacity: 1; } }
 .jsPanelFadeIn {
   opacity: 0;
   animation: jsPanelFadeIn ease-in 1;
   animation-fill-mode: forwards;
   animation-duration: 600ms; }
+
+@keyframes modalBackdropFadeIn {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 0.65; } }
+.jsPanel-modal-backdrop {
+  animation: modalBackdropFadeIn ease-in 1;
+  animation-fill-mode: forwards;
+  animation-duration: 750ms;
+  background: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+@keyframes modalBackdropFadeOut {
+  from {
+    opacity: 0.65; }
+  to {
+    opacity: 0; } }
+.jsPanel-modal-backdrop-out {
+  animation: modalBackdropFadeOut ease-in 1;
+  animation-fill-mode: forwards;
+  animation-duration: 400ms; }
+
+.jsPanel-modal-backdrop-multi {
+  background: rgba(0, 0, 0, 0.15); }
 
 /* _themes_mdl.sass: 2016-11-04 19:25 */
 /* default ---------------------------------------------------------------------------------------------------------- */

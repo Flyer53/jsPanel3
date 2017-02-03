@@ -1,9 +1,23 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
-## [jsPanel 3.5.0 released 2016-12-08](#)
+## [jsPanel 3.6.0 released 2017-02-03](#)
+
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
 
 **jsPanels** can be used as a floating, **draggable and resizable panel**, **modal**, **tooltip** or **hint/notifier**.
+
+---
+
+**News:**
+
+I'm working on a jsPanel version that does without dependencies (not even jQuery).
+
+It uses jacascript classes and some other more recent jacascript features.
+For now it's strictly experimental and works only with quite recent browsers like FF50, Chrome54, Edge14, Brave 0.12.15.
+
+Interested? A simple demo page is [here](http://alpha.jspanel.de/media/demos/nojquery/index.php)
+
+---
 
 ### jsPanel homepage: [http://jspanel.de](http://jspanel.de/)
 ### API and examples: [http://jspanel.de/api](http://jspanel.de/api)

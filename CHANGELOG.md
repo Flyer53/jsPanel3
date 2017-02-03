@@ -1,5 +1,15 @@
 ## CHANGELOG
 
+### Version 3.6.0
+
++ **css** various minor tweaks
++ **js** various minor tweaks
++ **bugfix** in internal functions responsible for applying a theme
++ **bugfix** in option.show
++ **new option.closeOneEscape** to enable *closeOnEscape* for individual panels instead of the global *jsPanel.closeOnEscape* 
+
+---
+
 ### Version 3.5.0
 
 The most important changes to v3.5.0 are the new options **dragit** and **resizeit** which implement a
