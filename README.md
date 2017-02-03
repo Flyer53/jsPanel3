@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3)
+
 ## [jsPanel 3.6.0 released 2017-02-03](#)
 
 
@@ -150,6 +151,7 @@ $.jsPanel({
 | `autoclose` | automatically close a jsPanel after a specified time | [API](http://jspanel.de/api/#option/autoclose) |
 | `border` | set border-width and border-style for a jsPanel, border-color is taken from theme | [API](http://jspanel.de/api/#option/border) |
 | `callback` | a callback function or array of callback functions | [API](http://jspanel.de/api/#option/callback) |
+| `closeOnEscape` | enables closeOnEscape for the individual panel (not global as with jsPanel.cloesOnEscape) | [API](http://jspanel.de/api/#option/closeOnEscape) |
 | `config` | passes a prepared configuration object | [API](http://jspanel.de/api/#option/config) |
 | `container` | the container element to append the jsPanel to | [API](http://jspanel.de/api/#option/container) |
 | `content` | content to append to the jsPanel | [API](http://jspanel.de/api/#option/content) |
