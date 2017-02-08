@@ -1,4 +1,4 @@
-/* jquery.jspanel.js file version and date: 3.5.1 2017-01-31 16:14 */
+/* jquery.jspanel.js file version and date: 3.6.1 2017-02-08 11:45 */
 /* global jsPanel */
 'use strict';
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
@@ -119,8 +119,8 @@ if (!String.prototype.includes) {
 }
 
 var jsPanel = {
-    version: '3.6.0',
-    date: '2017-01-31 16:14',
+    version: '3.6.1',
+    date: '2017-02-08 11:45',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -884,26 +884,30 @@ var jsPanel = {
         toolbaritems.forEach(function (item) {
 
             if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) === 'object') {
+                (function () {
 
-                var el = $(item.item);
+                    var el = $(item.item);
 
-                // add text to button
-                if (typeof item.btntext === 'string') {
-                    el.append(item.btntext);
-                }
-                // add class to button
-                if (typeof item.btnclass === 'string') {
-                    el[0].classList.add(item.btnclass);
-                }
+                    // add text to button
+                    if (typeof item.btntext === 'string') {
+                        el.append(item.btntext);
+                    }
+                    // add class to button
+                    if (typeof item.btnclass === 'string') {
+                        item.btnclass.split(' ').forEach(function (classname) {
+                            el[0].classList.add(classname);
+                        });
+                    }
 
-                toolbarplace.append(el);
+                    toolbarplace.append(el);
 
-                // bind handler to the item
-                if ($.isFunction(item.callback)) {
-                    var elEvent = item.event || 'click';
-                    el.on(elEvent, panel, item.callback);
-                    // jsP is accessible in the handler as "event.data"
-                }
+                    // bind handler to the item
+                    if ($.isFunction(item.callback)) {
+                        var elEvent = item.event || 'click';
+                        el.on(elEvent, panel, item.callback);
+                        // jsP is accessible in the handler as "event.data"
+                    }
+                })();
             }
         });
     },

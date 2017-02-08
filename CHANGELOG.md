@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### Version 3.6.1
+
+**bugfix** in internal function building header/footer toolbar when using a space seperated list of classnames to add
+
 ### Version 3.6.0
 
 + **css** various minor tweaks
