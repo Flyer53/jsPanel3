@@ -13,8 +13,7 @@
 
 I'm working on a jsPanel version that does without dependencies (not even jQuery).
 
-It uses jacascript classes and some other more recent jacascript features.
-For now it's strictly experimental and works only with quite recent browsers like FF50, Chrome54, Edge14, Brave 0.12.15.
+For now it's strictly experimental and works with FF, Chrome, Edge, Brave, Opera and IE10/11.
 
 Interested? A simple demo page is [here](http://alpha.jspanel.de/media/demos/nojquery/index.php)
 
