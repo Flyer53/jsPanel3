@@ -1,5 +1,18 @@
 ## CHANGELOG
 
+### Version 3.7.0
+
++ small adjustment of css colors when hovering controls of built-in themes
++ **option.headerControls:** added option to use custom iconset for the controls
++ **css:** added flexbox vendor prefixes
++ removed the following polyfills from the js:
+  + Array.prototype.includes()
+  + Array.prototype.find()
+  + Array.prototype.findIndex()
+  + String.prototype.includes()
+
+---
+
 ### Version 3.6.1
 
 **bugfix** in internal function building header/footer toolbar when using a space seperated list of classnames to add

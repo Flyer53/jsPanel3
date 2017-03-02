@@ -1,4 +1,4 @@
-/* jquery.jspanel.js file version and date: 3.6.1 2017-02-08 11:45 */
+/* jquery.jspanel.js file version and date: 3.7.0 2017-02-27 14:38 */
 /* global jsPanel */
 'use strict';
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
@@ -33,92 +33,10 @@ if (!Object.assign) {
         }
     });
 }
-// Array.prototype.find Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/find#Polyfill - ONLY FOR IE11
-if (!Array.prototype.find) {
-    Array.prototype.find = function (predicate) {
-        if (this == null) {
-            throw new TypeError('Array.prototype.find called on null or undefined');
-        }
-        if (typeof predicate !== 'function') {
-            throw new TypeError('predicate must be a function');
-        }
-        var list = Object(this);
-        var length = list.length >>> 0;
-        var thisArg = arguments[1];
-        var value;
-
-        for (var i = 0; i < length; i++) {
-            value = list[i];
-            if (predicate.call(thisArg, value, i, list)) {
-                return value;
-            }
-        }
-        return undefined;
-    };
-}
-// Array.prototype.findIndex Polyfill - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex#Polyfill - ONLY FOR IE11
-if (!Array.prototype.findIndex) {
-    Array.prototype.findIndex = function (predicate) {
-        if (this === null) {
-            throw new TypeError('Array.prototype.findIndex called on null or undefined');
-        }
-        if (typeof predicate !== 'function') {
-            throw new TypeError('predicate must be a function');
-        }
-        var list = Object(this);
-        var length = list.length >>> 0;
-        var thisArg = arguments[1];
-        var value;
-
-        for (var i = 0; i < length; i++) {
-            value = list[i];
-            if (predicate.call(thisArg, value, i, list)) {
-                return i;
-            }
-        }
-        return -1;
-    };
-}
-// Array.prototype.includes Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/includes#Polyfill - ONLY FOR IE11 & EDGE13
-if (!Array.prototype.includes) {
-    Array.prototype.includes = function (searchElement /*, fromIndex*/) {
-        var O = Object(this);
-        var len = parseInt(O.length) || 0;
-        if (len === 0) {
-            return false;
-        }
-        var n = parseInt(arguments[1]) || 0;
-        var k;
-        if (n >= 0) {
-            k = n;
-        } else {
-            k = len + n;
-            if (k < 0) {
-                k = 0;
-            }
-        }
-        var currentElement;
-        while (k < len) {
-            currentElement = O[k];
-            if (searchElement === currentElement ||
-                (searchElement !== searchElement && currentElement !== currentElement)) {
-                return true;
-            }
-            k++;
-        }
-        return false;
-    };
-}
-// String.prototype.includes Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/String/includes#Polyfill - ONLY FOR IE11
-if (!String.prototype.includes) {
-    String.prototype.includes = function () {
-        return String.prototype.indexOf.apply(this, arguments) !== -1;
-    };
-}
 
 var jsPanel = {
-    version:             '3.6.1',
-    date:                '2017-02-08 11:45',
+    version:             '3.7.0',
+    date:                '2017-03-02 11:22',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -193,10 +111,10 @@ var jsPanel = {
     },
     closeOnEscape:       false,
     isIE:                (function () {
-        return navigator.appVersion.includes('Trident');
+        return navigator.appVersion.indexOf('Trident') !== -1;
     }()),
     isEdge:              (function () {
-        return navigator.appVersion.includes('Edge');
+        return navigator.appVersion.indexOf('Edge') !== -1;
     }()),
 
     addConnector(panel) {
@@ -282,7 +200,7 @@ var jsPanel = {
     },
 
     addCustomTheme(theme) {
-        if (!this.themes.includes(theme)) {
+        if (this.themes.indexOf(theme) === -1) {
             this.themes.push(theme);
         }
     },
@@ -441,7 +359,7 @@ var jsPanel = {
         panel.header.css({'border-top-left-radius': 0, 'border-top-right-radius': 0});
 
         if (!themeDetails.bs) {
-            if (!this.themes.includes(themeDetails.color)) {
+            if (this.themes.indexOf(themeDetails.color) === -1) {
                 // arbitrary themes only (for built-in themes it's taken from the css file)
                 bordervalues[2] ? panel.css('border-color', bordervalues[2]) : panel.css('border-color', themeDetails.colors[0]);
             }
@@ -567,9 +485,7 @@ var jsPanel = {
             // execute the following code only when panel really was removed
             if (!$(`#${id}`).length) {
                 // remove id from activePanels.list
-                const index = jsPanel.activePanels.list.findIndex(function (element) {
-                    return element === id;
-                });
+                let index = jsPanel.activePanels.list.indexOf(id);
                 if (index > -1) {
                     jsPanel.activePanels.list.splice(index, 1);
                 }
@@ -941,23 +857,22 @@ var jsPanel = {
             controls = panel.header.headerbar;
         // set icons
         if (optIconfont === 'bootstrap' || optIconfont === 'glyphicon') {
-
             this.controls.forEach((item, i) => {
                 $(`.jsPanel-btn-${item} span`, controls).removeClass().addClass(`glyphicon glyphicon-${bootstrapArray[i]}`);
             });
-
         } else if (optIconfont === 'font-awesome') {
-
             this.controls.forEach((item, i) => {
                 $(`.jsPanel-btn-${item} span`, controls).removeClass().addClass(`fa fa-${fontawesomeArray[i]}`);
             });
-
         } else if (optIconfont === 'material-icons') {
-
             this.controls.forEach((item, i) => {
                 $(`.jsPanel-btn-${item} span`, controls).removeClass().addClass('material-icons').text(materialArray[i]);
             });
-
+        } else if (Array.isArray(optIconfont)) {
+            // ['custom-close', 'custom-maximize', 'custom-normalize', 'custom-minimize', 'custom-smallify', 'custom-unsmallify']
+            this.controls.forEach((item, i) => {
+                $(`.jsPanel-btn-${item} span`, controls).removeClass().addClass(`custom-control-icon ${optIconfont[i]}`);
+            });
         }
     },
 
@@ -1068,6 +983,10 @@ var jsPanel = {
             $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass('material-icons').text('call_made');
             $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass('material-icons').text('fullscreen');
             $('.jsglyph.jsglyph-close', replacement).removeClass().addClass('material-icons').text('close');
+        } else if (Array.isArray(iconfont)) {
+            $('.jsglyph.jsglyph-normalize', replacement).removeClass().addClass(`custom-control-icon ${iconfont[2]}`);
+            $('.jsglyph.jsglyph-maximize', replacement).removeClass().addClass(`custom-control-icon ${iconfont[1]}`);
+            $('.jsglyph.jsglyph-close', replacement).removeClass().addClass(`custom-control-icon ${iconfont[0]}`);
         }
         $('.jsPanel-btn span', replacement).css({color: fontColor});
 
@@ -1117,9 +1036,6 @@ var jsPanel = {
             containmentArray,
             dragPanel,
             handles,
-            startEvent,
-            moveEvent,
-            endEvent,
             elmtParent = elmt.parentElement,
             elmtStyles = window.getComputedStyle(elmt, null),
             elmtStylesPosition = elmtStyles.getPropertyValue('position'),
@@ -1133,7 +1049,7 @@ var jsPanel = {
             dragstart,
             drag,
             dragstop;
-        if (navigator.appVersion.includes('Trident')) {
+        if (jsPanel.isIE) {
             // old fashioned only for IE11
             dragstart = document.createEvent('CustomEvent');
             drag = document.createEvent('CustomEvent');
@@ -1184,22 +1100,8 @@ var jsPanel = {
             opts.containment = containment = 'window';
         }
 
-        if ('onpointerup' in window) {
-            startEvent = 'pointerdown';
-            moveEvent = 'pointermove';
-            endEvent = 'pointerup';
-        } else if ('ontouchend' in window) {
-            startEvent = 'touchstart';
-            moveEvent = 'touchmove';
-            endEvent = 'touchend';
-        } else {
-            startEvent = 'mousedown';
-            moveEvent = 'mousemove';
-            endEvent = 'mouseup';
-        }
-
         for (let i = 0; i < handles.length; i++) {
-            handles[i].addEventListener(startEvent, function (e) {
+            handles[i].addEventListener(jsPanel.evtStart, function (e) {
                 e.stopPropagation();
                 let elmtRect = elmt.getBoundingClientRect(),             /* needs to be calculated on pointerdown!! */
                     elmtParentRect = elmtParent.getBoundingClientRect(), /* needs to be calculated on pointerdown!! */
@@ -1226,7 +1128,7 @@ var jsPanel = {
                 }
 
                 // prevent window scroll while draging elmt
-                window.addEventListener(startEvent, prevDefault(e), false);
+                window.addEventListener(jsPanel.evtStart, prevDefault(e), false);
 
                 // calc min/max left/top values if containment is set
                 if (elmtParentTagName === 'body' && containment) {
@@ -1311,12 +1213,12 @@ var jsPanel = {
                     if (typeof opts.drag === 'function') {opts.drag.call(el, el);}
                 };
 
-                document.addEventListener(moveEvent, dragPanel, false);
+                document.addEventListener(jsPanel.evtMove, dragPanel, false);
             }, false);
         }
 
-        document.addEventListener(endEvent, function () {
-            document.removeEventListener(moveEvent, dragPanel, false);
+        document.addEventListener(jsPanel.evtEnd, function () {
+            document.removeEventListener(jsPanel.evtMove, dragPanel, false);
             if (dragstarted) {
                 document.dispatchEvent(dragstop);
                 elmt.style.opacity = 1;
@@ -1324,7 +1226,7 @@ var jsPanel = {
                 if (typeof opts.stop === 'function') {opts.stop.call(el, el);}
             }
             // reenable window scrolling
-            window.removeEventListener(endEvent, prevDefault, false);
+            window.removeEventListener(jsPanel.evtEnd, prevDefault, false);
         }, false);
 
         return el;
@@ -1347,9 +1249,6 @@ var jsPanel = {
             containment = opts.containment,
             containmentArray,
             resizePanel,
-            startEvent,
-            moveEvent,
-            endEvent,
             elmtStyles = window.getComputedStyle(elmt, null),
             elmtStylesPosition = elmtStyles.getPropertyValue('position'),
             elmtLeftBorder = parseInt(elmtStyles.getPropertyValue('border-left-width'), 10),
@@ -1371,7 +1270,7 @@ var jsPanel = {
             resizestart,
             resize,
             resizestop;
-        if (navigator.appVersion.includes('Trident')) {
+        if (jsPanel.isIE) {
             // old fashioned only for IE11
             resizestart = document.createEvent('CustomEvent');
             resize = document.createEvent('CustomEvent');
@@ -1413,20 +1312,6 @@ var jsPanel = {
             opts.containment = containment = 'window';
         }
 
-        if ('onpointerup' in window) {
-            startEvent = 'pointerdown';
-            moveEvent = 'pointermove';
-            endEvent = 'pointerup';
-        } else if ('ontouchend' in window) {
-            startEvent = 'touchstart';
-            moveEvent = 'touchmove';
-            endEvent = 'touchend';
-        } else {
-            startEvent = 'mousedown';
-            moveEvent = 'mousemove';
-            endEvent = 'mouseup';
-        }
-
         opts.handles.split(',').forEach(function (item) {
             let node = document.createElement('DIV');
             node.className = `jsPanel-resizeit-handle jsPanel-resizeit-${item.trim()}`;
@@ -1436,7 +1321,7 @@ var jsPanel = {
 
         let handles = elmt.getElementsByClassName('jsPanel-resizeit-handle');
         for (let i = 0; i < handles.length; i++) {
-            handles[i].addEventListener(startEvent, function(e) {
+            handles[i].addEventListener(jsPanel.evtStart, function(e) {
                 e.stopPropagation();                                     /* prevent elmt from being dragged as well */
                 let elmtRect = elmt.getBoundingClientRect(),             /* needs to be calculated on pointerdown!! */
                     elmtParentRect = elmtParent.getBoundingClientRect(), /* needs to be calculated on pointerdown!! */
@@ -1499,7 +1384,7 @@ var jsPanel = {
                 }
 
                 // prevent window scroll while draging element
-                window.addEventListener(startEvent, prevDefault(e), false);
+                window.addEventListener(jsPanel.evtStart, prevDefault(e), false);
 
                 resizePanel = function (evt) {
                     // trigger resizestarted only once per resize
@@ -1600,12 +1485,12 @@ var jsPanel = {
                     if (typeof opts.resize === 'function') {opts.resize.call(el, el);}
                 };
 
-                document.addEventListener(moveEvent, resizePanel, false);
+                document.addEventListener(jsPanel.evtMove, resizePanel, false);
             }, false);
         }
 
-        document.addEventListener(endEvent, function () {
-            document.removeEventListener(moveEvent, resizePanel, false);
+        document.addEventListener(jsPanel.evtEnd, function () {
+            document.removeEventListener(jsPanel.evtMove, resizePanel, false);
             if (resizestarted) {
                 document.dispatchEvent(resizestop);
                 resizestarted = undefined;
@@ -1622,7 +1507,7 @@ var jsPanel = {
                 if (typeof opts.stop === 'function') {opts.stop.call(el, el);}
             }
             // reenable window scrolling
-            window.removeEventListener(endEvent, prevDefault, false);
+            window.removeEventListener(jsPanel.evtEnd, prevDefault, false);
         }, false);
 
         return el;
@@ -2276,21 +2161,21 @@ var jsPanel = {
         function getWindowCoords(pos) {
             let coords = {};
 
-            if (leftArray.includes(pos)) {
+            if (leftArray.indexOf(pos) > -1) {
                 coords.left = window.pageXOffset;
-            } else if (centerVerticalArray.includes(pos)) {
+            } else if (centerVerticalArray.indexOf(pos) > -1) {
                 coords.left = window.pageXOffset + (document.documentElement.clientWidth / 2);
-            } else if (rightArray.includes(pos)) {
+            } else if (rightArray.indexOf(pos) > -1) {
                 coords.left = window.pageXOffset + (document.documentElement.clientWidth);
             } else {
                 coords.left = window.pageXOffset;
             }
 
-            if (topArray.includes(pos)) {
+            if (topArray.indexOf(pos) > -1) {
                 coords.top = window.pageYOffset;
-            } else if (centerHorizontalArray.includes(pos)) {
+            } else if (centerHorizontalArray.indexOf(pos) > -1) {
                 coords.top = window.pageYOffset + (window.innerHeight / 2);
-            } else if (bottomArray.includes(pos)) {
+            } else if (bottomArray.indexOf(pos) > -1) {
                 coords.top = window.pageYOffset + (window.innerHeight);
             } else {
                 coords.top = window.pageYOffset;
@@ -2304,21 +2189,21 @@ var jsPanel = {
             let coords = {},
                 elmtAgainstData = getElementData(option.of);
 
-            if (leftArray.includes(pos)) {
+            if (leftArray.indexOf(pos) > -1) {
                 coords.left = elmtAgainstData.left;
-            } else if (centerVerticalArray.includes(pos)) {
+            } else if (centerVerticalArray.indexOf(pos) > -1) {
                 coords.left = elmtAgainstData.left + elmtAgainstData.width / 2;
-            } else if (rightArray.includes(pos)) {
+            } else if (rightArray.indexOf(pos) > -1) {
                 coords.left = elmtAgainstData.left + elmtAgainstData.width;
             } else {
                 coords.left = elmtAgainstData.left;
             }
 
-            if (topArray.includes(pos)) {
+            if (topArray.indexOf(pos) > -1) {
                 coords.top = elmtAgainstData.top;
-            } else if (centerHorizontalArray.includes(pos)) {
+            } else if (centerHorizontalArray.indexOf(pos) > -1) {
                 coords.top = elmtAgainstData.top + elmtAgainstData.height / 2;
-            } else if (bottomArray.includes(pos)) {
+            } else if (bottomArray.indexOf(pos) > -1) {
                 coords.top = elmtAgainstData.top + elmtAgainstData.height;
             } else {
                 coords.top = elmtAgainstData.top;
@@ -2332,21 +2217,21 @@ var jsPanel = {
             let coords = {},
                 parentElmtData = parentElmt.getBoundingClientRect();
 
-            if (leftArray.includes(pos)) {
+            if (leftArray.indexOf(pos) > -1) {
                 coords.left = 0;
-            } else if (centerVerticalArray.includes(pos)) {
+            } else if (centerVerticalArray.indexOf(pos) > -1) {
                 coords.left = parentElmtData.width / 2;
-            } else if (rightArray.includes(pos)) {
+            } else if (rightArray.indexOf(pos) > -1) {
                 coords.left = parentElmtData.width;
             } else {
                 coords.left = 0;
             }
 
-            if (topArray.includes(pos)) {
+            if (topArray.indexOf(pos) > -1) {
                 coords.top = 0;
-            } else if (centerHorizontalArray.includes(pos)) {
+            } else if (centerHorizontalArray.indexOf(pos) > -1) {
                 coords.top = parentElmtData.height / 2;
-            } else if (bottomArray.includes(pos)) {
+            } else if (bottomArray.indexOf(pos) > -1) {
                 coords.top = parentElmtData.height;
             } else {
                 coords.top = 0;
@@ -2363,21 +2248,21 @@ var jsPanel = {
                 baseLeft = againstData.left - parentData.left,
                 baseTop = againstData.top - parentData.top;
 
-            if (leftArray.includes(pos)) {
+            if (leftArray.indexOf(pos) > -1) {
                 coords.left = baseLeft;
-            } else if (centerVerticalArray.includes(pos)) {
+            } else if (centerVerticalArray.indexOf(pos) > -1) {
                 coords.left = baseLeft + againstData.width / 2;
-            } else if (rightArray.includes(pos)) {
+            } else if (rightArray.indexOf(pos) > -1) {
                 coords.left = baseLeft + againstData.width;
             } else {
                 coords.left = baseLeft;
             }
 
-            if (topArray.includes(pos)) {
+            if (topArray.indexOf(pos) > -1) {
                 coords.top = baseTop;
-            } else if (centerHorizontalArray.includes(pos)) {
+            } else if (centerHorizontalArray.indexOf(pos) > -1) {
                 coords.top = baseTop + againstData.height / 2;
-            } else if (bottomArray.includes(pos)) {
+            } else if (bottomArray.indexOf(pos) > -1) {
                 coords.top = baseTop + againstData.height;
             } else {
                 coords.top = baseTop;
@@ -2537,15 +2422,15 @@ var jsPanel = {
         const borderLeftCorrection = parseInt(window.getComputedStyle(parentElmt)['border-left-width'], 10) || 0;
         // window.getComputedStyle doesn't work as expected in FF < 47, therefore the logical || 0
 
-        if (leftArray.includes(option.my)) {
+        if (leftArray.indexOf(option.my) > -1) {
 
             leftOffset = borderLeftCorrection;
 
-        } else if (centerVerticalArray.includes(option.my)) {
+        } else if (centerVerticalArray.indexOf(option.my) > -1) {
 
             leftOffset = elmtData.width / 2 + borderLeftCorrection;
 
-        } else if (rightArray.includes(option.my)) {
+        } else if (rightArray.indexOf(option.my) > -1) {
 
             leftOffset = elmtData.width + borderLeftCorrection;
 
@@ -2554,15 +2439,15 @@ var jsPanel = {
         // calculate vertical correction of element to position
         const borderTopCorrection = parseInt(window.getComputedStyle(parentElmt)['border-top-width'], 10) || 0;
 
-        if (topArray.includes(option.my)) {
+        if (topArray.indexOf(option.my) > -1) {
 
             topOffset = borderTopCorrection;
 
-        } else if (centerHorizontalArray.includes(option.my)) {
+        } else if (centerHorizontalArray.indexOf(option.my) > -1) {
 
             topOffset = elmtData.height / 2 + borderTopCorrection;
 
-        } else if (bottomArray.includes(option.my)) {
+        } else if (bottomArray.indexOf(option.my) > -1) {
 
             topOffset = elmtData.height + borderTopCorrection;
 
@@ -3142,6 +3027,20 @@ var jsPanel = {
 
 };
 
+if ('onpointerup' in window) {
+    jsPanel.evtStart = 'pointerdown';
+    jsPanel.evtMove = 'pointermove';
+    jsPanel.evtEnd = 'pointerup';
+} else if ('ontouchend' in window) {
+    jsPanel.evtStart = 'touchstart';
+    jsPanel.evtMove = 'touchmove';
+    jsPanel.evtEnd = 'touchend';
+} else {
+    jsPanel.evtStart = 'mousedown';
+    jsPanel.evtMove = 'mousemove';
+    jsPanel.evtEnd = 'mouseup';
+}
+
 
 (function ($) {
 
@@ -3311,7 +3210,7 @@ var jsPanel = {
             const themeDetails = jsPanel.getThemeDetails(passedtheme);
 
             if (!themeDetails.bs) {
-                if (jsPanel.themes.includes(themeDetails.color)) {
+                if (jsPanel.themes.indexOf(themeDetails.color) > -1) {
                     // apply built in theme
                     jsPanel.applyBuiltInTheme(jsP, themeDetails);
                 } else {
