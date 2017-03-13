@@ -11,11 +11,8 @@
 
 **News:**
 
-I'm working on a jsPanel version that does without dependencies (not even jQuery).
-
-For now it's strictly experimental and works with FF, Chrome, Edge, Brave, Opera and IE10/11.
-
-Interested? A simple demo page is [here](http://alpha.jspanel.de/media/demos/nojquery/index.php)
++ I'm working on a **jsPanel** version that does **without dependencies (not even jQuery)**. For now it's strictly experimental and works with FF, Chrome, Edge, Brave, Opera and IE10/11. Interested? A simple demo page is [here](http://alpha.jspanel.de/media/demos/nojquery/index.php)
++ Want to **stay up to date** about new jsPanel releases, bugfixes, plans and other jsPanel related topics? Then sign up for the **[monthly newsletter](http://jspanel.de/api/#mailinglist)**
 
 ---
 
