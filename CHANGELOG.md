@@ -1,5 +1,20 @@
 ## CHANGELOG
 
+### Version 3.8.0
+
++ **Added: option.panelSize** to set the dimensions of the complete panel (option.contentSize sets only the dimensions of the content section)
++ **Added:** method **jsPanel.contextmenu(elmt, config)** to easily use jsPanel as context menu
++ **Added:** methods **.dragit()** and **.resizeit()** to disable/reenable dragit/resizeit interactions of existing panels
++ **Added:** parameter **'disable'** to options **dragit** and **resizeit** to create panels with the interactions dragit and/or resizeit initialized but disabled until reenabled again
++ **Added:** positioning can be completely turned off with setting **option.position** to a value evaluating to *false*
++ **Added:** parameters **autoresize** and **autoposition** to **option.contentAjax**
++ **Fixed:** option.**maximizedMargin** properties now accept `0` values when using an object
++ **Improved support of mobile devices** (especially Android) concerning the built-in draggable and resizable interactions (option.dragit and option.resizeit) 
++ **Improved support of option.contentSize.width/height** set to **"auto"** when used together with **option.contentAjax**
++ **Improvements** in CSS and some internal methods
+
+---
+
 ### Version 3.7.0
 
 + small adjustment of css colors when hovering controls of built-in themes
@@ -16,6 +31,8 @@
 ### Version 3.6.1
 
 **bugfix** in internal function building header/footer toolbar when using a space seperated list of classnames to add
+
+---
 
 ### Version 3.6.0
 
