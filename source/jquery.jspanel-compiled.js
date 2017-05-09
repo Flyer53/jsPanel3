@@ -38,8 +38,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.8.0',
-    date: '2017-04-24 19:40',
+    version: '3.8.1',
+    date: '2017-05-08 16:50',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -977,12 +977,6 @@ var jsPanel = {
             elmtStyles = window.getComputedStyle(elmt, null),
             elmtStylesPosition = elmtStyles.getPropertyValue('position'),
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
-            elmtParentStyles = window.getComputedStyle(elmtParent, null),
-            elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-            elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-            elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-            elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-            elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
             dragstart = void 0,
             drag = void 0,
             dragstop = void 0;
@@ -1048,7 +1042,13 @@ var jsPanel = {
                     /* needs to be calculated on pointerdown!! */
                 elmtParentRect = elmtParent.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
-                startLeft = void 0,
+                elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                    elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
+                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
+                    startLeft = void 0,
                     startTop = void 0,
                     startX = e.pageX || e.touches[0].pageX,
                     startY = e.pageY || e.touches[0].pageY,
@@ -1065,8 +1065,8 @@ var jsPanel = {
                     startLeft = elmtRect.left;
                     startTop = elmtRect.top;
                 } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left + scrollLeft;
-                    startTop = elmtRect.top + scrollTop;
+                    startLeft = elmtRect.left /* + scrollLeft*/;
+                    startTop = elmtRect.top /* + scrollTop*/;
                 } else if (elmtParentTagName !== 'body') {
                     startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft;
                     startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop;
@@ -1146,8 +1146,8 @@ var jsPanel = {
                     // trigger drag permanently while draging
                     document.dispatchEvent(drag);
 
-                    var left = startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif,
-                        top = startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
+                    var left = elmtParentLeftBorder + startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif,
+                        top = elmtParentTopBorder + startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
 
                     // apply min/max left/top values if needed
                     if (left <= minLeft) {
@@ -1227,13 +1227,6 @@ var jsPanel = {
             elmtBottomBorder = parseInt(elmtStyles.getPropertyValue('border-bottom-width'), 10),
             elmtParent = elmt.parentElement,
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
-            elmtParentStyles = window.getComputedStyle(elmtParent, null),
-            elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-            elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-            elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-
-        //elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-        elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
             maxWidth = typeof opts.maxWidth === 'function' ? opts.maxWidth() : opts.maxWidth,
             maxHeight = typeof opts.maxHeight === 'function' ? opts.maxHeight() : opts.maxHeight,
             minWidth = typeof opts.minWidth === 'function' ? opts.minWidth() : opts.minWidth,
@@ -1300,7 +1293,14 @@ var jsPanel = {
                     /* needs to be calculated on pointerdown!! */
                 elmtParentRect = elmtParent.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
-                startX = e.pageX || e.touches[0].pageX,
+                elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+
+                //elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
+                elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
+                    startX = e.pageX || e.touches[0].pageX,
                     startY = e.pageY || e.touches[0].pageY,
                     scrollLeft = window.scrollX || window.pageXOffset,
                     // IE11 doesn't know scrollX
@@ -1320,8 +1320,8 @@ var jsPanel = {
                     startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
                     startTop = elmtRect.top - elmtTopBorder - elmtBottomBorder;
                 } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left + scrollLeft - elmtLeftBorder - elmtRightBorder;
-                    startTop = elmtRect.top + scrollTop - elmtTopBorder - elmtBottomBorder;
+                    startLeft = elmtRect.left /*+ scrollLeft*/ - elmtLeftBorder - elmtRightBorder;
+                    startTop = elmtRect.top /*+ scrollTop*/ - elmtTopBorder - elmtBottomBorder;
                 } else if (elmtParentTagName !== 'body') {
                     startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft - elmtLeftBorder - elmtRightBorder;
                     startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop - elmtTopBorder - elmtBottomBorder;
@@ -1434,7 +1434,7 @@ var jsPanel = {
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-w')) {
                         var _w2 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
                         if (_w2 <= maxWidth && _w2 >= minWidth && _w2 <= maxWidthWest) {
-                            elmt.style.left = startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
                         }
                         if (_w2 >= maxWidthWest) {
                             _w2 = maxWidthWest;
@@ -1448,7 +1448,7 @@ var jsPanel = {
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-n')) {
                         var _h2 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
                         if (_h2 <= maxHeight && _h2 >= minHeight && _h2 <= maxHeightNorth) {
-                            elmt.style.top = startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
                         }
                         if (_h2 >= maxHeightNorth) {
                             _h2 = maxHeightNorth;
@@ -1472,7 +1472,7 @@ var jsPanel = {
                         elmt.style.height = _h3 + 'px';
                         var _w3 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
                         if (_w3 <= maxWidth && _w3 >= minWidth && _w3 <= maxWidthWest) {
-                            elmt.style.left = startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
                         }
                         if (_w3 >= maxWidthWest) {
                             _w3 = maxWidthWest;
@@ -1486,7 +1486,7 @@ var jsPanel = {
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-nw')) {
                         var _h4 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
                         if (_h4 <= maxHeight && _h4 >= minHeight && _h4 <= maxHeightNorth) {
-                            elmt.style.top = startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
                         }
                         if (_h4 >= maxHeightNorth) {
                             _h4 = maxHeightNorth;
@@ -1499,7 +1499,7 @@ var jsPanel = {
                         elmt.style.height = _h4 + 'px';
                         var _w4 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
                         if (_w4 <= maxWidth && _w4 >= minWidth && _w4 <= maxWidthWest) {
-                            elmt.style.left = startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
                         }
                         if (_w4 >= maxWidthWest) {
                             _w4 = maxWidthWest;
@@ -1513,7 +1513,7 @@ var jsPanel = {
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-ne')) {
                         var _h5 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
                         if (_h5 <= maxHeight && _h5 >= minHeight && _h5 <= maxHeightNorth) {
-                            elmt.style.top = startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
                         }
                         if (_h5 >= maxHeightNorth) {
                             _h5 = maxHeightNorth;

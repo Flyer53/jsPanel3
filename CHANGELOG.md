@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### Version 3.8.1
+
++ **Bugfix** in **option.dragit and option.resizeit** when using **option.position.of**
+
+---
+
 ### Version 3.8.0
 
 + **Added: option.panelSize** to set the dimensions of the complete panel (option.contentSize sets only the dimensions of the content section)

@@ -35,8 +35,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version:             '3.8.0',
-    date:                '2017-04-24 19:40',
+    version:             '3.8.1',
+    date:                '2017-05-08 16:50',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -1069,12 +1069,6 @@ var jsPanel = {
             elmtStyles = window.getComputedStyle(elmt, null),
             elmtStylesPosition = elmtStyles.getPropertyValue('position'),
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
-            elmtParentStyles = window.getComputedStyle(elmtParent, null),
-            elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-            elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-            elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-            elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-            elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
             dragstart,
             drag,
             dragstop;
@@ -1134,6 +1128,12 @@ var jsPanel = {
                 e.stopPropagation();
                 let elmtRect = elmt.getBoundingClientRect(),             /* needs to be calculated on pointerdown!! */
                     elmtParentRect = elmtParent.getBoundingClientRect(), /* needs to be calculated on pointerdown!! */
+                    elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                    elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
+                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
                     startLeft,
                     startTop,
                     startX = e.pageX || e.touches[0].pageX,
@@ -1149,8 +1149,8 @@ var jsPanel = {
                     startLeft = elmtRect.left;
                     startTop = elmtRect.top;
                 } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left + scrollLeft;
-                    startTop = elmtRect.top + scrollTop;
+                    startLeft = elmtRect.left/* + scrollLeft*/;
+                    startTop = elmtRect.top/* + scrollTop*/;
                 } else if (elmtParentTagName !== 'body') {
                     startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft;
                     startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop;
@@ -1228,8 +1228,8 @@ var jsPanel = {
                     // trigger drag permanently while draging
                     document.dispatchEvent(drag);
 
-                    let left = startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif,
-                        top = startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
+                    let left = elmtParentLeftBorder + startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif,
+                        top = elmtParentTopBorder + startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
 
                     // apply min/max left/top values if needed
                     if (left <= minLeft) {left = minLeft;}
@@ -1294,12 +1294,6 @@ var jsPanel = {
             elmtBottomBorder = parseInt(elmtStyles.getPropertyValue('border-bottom-width'), 10),
             elmtParent = elmt.parentElement,
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
-            elmtParentStyles = window.getComputedStyle(elmtParent, null),
-            elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-            elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-            elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-            //elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-            elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
             maxWidth = typeof opts.maxWidth === 'function' ? opts.maxWidth() : opts.maxWidth,
             maxHeight = typeof opts.maxHeight === 'function' ? opts.maxHeight() : opts.maxHeight,
             minWidth = typeof opts.minWidth === 'function' ? opts.minWidth() : opts.minWidth,
@@ -1362,6 +1356,12 @@ var jsPanel = {
                 e.stopPropagation();                                     /* prevent elmt from being dragged as well */
                 let elmtRect = elmt.getBoundingClientRect(),             /* needs to be calculated on pointerdown!! */
                     elmtParentRect = elmtParent.getBoundingClientRect(), /* needs to be calculated on pointerdown!! */
+                    elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+                    //elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
+                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
                     startX = e.pageX || e.touches[0].pageX,
                     startY = e.pageY || e.touches[0].pageY,
                     scrollLeft = window.scrollX || window.pageXOffset, // IE11 doesn't know scrollX
@@ -1377,8 +1377,8 @@ var jsPanel = {
                     startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
                     startTop = elmtRect.top - elmtTopBorder - elmtBottomBorder;
                 } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left + scrollLeft - elmtLeftBorder - elmtRightBorder;
-                    startTop = elmtRect.top + scrollTop - elmtTopBorder - elmtBottomBorder;
+                    startLeft = elmtRect.left /*+ scrollLeft*/ - elmtLeftBorder - elmtRightBorder;
+                    startTop = elmtRect.top /*+ scrollTop*/ - elmtTopBorder - elmtBottomBorder;
                 } else if (elmtParentTagName !== 'body') {
                     startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft - elmtLeftBorder - elmtRightBorder;
                     startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop - elmtTopBorder - elmtBottomBorder;
@@ -1472,7 +1472,7 @@ var jsPanel = {
 
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-w')) {
                         let w = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
+                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
                         if (w >= maxWidthWest) {w = maxWidthWest;}
                         if (w >= maxWidth) {w = maxWidth;}
                         else if (w <= minWidth) {w = minWidth;}
@@ -1480,7 +1480,7 @@ var jsPanel = {
 
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-n')) {
                         let h = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
+                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
                         if (h >= maxHeightNorth) {h = maxHeightNorth;}
                         if (h >= maxHeight) {h = maxHeight;}
                         else if (h <= minHeight) {h = minHeight;}
@@ -1493,7 +1493,7 @@ var jsPanel = {
                         else if (h <= minHeight) {h = minHeight;}
                         elmt.style.height = h + 'px';
                         let w = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
+                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
                         if (w >= maxWidthWest) {w = maxWidthWest;}
                         if (w >= maxWidth) {w = maxWidth;}
                         else if (w <= minWidth) {w = minWidth;}
@@ -1501,13 +1501,13 @@ var jsPanel = {
 
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-nw')) {
                         let h = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
+                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
                         if (h >= maxHeightNorth) {h = maxHeightNorth;}
                         if (h >= maxHeight) {h = maxHeight;}
                         else if (h <= minHeight) {h = minHeight;}
                         elmt.style.height = h + 'px';
                         let w = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
+                        if (w <= maxWidth && w >= minWidth && w <= maxWidthWest) {elmt.style.left = (startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif)+'px';}
                         if (w >= maxWidthWest) {w = maxWidthWest;}
                         if (w >= maxWidth) {w = maxWidth;}
                         else if (w <= minWidth) {w = minWidth;}
@@ -1515,7 +1515,7 @@ var jsPanel = {
 
                     } else if (resizeHandle.classList.contains('jsPanel-resizeit-ne')) {
                         let h = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
+                        if (h <= maxHeight && h >= minHeight && h <= maxHeightNorth) {elmt.style.top = (startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif)+'px';}
                         if (h >= maxHeightNorth) {h = maxHeightNorth;}
                         if (h >= maxHeight) {h = maxHeight;}
                         else if (h <= minHeight) {h = minHeight;}
