@@ -1,6 +1,6 @@
 {
   "name": "jspanel3",
-  "version": "3.8.1",
+  "version": "3.9.0",
   "description": "A jQuery Plugin to create highly configurable multifunctional floating panels",
   "dependencies": {
     "jquery": ">=2.x"

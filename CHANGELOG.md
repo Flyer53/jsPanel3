@@ -1,5 +1,14 @@
 ## CHANGELOG
 
+### Version 3.9.0
+
++ jsPanel script now works also after calling **[$.noConflict()](http://api.jquery.com/jQuery.noConflict/)**
++ **Added:** new **grid** option for options **[dragit](http://jspanel.de/api/#option/dragit)** and **[resizeit](http://jspanel.de/api/#option/resizeit)**
++ improved handling of options object passed to $.jsPanel()
++ minified js files created via **[butternut](https://github.com/Rich-Harris/butternut)**
+
+---
+
 ### Version 3.8.1
 
 + **Bugfix** in **option.dragit and option.resizeit** when using **option.position.of**

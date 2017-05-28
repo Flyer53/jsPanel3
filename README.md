@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/Flyer53/jsPanel3.svg?branch=master)](https://travis-ci.org/Flyer53/jsPanel3) [![CDNJS](https://img.shields.io/cdnjs/v/jspanel3.svg)](https://cdnjs.com/libraries/jspanel3) ![license MIT](https://img.shields.io/badge/license-MIT-blue.svg) [![npm version](https://badge.fury.io/js/jspanel3.svg)](https://badge.fury.io/js/jspanel3) [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/jsPanel/Lobby?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
-## [jsPanel 3.8.1 released 2017-05-09](#)
+## [jsPanel 3.9.0 released 2017-05-28](#)
 
 
 **A jQuery plugin to create highly configurable multifunctional floating panels.**
@@ -11,7 +11,7 @@
 
 **News:**
 
-+ I'm working on a **jsPanel** version that does **without dependencies (not even jQuery)**. For now it's strictly experimental and works with FF, Chrome, Edge, Brave, Opera and IE10/11. Interested? A simple demo page is [here](http://alpha.jspanel.de/media/demos/nojquery/index.php)
++ I'm working on a **jsPanel** version that does **without dependencies (not even jQuery)**. For now it's strictly experimental and works with FF, Chrome, Edge, Brave, Opera and IE10/11. Interested? A simple demo page is [here](http://alpha.jspanel.de/)
 + Want to **stay up to date** about new jsPanel releases, bugfixes, plans and other jsPanel related topics? Then sign up for the **[monthly newsletter](http://jspanel.de/api/#mailinglist)**
 
 ---
