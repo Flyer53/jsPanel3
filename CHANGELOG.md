@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### Version 3.9.1
+
++ **Fixed:** When the content section of a jsPanel contains another document complete with DTD, HTML tag etc. the panel sometimes "glued" to the mousecursor after draging/resizing the panel with the built-in **dragit/resizeit** interactions
+
+---
+
 ### Version 3.9.0
 
 + jsPanel script now works also after calling **[$.noConflict()](http://api.jquery.com/jQuery.noConflict/)**

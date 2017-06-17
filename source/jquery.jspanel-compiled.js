@@ -38,8 +38,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.9.0',
-    date: '2017-05-28 10:25',
+    version: '3.9.1',
+    date: '2017-06-14 12:49',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -977,6 +977,7 @@ var jsPanel = {
             elmtStyles = window.getComputedStyle(elmt, null),
             elmtStylesPosition = elmtStyles.getPropertyValue('position'),
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
+            elmtContent = elmt.querySelector('.jsPanel-content'),
             dragstart = void 0,
             drag = void 0,
             dragstop = void 0;
@@ -1060,6 +1061,8 @@ var jsPanel = {
                     maxLeft = void 0,
                     minTop = void 0,
                     maxTop = void 0;
+
+                elmtContent.style.pointerEvents = 'none';
 
                 if (elmtStylesPosition === 'fixed') {
                     startLeft = elmtRect.left;
@@ -1206,6 +1209,7 @@ var jsPanel = {
         document.addEventListener(jsPanel.evtEnd, function () {
             document.removeEventListener(jsPanel.evtMove, dragPanel, false);
             if (dragstarted) {
+                elmtContent.style.pointerEvents = 'inherit';
                 document.dispatchEvent(dragstop);
                 elmt.style.opacity = 1;
                 dragstarted = undefined;
@@ -1248,6 +1252,7 @@ var jsPanel = {
             elmtBottomBorder = parseInt(elmtStyles.getPropertyValue('border-bottom-width'), 10),
             elmtParent = elmt.parentElement,
             elmtParentTagName = elmtParent.tagName.toLowerCase(),
+            elmtContent = elmt.querySelector('.jsPanel-content'),
             maxWidth = typeof opts.maxWidth === 'function' ? opts.maxWidth() : opts.maxWidth,
             maxHeight = typeof opts.maxHeight === 'function' ? opts.maxHeight() : opts.maxHeight,
             minWidth = typeof opts.minWidth === 'function' ? opts.minWidth() : opts.minWidth,
@@ -1336,6 +1341,8 @@ var jsPanel = {
                     maxWidthWest = 10000,
                     maxHeightSouth = 10000,
                     maxHeightNorth = 10000;
+
+                elmtContent.style.pointerEvents = 'none';
 
                 if (elmtStylesPosition === 'fixed') {
                     startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
@@ -1625,6 +1632,7 @@ var jsPanel = {
 
                 document.removeEventListener(jsPanel.evtMove, resizePanel, false);
                 if (resizestarted) {
+                    elmtContent.style.pointerEvents = 'inherit';
                     document.dispatchEvent(resizestop);
                     resizestarted = undefined;
                     //  jsPanel specific code ---------------------------------------
