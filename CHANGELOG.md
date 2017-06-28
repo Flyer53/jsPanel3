@@ -1,5 +1,13 @@
 ## CHANGELOG
 
+### Version 3.9.2
+
++ **Fixed** issue with **option.dragit** in combination with **option.onwindowresize**
++ **Fixed** issue with options **dragit/resizeit** (panel is now properly fronted when starting a drag or resize operstion or when clicking the header section)
++ **Fixed** issue in optio.resizeit (panel "glued" to mouse in some situations)
+
+---
+
 ### Version 3.9.1
 
 + **Fixed:** When the content section of a jsPanel contains another document complete with DTD, HTML tag etc. the panel sometimes "glued" to the mousecursor after draging/resizing the panel with the built-in **dragit/resizeit** interactions

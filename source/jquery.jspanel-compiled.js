@@ -38,8 +38,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.9.1',
-    date: '2017-06-14 12:49',
+    version: '3.9.2',
+    date: '2017-06-25 22:34',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -1038,7 +1038,6 @@ var jsPanel = {
 
         for (var _i = 0; _i < handles.length; _i++) {
             handles[_i].addEventListener(jsPanel.evtStart, function (e) {
-                e.stopPropagation();
                 var elmtRect = elmt.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
                 elmtParentRect = elmtParent.getBoundingClientRect(),
@@ -1213,6 +1212,7 @@ var jsPanel = {
                 document.dispatchEvent(dragstop);
                 elmt.style.opacity = 1;
                 dragstarted = undefined;
+                jsPanel.calcPositionFactors(element);
                 if (typeof opts.stop === 'function') {
                     opts.stop.call(el, el);
                 }
@@ -1314,7 +1314,6 @@ var jsPanel = {
         var handles = elmt.getElementsByClassName('jsPanel-resizeit-handle');
         for (var i = 0; i < handles.length; i++) {
             handles[i].addEventListener(jsPanel.evtStart, function (e) {
-                e.stopPropagation(); /* prevent elmt from being dragged as well */
                 var elmtRect = elmt.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
                 elmtParentRect = elmtParent.getBoundingClientRect(),
@@ -1323,15 +1322,11 @@ var jsPanel = {
                     elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
                     elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
                     elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-
-                //elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-                elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
+                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
                     startX = e.pageX || e.touches[0].pageX,
                     startY = e.pageY || e.touches[0].pageY,
                     scrollLeft = window.scrollX || window.pageXOffset,
                     // IE11 doesn't know scrollX
-                scrollTop = window.scrollY || window.pageYOffset,
-                    // IE11 doesn't know scrollY
                 startWidth = elmtRect.width,
                     startHeight = elmtRect.height,
                     startLeft = void 0,
@@ -1629,29 +1624,29 @@ var jsPanel = {
                     }
                 }
                 jsPanel.contentResize(element);
-
-                document.removeEventListener(jsPanel.evtMove, resizePanel, false);
-                if (resizestarted) {
-                    elmtContent.style.pointerEvents = 'inherit';
-                    document.dispatchEvent(resizestop);
-                    resizestarted = undefined;
-                    //  jsPanel specific code ---------------------------------------
-                    if ((jQuery(elmt).data('status') === 'smallified' || jQuery(elmt).data('status') === 'smallifiedMax') && jQuery(elmt).height() > jQuery(elmt).header.height()) {
-                        // ... and only when element height changed
-                        jQuery(elmt).hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
-                        jQuery(elmt).data('status', 'normalized');
-                        jQuery(document).trigger('jspanelnormalized');
-                        jQuery(document).trigger('jspanelstatuschange');
-                    }
-                    jsPanel.calcPositionFactors(element);
-                    // jsPanel specific code end ------------------------------------
-                    if (typeof opts.stop === 'function') {
-                        opts.stop.call(el, el);
-                    }
-                }
-                // reenable window scrolling
-                window.removeEventListener(jsPanel.evtEnd, prevDefault, false);
             }
+
+            document.removeEventListener(jsPanel.evtMove, resizePanel, false);
+            if (resizestarted) {
+                elmtContent.style.pointerEvents = 'inherit';
+                document.dispatchEvent(resizestop);
+                resizestarted = undefined;
+                //  jsPanel specific code ---------------------------------------
+                if ((jQuery(elmt).data('status') === 'smallified' || jQuery(elmt).data('status') === 'smallifiedMax') && jQuery(elmt).height() > jQuery(elmt).header.height()) {
+                    // ... and only when element height changed
+                    jQuery(elmt).hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
+                    jQuery(elmt).data('status', 'normalized');
+                    jQuery(document).trigger('jspanelnormalized');
+                    jQuery(document).trigger('jspanelstatuschange');
+                }
+                jsPanel.calcPositionFactors(element);
+                // jsPanel specific code end ------------------------------------
+                if (typeof opts.stop === 'function') {
+                    opts.stop.call(el, el);
+                }
+            }
+            // reenable window scrolling
+            window.removeEventListener(jsPanel.evtEnd, prevDefault, false);
         }, false);
 
         return el;
@@ -2419,8 +2414,8 @@ var jsPanel = {
                 width: Math.round(elData.width), // width of elt (includes border)
                 height: Math.round(elData.height), // height of elt (includes border)
                 left: Math.round(elData.left + window.pageXOffset), // left value of elt option.of RELATIVE TO DOCUMENT
-                top: Math.round(elData.top + window.pageYOffset) // top value of elt option.of RELATIVE TO DOCUMENT
-            };
+                top: Math.round(elData.top + window.pageYOffset // top value of elt option.of RELATIVE TO DOCUMENT
+                ) };
         }
 
         if (typeof options === 'string') {
