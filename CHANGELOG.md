@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### Version 3.9.3
+
++ **Fixed** panel did not front on click in header section on some browsers
+
+---
+
 ### Version 3.9.2
 
 + **Fixed** issue with **option.dragit** in combination with **option.onwindowresize**

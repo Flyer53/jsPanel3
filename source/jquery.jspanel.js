@@ -1,4 +1,3 @@
-/* jquery.jspanel.js file version and date: 3.9.0 2017-05-28 10:25 */
 /* global jsPanel */
 'use strict';
 // Object.assign Polyfill - https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Object/assign - ONLY FOR IE11
@@ -35,8 +34,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version:             '3.9.2',
-    date:                '2017-06-25 22:34',
+    version:             '3.9.3',
+    date:                '2017-07-15 12:05',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -1145,8 +1144,6 @@ var jsPanel = {
                     minTop,
                     maxTop;
 
-                elmtContent.style.pointerEvents = 'none';
-
                 if (elmtStylesPosition === 'fixed') {
                     startLeft = elmtRect.left;
                     startTop = elmtRect.top;
@@ -1219,7 +1216,6 @@ var jsPanel = {
                 }
 
                 dragPanel = function (evt) {
-                    evt.stopPropagation();
                     // trigger dragstarted only once per drag
                     if (!dragstarted) {
                         document.dispatchEvent(dragstart);
@@ -3812,7 +3808,7 @@ if ('onpointerup' in window) {
         if (jQuery.ui && jQuery.ui.draggable) {
             jsP.on('dragstop', () => jsPanel.calcPositionFactors(jsP));
         }
-        jsP.on('mousedown', (e) => {
+        jsP.on(jsPanel.evtStart, (e) => {
 
             if (e.target.classList.contains('jsglyph-close') || e.target.classList.contains('jsglyph-minimize')) {
                 return;
