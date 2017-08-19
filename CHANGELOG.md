@@ -1,5 +1,13 @@
 ## CHANGELOG
 
+### Version 3.10.0
+
++ **Added** options **dragit** and **resizeit** callbacks start, drag/resize and stop receive second argument with position/size object
++ **Added** parameter **disableOnMaximized** for option.**dragit**
++ **Improved** compatibility of options **dragit** and **resizeit** on mobile devices
+
+---
+
 ### Version 3.9.3
 
 + **Fixed** panel did not front on click in header section on some browsers
