@@ -37,8 +37,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.10.0',
-    date: '2017-08-19 12:37',
+    version: '3.11.0',
+    date: '2017-10-20 21:25',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -982,7 +982,8 @@ var jsPanel = {
             drag = void 0,
             dragstop = void 0,
             left = void 0,
-            top = void 0;
+            top = void 0,
+            frames = [];
 
         if (jsPanel.isIE) {
             // old fashioned only for IE11
@@ -1039,6 +1040,13 @@ var jsPanel = {
             handles[_i].addEventListener(jsPanel.evtStart, function (e) {
                 e.preventDefault();
 
+                frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
+                if (frames.length) {
+                    frames.forEach(function (item) {
+                        item.style.pointerEvents = 'none';
+                    });
+                }
+
                 var elmtRect = elmt.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
                 elmtParentRect = elmtParent.getBoundingClientRect(),
@@ -1051,8 +1059,11 @@ var jsPanel = {
                     elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
                     startLeft = void 0,
                     startTop = void 0,
-                    startX = e.pageX || e.touches[0].pageX,
-                    startY = e.pageY || e.touches[0].pageY,
+
+                //startX = e.pageX || e.touches[0].pageX,
+                //startY = e.pageY || e.touches[0].pageY,
+                startX = e.touches ? e.touches[0].pageX : e.pageX,
+                    startY = e.touches ? e.touches[0].pageY : e.pageY,
                     scrollLeft = window.scrollX || window.pageXOffset,
                     // IE11 doesn't know scrollX
                 scrollTop = window.scrollY || window.pageYOffset,
@@ -1151,8 +1162,10 @@ var jsPanel = {
                     // trigger drag permanently while draging
                     document.dispatchEvent(drag);
 
-                    left = elmtParentLeftBorder + startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif;
-                    top = elmtParentTopBorder + startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
+                    //left = elmtParentLeftBorder + startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif;
+                    //top  = elmtParentTopBorder + startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
+                    left = elmtParentLeftBorder + startLeft + (evt.touches ? evt.touches[0].pageX : evt.pageX) - startX + xDif;
+                    top = elmtParentTopBorder + startTop + (evt.touches ? evt.touches[0].pageY : evt.pageY) - startY + yDif;
 
                     // apply min/max left/top values if needed
                     if (left <= minLeft) {
@@ -1221,6 +1234,11 @@ var jsPanel = {
                     opts.stop.call(el, el, { left: parseFloat(el.css('left')), top: parseFloat(el.css('top')) });
                 }
             }
+            if (frames.length) {
+                frames.forEach(function (item) {
+                    item.style.pointerEvents = 'inherit';
+                });
+            }
         }, false);
 
         return el;
@@ -1262,7 +1280,8 @@ var jsPanel = {
             minHeight = typeof opts.minHeight === 'function' ? opts.minHeight() : opts.minHeight,
             resizestart = void 0,
             resize = void 0,
-            resizestop = void 0;
+            resizestop = void 0,
+            frames = [];
         if (jsPanel.isIE) {
             // old fashioned only for IE11
             resizestart = document.createEvent('CustomEvent');
@@ -1314,6 +1333,13 @@ var jsPanel = {
         for (var i = 0; i < handles.length; i++) {
             handles[i].addEventListener(jsPanel.evtStart, function (e) {
                 e.preventDefault();
+
+                frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
+                if (frames.length) {
+                    frames.forEach(function (item) {
+                        item.style.pointerEvents = 'none';
+                    });
+                }
 
                 var elmtRect = elmt.getBoundingClientRect(),
                     /* needs to be calculated on pointerdown!! */
@@ -1655,6 +1681,11 @@ var jsPanel = {
                 if (typeof opts.stop === 'function') {
                     opts.stop.call(el, el, { width: parseFloat(el.css('width')), height: parseFloat(el.css('height')) });
                 }
+            }
+            if (frames.length) {
+                frames.forEach(function (item) {
+                    item.style.pointerEvents = 'inherit';
+                });
             }
         }, false);
 
@@ -2673,6 +2704,20 @@ var jsPanel = {
 
         newCoords = { left: newCoordsLeft, top: newCoordsTop };
 
+        // apply minLeft, minTop, maxLeft and maxTop values (need to be numbers)
+        if ((option.minLeft || option.minLeft === 0) && typeof option.minLeft === 'number' && newCoords.left < option.minLeft) {
+            newCoords.left = option.minLeft;
+        }
+        if ((option.maxLeft || option.maxLeft === 0) && typeof option.maxLeft === 'number' && newCoords.left > option.maxLeft) {
+            newCoords.left = option.maxLeft;
+        }
+        if ((option.minTop || option.minTop === 0) && typeof option.minTop === 'number' && newCoords.top < option.minTop) {
+            newCoords.top = option.minTop;
+        }
+        if ((option.maxTop || option.maxTop === 0) && typeof option.maxTop === 'number' && newCoords.top > option.maxTop) {
+            newCoords.top = option.maxTop;
+        }
+
         if (typeof option.modify === 'function') {
 
             newCoords = option.modify.call(newCoords, newCoords);
@@ -3334,10 +3379,14 @@ if ('ontouchend' in window) {
         jsP.hideControls = function (sel) {
             // NodeList.forEach() is not supported by all browsers yet -> convert to array
             Array.prototype.slice.call(jsP.header.controls[0].getElementsByClassName('jsPanel-btn')).forEach(function (item) {
-                item.style.display = 'block';
+                if (item) {
+                    item.style.display = 'block';
+                }
             });
             sel.forEach(function (item) {
-                jsP.header.controls[0].querySelector(item).style.display = 'none';
+                if (jsP.header.controls[0].querySelector(item)) {
+                    jsP.header.controls[0].querySelector(item).style.display = 'none';
+                }
             });
         }; /* used only internally */
 

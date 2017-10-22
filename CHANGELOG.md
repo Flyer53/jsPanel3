@@ -1,5 +1,11 @@
 ## CHANGELOG
 
+### Version 3.11.0
+
++ **option.position** extended with parameters **minLeft**, **maxLeft**, **minTop** and **maxTop**
++ **bugfix** in options **dragit** and **resizeit** when panel content includes one or more iframes
++ various minor bugfixes
+
 ### Version 3.10.0
 
 + **Added** options **dragit** and **resizeit** callbacks start, drag/resize and stop receive second argument with position/size object
