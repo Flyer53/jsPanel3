@@ -1,5 +1,12 @@
 ## CHANGELOG
 
+### Version 3.11.1
+
++ options **dragit/resizeit** on touch devices now work with touch AND mouse
++ the header logo now is also a default drag handle
+
+---
+
 ### Version 3.11.0
 
 + **option.position** extended with parameters **minLeft**, **maxLeft**, **minTop** and **maxTop**

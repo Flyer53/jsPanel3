@@ -37,8 +37,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.11.0',
-    date: '2017-10-20 21:25',
+    version: '3.11.1',
+    date: '2017-11-01 11:22',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
@@ -999,16 +999,7 @@ var jsPanel = {
             dragstop = new Event('dragstop');
         }
 
-        // elmt needs to be positioned absolute or fixed (not needed within jsPanel script)
-        /* if (elmtStylesPosition !== 'absolute' && elmtStylesPosition !== 'fixed') {elmt.style.position = 'absolute'; } */
-
         handles = opts.handles ? elmt.querySelectorAll(opts.handles) : [elmt];
-        for (var i = 0; i < handles.length; ++i) {
-            handles[i].style.cursor = opts.cursor;
-        }
-        /* not enough browser support for NodeList.forEach()
-         handles.forEach(function(item) {item.style.cursor = opts.cursor;});
-         */
 
         if (typeof containment === 'number') {
             // containment: 20 => containment: [20, 20, 20, 20]
@@ -1036,210 +1027,215 @@ var jsPanel = {
             opts.containment = containment = 'window';
         }
 
-        for (var _i = 0; _i < handles.length; _i++) {
-            handles[_i].addEventListener(jsPanel.evtStart, function (e) {
-                e.preventDefault();
+        var _loop = function _loop(i) {
 
-                frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
-                if (frames.length) {
-                    frames.forEach(function (item) {
-                        item.style.pointerEvents = 'none';
-                    });
-                }
+            jsPanel.evtStart.forEach(function (item) {
+                handles[i].addEventListener(item, function (e) {
+                    e.preventDefault();
 
-                var elmtRect = elmt.getBoundingClientRect(),
-                    /* needs to be calculated on pointerdown!! */
-                elmtParentRect = elmtParent.getBoundingClientRect(),
-                    /* needs to be calculated on pointerdown!! */
-                elmtParentStyles = window.getComputedStyle(elmtParent, null),
-                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-                    elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
-                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
-                    startLeft = void 0,
-                    startTop = void 0,
-
-                //startX = e.pageX || e.touches[0].pageX,
-                //startY = e.pageY || e.touches[0].pageY,
-                startX = e.touches ? e.touches[0].pageX : e.pageX,
-                    startY = e.touches ? e.touches[0].pageY : e.pageY,
-                    scrollLeft = window.scrollX || window.pageXOffset,
-                    // IE11 doesn't know scrollX
-                scrollTop = window.scrollY || window.pageYOffset,
-                    // IE11 doesn't know scrollY
-                minLeft = void 0,
-                    maxLeft = void 0,
-                    minTop = void 0,
-                    maxTop = void 0;
-
-                if (elmtStylesPosition === 'fixed') {
-                    startLeft = elmtRect.left;
-                    startTop = elmtRect.top;
-                } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left /* + scrollLeft*/;
-                    startTop = elmtRect.top /* + scrollTop*/;
-                } else if (elmtParentTagName !== 'body') {
-                    startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft;
-                    startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop;
-                }
-
-                // prevent window scroll while draging elmt
-                //document.body.addEventListener(jsPanel.evtMove, freezeVp, false);
-
-                // calc min/max left/top values if containment is set
-                if (elmtParentTagName === 'body' && containment) {
-                    if (elmtStylesPosition === 'fixed') {
-                        minLeft = 0;
-                        minTop = 0;
-                        maxLeft = document.documentElement.clientWidth - elmtRect.width;
-                        maxTop = document.documentElement.clientHeight - elmtRect.height;
-                    } else {
-                        minLeft = scrollLeft;
-                        minTop = scrollTop;
-                        maxLeft = document.documentElement.clientWidth - elmtRect.width + scrollLeft;
-                        maxTop = document.documentElement.clientHeight - elmtRect.height + scrollTop;
+                    frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
+                    if (frames.length) {
+                        frames.forEach(function (item) {
+                            item.style.pointerEvents = 'none';
+                        });
                     }
-                } else {
-                    // if panel is NOT in body
-                    if (containment === 'parent') {
-                        if (elmtParentPosition === 'static') {
-                            minLeft = elmtParentRect.left + elmtParentLeftBorder + scrollLeft;
-                            minTop = elmtParentRect.top + elmtParentTopBorder + scrollTop;
-                            maxLeft = minLeft + elmtParentRect.width - elmtRect.width - elmtParentLeftBorder - elmtParentRightBorder;
-                            maxTop = minTop + elmtParentRect.height - elmtRect.height - elmtParentTopBorder - elmtParentBottomBorder;
-                        } else {
+
+                    var elmtRect = elmt.getBoundingClientRect(),
+                        /* needs to be calculated on pointerdown!! */
+                    elmtParentRect = elmtParent.getBoundingClientRect(),
+                        /* needs to be calculated on pointerdown!! */
+                    elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                        elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                        elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                        elmtParentRightBorder = parseInt(elmtParentStyles.getPropertyValue('border-right-width'), 10),
+                        elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+                        elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
+                        startLeft = void 0,
+                        startTop = void 0,
+                        startX = e.touches ? e.touches[0].pageX : e.pageX,
+                        startY = e.touches ? e.touches[0].pageY : e.pageY,
+                        scrollLeft = window.scrollX || window.pageXOffset,
+                        // IE11 doesn't know scrollX
+                    scrollTop = window.scrollY || window.pageYOffset,
+                        // IE11 doesn't know scrollY
+                    minLeft = void 0,
+                        maxLeft = void 0,
+                        minTop = void 0,
+                        maxTop = void 0;
+
+                    if (elmtStylesPosition === 'fixed') {
+                        startLeft = elmtRect.left;
+                        startTop = elmtRect.top;
+                    } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
+                        startLeft = elmtRect.left;
+                        startTop = elmtRect.top;
+                    } else if (elmtParentTagName !== 'body') {
+                        startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft;
+                        startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop;
+                    }
+
+                    // calc min/max left/top values if containment is set
+                    if (elmtParentTagName === 'body' && containment) {
+                        if (elmtStylesPosition === 'fixed') {
                             minLeft = 0;
                             minTop = 0;
-                            maxLeft = elmtParentRect.width - elmtRect.width - elmtParentLeftBorder - elmtParentRightBorder;
-                            maxTop = elmtParentRect.height - elmtRect.height - elmtParentTopBorder - elmtParentBottomBorder;
-                        }
-                    } else if (containment === 'window') {
-                        if (elmtParentPosition === 'static') {
+                            maxLeft = document.documentElement.clientWidth - elmtRect.width;
+                            maxTop = document.documentElement.clientHeight - elmtRect.height;
+                        } else {
                             minLeft = scrollLeft;
                             minTop = scrollTop;
                             maxLeft = document.documentElement.clientWidth - elmtRect.width + scrollLeft;
                             maxTop = document.documentElement.clientHeight - elmtRect.height + scrollTop;
-                        } else {
-                            minLeft = -elmtParentRect.left - elmtParentLeftBorder;
-                            minTop = -elmtParentRect.top - elmtParentTopBorder;
-                            maxLeft = document.documentElement.clientWidth - elmtParentRect.left - elmtRect.width - elmtParentRightBorder;
-                            maxTop = document.documentElement.clientHeight - elmtParentRect.top - elmtRect.height - elmtParentBottomBorder;
                         }
-                    }
-                }
-                // if original opts.containment is array
-                if (containmentArray) {
-                    minLeft += containmentArray[3];
-                    minTop += containmentArray[0];
-                    maxLeft -= containmentArray[1];
-                    maxTop -= containmentArray[2];
-                }
-
-                // calculate corrections for rotated panels
-                var xDif = parseFloat(elmt.style.left) - elmtRect.left,
-                    yDif = parseFloat(elmt.style.top) - elmtRect.top;
-                if (elmtParent !== document.body) {
-                    xDif += elmtParentRect.left;
-                    yDif += elmtParentRect.top;
-                }
-
-                dragPanel = function dragPanel(evt) {
-                    e.preventDefault();
-
-                    if (opts.disableOnMaximized && jQuery(elmt).data('status') === 'maximized') {
-                        return false;
-                    }
-                    // trigger dragstarted only once per drag
-                    if (!dragstarted) {
-                        document.dispatchEvent(dragstart);
-                        elmt.style.opacity = opts.opacity;
-                        if (typeof opts.start === 'function') {
-                            opts.start.call(el, el, { left: startLeft, top: startTop });
-                        }
-                    }
-                    dragstarted = 1;
-                    // trigger drag permanently while draging
-                    document.dispatchEvent(drag);
-
-                    //left = elmtParentLeftBorder + startLeft + (evt.pageX || evt.touches[0].pageX) - startX + xDif;
-                    //top  = elmtParentTopBorder + startTop + (evt.pageY || evt.touches[0].pageY) - startY + yDif;
-                    left = elmtParentLeftBorder + startLeft + (evt.touches ? evt.touches[0].pageX : evt.pageX) - startX + xDif;
-                    top = elmtParentTopBorder + startTop + (evt.touches ? evt.touches[0].pageY : evt.pageY) - startY + yDif;
-
-                    // apply min/max left/top values if needed
-                    if (left <= minLeft) {
-                        left = minLeft;
-                    } else if (left >= maxLeft) {
-                        left = maxLeft;
-                    }
-                    if (top <= minTop) {
-                        top = minTop;
-                    } else if (top >= maxTop) {
-                        top = maxTop;
-                    }
-
-                    // restrict draging to one direction
-                    if (opts.axis === 'x') {
-                        elmt.style.left = left + 'px';
-                    } else if (opts.axis === 'y') {
-                        elmt.style.top = top + 'px';
                     } else {
-                        elmt.style.left = left + 'px';
-                        elmt.style.top = top + 'px';
+                        // if panel is NOT in body
+                        if (containment === 'parent') {
+                            if (elmtParentPosition === 'static') {
+                                minLeft = elmtParentRect.left + elmtParentLeftBorder + scrollLeft;
+                                minTop = elmtParentRect.top + elmtParentTopBorder + scrollTop;
+                                maxLeft = minLeft + elmtParentRect.width - elmtRect.width - elmtParentLeftBorder - elmtParentRightBorder;
+                                maxTop = minTop + elmtParentRect.height - elmtRect.height - elmtParentTopBorder - elmtParentBottomBorder;
+                            } else {
+                                minLeft = 0;
+                                minTop = 0;
+                                maxLeft = elmtParentRect.width - elmtRect.width - elmtParentLeftBorder - elmtParentRightBorder;
+                                maxTop = elmtParentRect.height - elmtRect.height - elmtParentTopBorder - elmtParentBottomBorder;
+                            }
+                        } else if (containment === 'window') {
+                            if (elmtParentPosition === 'static') {
+                                minLeft = scrollLeft;
+                                minTop = scrollTop;
+                                maxLeft = document.documentElement.clientWidth - elmtRect.width + scrollLeft;
+                                maxTop = document.documentElement.clientHeight - elmtRect.height + scrollTop;
+                            } else {
+                                minLeft = -elmtParentRect.left - elmtParentLeftBorder;
+                                minTop = -elmtParentRect.top - elmtParentTopBorder;
+                                maxLeft = document.documentElement.clientWidth - elmtParentRect.left - elmtRect.width - elmtParentRightBorder;
+                                maxTop = document.documentElement.clientHeight - elmtParentRect.top - elmtRect.height - elmtParentBottomBorder;
+                            }
+                        }
+                    }
+                    // if original opts.containment is array
+                    if (containmentArray) {
+                        minLeft += containmentArray[3];
+                        minTop += containmentArray[0];
+                        maxLeft -= containmentArray[1];
+                        maxTop -= containmentArray[2];
                     }
 
-                    // snap panel to grid
-                    if (opts.grid && Array.isArray(opts.grid)) {
-                        if (opts.grid.length === 1) {
-                            opts.grid[1] = opts.grid[0];
+                    // calculate corrections for rotated panels
+                    var xDif = parseFloat(elmt.style.left) - elmtRect.left,
+                        yDif = parseFloat(elmt.style.top) - elmtRect.top;
+                    if (elmtParent !== document.body) {
+                        xDif += elmtParentRect.left;
+                        yDif += elmtParentRect.top;
+                    }
+
+                    dragPanel = function dragPanel(evt) {
+                        e.preventDefault();
+
+                        if (opts.disableOnMaximized && jQuery(elmt).data('status') === 'maximized') {
+                            return false;
                         }
-                        var cx = parseFloat(elmt.style.left),
-                            cy = parseFloat(elmt.style.top),
-                            modX = cx % opts.grid[0],
-                            modY = cy % opts.grid[1];
-                        if (modX < opts.grid[0] / 2) {
-                            elmt.style.left = cx - modX + 'px';
+                        // trigger dragstarted only once per drag
+                        if (!dragstarted) {
+                            document.dispatchEvent(dragstart);
+                            elmt.style.opacity = opts.opacity;
+                            if (typeof opts.start === 'function') {
+                                opts.start.call(el, el, { left: startLeft, top: startTop });
+                            }
+                        }
+                        dragstarted = 1;
+                        // trigger drag permanently while draging
+                        document.dispatchEvent(drag);
+
+                        left = elmtParentLeftBorder + startLeft + (evt.touches ? evt.touches[0].pageX : evt.pageX) - startX + xDif;
+                        top = elmtParentTopBorder + startTop + (evt.touches ? evt.touches[0].pageY : evt.pageY) - startY + yDif;
+
+                        // apply min/max left/top values if needed
+                        if (left <= minLeft) {
+                            left = minLeft;
+                        } else if (left >= maxLeft) {
+                            left = maxLeft;
+                        }
+                        if (top <= minTop) {
+                            top = minTop;
+                        } else if (top >= maxTop) {
+                            top = maxTop;
+                        }
+
+                        // restrict draging to one direction
+                        if (opts.axis === 'x') {
+                            elmt.style.left = left + 'px';
+                        } else if (opts.axis === 'y') {
+                            elmt.style.top = top + 'px';
                         } else {
-                            elmt.style.left = cx + (opts.grid[0] - modX) + 'px';
+                            elmt.style.left = left + 'px';
+                            elmt.style.top = top + 'px';
                         }
-                        if (modY < opts.grid[1] / 2) {
-                            elmt.style.top = cy - modY + 'px';
-                        } else {
-                            elmt.style.top = cy + (opts.grid[1] - modY) + 'px';
+
+                        // snap panel to grid
+                        if (opts.grid && Array.isArray(opts.grid)) {
+                            if (opts.grid.length === 1) {
+                                opts.grid[1] = opts.grid[0];
+                            }
+                            var cx = parseFloat(elmt.style.left),
+                                cy = parseFloat(elmt.style.top),
+                                modX = cx % opts.grid[0],
+                                modY = cy % opts.grid[1];
+                            if (modX < opts.grid[0] / 2) {
+                                elmt.style.left = cx - modX + 'px';
+                            } else {
+                                elmt.style.left = cx + (opts.grid[0] - modX) + 'px';
+                            }
+                            if (modY < opts.grid[1] / 2) {
+                                elmt.style.top = cy - modY + 'px';
+                            } else {
+                                elmt.style.top = cy + (opts.grid[1] - modY) + 'px';
+                            }
                         }
-                    }
 
-                    // prevent selctions while draging
-                    window.getSelection().removeAllRanges();
-                    if (typeof opts.drag === 'function') {
-                        opts.drag.call(el, el, { left: parseFloat(el.css('left')), top: parseFloat(el.css('top')) });
-                    }
-                };
+                        // prevent selctions while draging
+                        window.getSelection().removeAllRanges();
+                        if (typeof opts.drag === 'function') {
+                            opts.drag.call(el, el, { left: parseFloat(el.css('left')), top: parseFloat(el.css('top')) });
+                        }
+                    };
 
-                document.addEventListener(jsPanel.evtMove, dragPanel, false);
-            }, false);
+                    jsPanel.evtMove.forEach(function (item) {
+                        document.addEventListener(item, dragPanel, false);
+                    });
+                }, false);
+            });
+        };
+
+        for (var i = 0; i < handles.length; i++) {
+            _loop(i);
         }
 
-        document.addEventListener(jsPanel.evtEnd, function () {
-            document.removeEventListener(jsPanel.evtMove, dragPanel, false);
-            //document.body.removeEventListener(jsPanel.evtMove, freezeVp, false);
-            if (dragstarted) {
-                elmtContent.style.pointerEvents = 'inherit';
-                document.dispatchEvent(dragstop);
-                elmt.style.opacity = 1;
-                dragstarted = undefined;
-                jsPanel.calcPositionFactors(element);
-                if (typeof opts.stop === 'function') {
-                    opts.stop.call(el, el, { left: parseFloat(el.css('left')), top: parseFloat(el.css('top')) });
-                }
-            }
-            if (frames.length) {
-                frames.forEach(function (item) {
-                    item.style.pointerEvents = 'inherit';
+        jsPanel.evtEnd.forEach(function (item) {
+            document.addEventListener(item, function () {
+
+                jsPanel.evtMove.forEach(function (item) {
+                    document.removeEventListener(item, dragPanel, false);
                 });
-            }
-        }, false);
+                if (dragstarted) {
+                    elmtContent.style.pointerEvents = 'inherit';
+                    document.dispatchEvent(dragstop);
+                    elmt.style.opacity = 1;
+                    dragstarted = undefined;
+                    jsPanel.calcPositionFactors(element);
+                    if (typeof opts.stop === 'function') {
+                        opts.stop.call(el, el, { left: parseFloat(el.css('left')), top: parseFloat(el.css('top')) });
+                    }
+                }
+                if (frames.length) {
+                    frames.forEach(function (item) {
+                        item.style.pointerEvents = 'inherit';
+                    });
+                }
+            }, false);
+        });
 
         return el;
     },
@@ -1330,364 +1326,374 @@ var jsPanel = {
         });
 
         var handles = elmt.getElementsByClassName('jsPanel-resizeit-handle');
-        for (var i = 0; i < handles.length; i++) {
-            handles[i].addEventListener(jsPanel.evtStart, function (e) {
-                e.preventDefault();
 
-                frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
-                if (frames.length) {
-                    frames.forEach(function (item) {
-                        item.style.pointerEvents = 'none';
-                    });
-                }
+        var _loop2 = function _loop2(i) {
 
-                var elmtRect = elmt.getBoundingClientRect(),
-                    /* needs to be calculated on pointerdown!! */
-                elmtParentRect = elmtParent.getBoundingClientRect(),
-                    /* needs to be calculated on pointerdown!! */
-                elmtParentStyles = window.getComputedStyle(elmtParent, null),
-                    elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
-                    elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
-                    elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
-                    elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
-                    startX = e.pageX || e.touches[0].pageX,
-                    startY = e.pageY || e.touches[0].pageY,
-                    scrollLeft = window.scrollX || window.pageXOffset,
-                    // IE11 doesn't know scrollX
-                startWidth = elmtRect.width,
-                    startHeight = elmtRect.height,
-                    startLeft = void 0,
-                    startTop = void 0,
-                    resizeHandle = e.target,
-                    maxWidthEast = 10000,
-                    maxWidthWest = 10000,
-                    maxHeightSouth = 10000,
-                    maxHeightNorth = 10000;
+            jsPanel.evtStart.forEach(function (item) {
+                handles[i].addEventListener(item, function (e) {
+                    e.preventDefault();
 
-                elmtContent.style.pointerEvents = 'none';
+                    frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
+                    if (frames.length) {
+                        frames.forEach(function (item) {
+                            item.style.pointerEvents = 'none';
+                        });
+                    }
 
-                if (elmtStylesPosition === 'fixed') {
-                    startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
-                    startTop = elmtRect.top - elmtTopBorder - elmtBottomBorder;
-                } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
-                    startLeft = elmtRect.left /*+ scrollLeft*/ - elmtLeftBorder - elmtRightBorder;
-                    startTop = elmtRect.top /*+ scrollTop*/ - elmtTopBorder - elmtBottomBorder;
-                } else if (elmtParentTagName !== 'body') {
-                    startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft - elmtLeftBorder - elmtRightBorder;
-                    startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop - elmtTopBorder - elmtBottomBorder;
-                }
+                    var elmtRect = elmt.getBoundingClientRect(),
+                        // needs to be calculated on pointerdown!!
+                    elmtParentRect = elmtParent.getBoundingClientRect(),
+                        // needs to be calculated on pointerdown!!
+                    elmtParentStyles = window.getComputedStyle(elmtParent, null),
+                        elmtParentPosition = elmtParentStyles.getPropertyValue('position'),
+                        elmtParentLeftBorder = parseInt(elmtParentStyles.getPropertyValue('border-left-width'), 10),
+                        elmtParentTopBorder = parseInt(elmtParentStyles.getPropertyValue('border-top-width'), 10),
+                        elmtParentBottomBorder = parseInt(elmtParentStyles.getPropertyValue('border-bottom-width'), 10),
+                        startX = e.pageX || e.touches[0].pageX,
+                        startY = e.pageY || e.touches[0].pageY,
+                        scrollLeft = window.scrollX || window.pageXOffset,
+                        // IE11 doesn't know scrollX
+                    startWidth = elmtRect.width,
+                        startHeight = elmtRect.height,
+                        startLeft = void 0,
+                        startTop = void 0,
+                        resizeHandle = e.target,
+                        maxWidthEast = 10000,
+                        maxWidthWest = 10000,
+                        maxHeightSouth = 10000,
+                        maxHeightNorth = 10000;
 
-                // calc min/max left/top values if containment is set - code from jsDraggable
-                if (elmtParentTagName === 'body' && containment) {
-                    maxWidthEast = document.documentElement.clientWidth - elmtRect.left - elmtLeftBorder - elmtRightBorder;
-                    maxHeightSouth = document.documentElement.clientHeight - elmtRect.top - elmtTopBorder - elmtBottomBorder;
-                    maxWidthWest = elmtRect.width + elmtRect.left - elmtLeftBorder - elmtRightBorder;
-                    maxHeightNorth = elmtRect.height + elmtRect.top - elmtTopBorder - elmtBottomBorder;
-                } else {
-                    // if panel is NOT in body
-                    if (containment === 'parent') {
-                        if (elmtParentPosition === 'static') {
-                            maxWidthEast = elmtParentRect.width - elmtRect.left - elmtLeftBorder - scrollLeft;
-                            maxHeightSouth = elmtParentRect.height + elmtParentRect.top - elmtRect.top + elmtTopBorder - elmtParentTopBorder - elmtParentBottomBorder;
-                            maxWidthWest = elmtRect.width + (elmtRect.left - elmtParentRect.left) - elmtParentLeftBorder;
-                            maxHeightNorth = elmtRect.height + (elmtRect.top - elmtParentRect.top) - elmtParentTopBorder;
-                        } else {
-                            maxWidthEast = elmtParent.clientWidth - (elmtRect.left - elmtParentRect.left) + elmtLeftBorder;
-                            maxHeightSouth = elmtParent.clientHeight - (elmtRect.top - elmtParentRect.top) + elmtTopBorder;
-                            maxWidthWest = elmtRect.width + (elmtRect.left - elmtParentRect.left) - elmtParentLeftBorder - elmtLeftBorder - elmtRightBorder;
-                            maxHeightNorth = elmt.clientHeight + (elmtRect.top - elmtParentRect.top) - elmtTopBorder - elmtTopBorder - elmtBottomBorder;
-                        }
-                    } else if (containment === 'window') {
+                    elmtContent.style.pointerEvents = 'none';
+
+                    if (elmtStylesPosition === 'fixed') {
+                        startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
+                        startTop = elmtRect.top - elmtTopBorder - elmtBottomBorder;
+                    } else if (elmtParentTagName === 'body' || elmtParentPosition === 'static') {
+                        startLeft = elmtRect.left - elmtLeftBorder - elmtRightBorder;
+                        startTop = elmtRect.top - elmtTopBorder - elmtBottomBorder;
+                    } else if (elmtParentTagName !== 'body') {
+                        startLeft = elmtRect.left - elmtParentRect.left - elmtParentLeftBorder + elmtParent.scrollLeft - elmtLeftBorder - elmtRightBorder;
+                        startTop = elmtRect.top - elmtParentRect.top - elmtParentTopBorder + elmtParent.scrollTop - elmtTopBorder - elmtBottomBorder;
+                    }
+
+                    // calc min/max left/top values if containment is set - code from jsDraggable
+                    if (elmtParentTagName === 'body' && containment) {
                         maxWidthEast = document.documentElement.clientWidth - elmtRect.left - elmtLeftBorder - elmtRightBorder;
                         maxHeightSouth = document.documentElement.clientHeight - elmtRect.top - elmtTopBorder - elmtBottomBorder;
-                        maxWidthWest = elmtRect.left + elmtRect.width - elmtLeftBorder - elmtRightBorder;
-                        maxHeightNorth = elmtRect.top + elmtRect.height - elmtTopBorder - elmtBottomBorder;
-                    }
-                }
-                // if original opts.containment is array
-                if (containmentArray) {
-                    maxWidthWest -= containmentArray[3];
-                    maxHeightNorth -= containmentArray[0];
-                    maxWidthEast -= containmentArray[1];
-                    maxHeightSouth -= containmentArray[2];
-                }
-
-                // prevent window scroll while draging element
-                //document.body.addEventListener(jsPanel.evtMove, freezeVp, false);
-
-                // calculate corrections for rotated panels
-                var computedStyle = window.getComputedStyle(elmt),
-                    wDif = parseFloat(computedStyle.width) - elmtRect.width,
-                    hDif = parseFloat(computedStyle.height) - elmtRect.height,
-                    xDif = parseFloat(computedStyle.left) - elmtRect.left,
-                    yDif = parseFloat(computedStyle.top) - elmtRect.top;
-                if (elmtParent !== document.body) {
-                    xDif += elmtParentRect.left;
-                    yDif += elmtParentRect.top;
-                }
-
-                resizePanel = function resizePanel(evt) {
-                    evt.preventDefault();
-
-                    // trigger resizestarted only once per resize
-                    if (!resizestarted) {
-                        document.dispatchEvent(resizestart);
-                        if (typeof opts.start === 'function') {
-                            opts.start.call(el, el, { width: startWidth, height: startHeight });
+                        maxWidthWest = elmtRect.width + elmtRect.left - elmtLeftBorder - elmtRightBorder;
+                        maxHeightNorth = elmtRect.height + elmtRect.top - elmtTopBorder - elmtBottomBorder;
+                    } else {
+                        // if panel is NOT in body
+                        if (containment === 'parent') {
+                            if (elmtParentPosition === 'static') {
+                                maxWidthEast = elmtParentRect.width - elmtRect.left - elmtLeftBorder - scrollLeft;
+                                maxHeightSouth = elmtParentRect.height + elmtParentRect.top - elmtRect.top + elmtTopBorder - elmtParentTopBorder - elmtParentBottomBorder;
+                                maxWidthWest = elmtRect.width + (elmtRect.left - elmtParentRect.left) - elmtParentLeftBorder;
+                                maxHeightNorth = elmtRect.height + (elmtRect.top - elmtParentRect.top) - elmtParentTopBorder;
+                            } else {
+                                maxWidthEast = elmtParent.clientWidth - (elmtRect.left - elmtParentRect.left) + elmtLeftBorder;
+                                maxHeightSouth = elmtParent.clientHeight - (elmtRect.top - elmtParentRect.top) + elmtTopBorder;
+                                maxWidthWest = elmtRect.width + (elmtRect.left - elmtParentRect.left) - elmtParentLeftBorder - elmtLeftBorder - elmtRightBorder;
+                                maxHeightNorth = elmt.clientHeight + (elmtRect.top - elmtParentRect.top) - elmtTopBorder - elmtTopBorder - elmtBottomBorder;
+                            }
+                        } else if (containment === 'window') {
+                            maxWidthEast = document.documentElement.clientWidth - elmtRect.left - elmtLeftBorder - elmtRightBorder;
+                            maxHeightSouth = document.documentElement.clientHeight - elmtRect.top - elmtTopBorder - elmtBottomBorder;
+                            maxWidthWest = elmtRect.left + elmtRect.width - elmtLeftBorder - elmtRightBorder;
+                            maxHeightNorth = elmtRect.top + elmtRect.height - elmtTopBorder - elmtBottomBorder;
                         }
                     }
-                    resizestarted = 1;
-                    // trigger resize permanently while resizing
-                    document.dispatchEvent(resize);
-
-                    if (resizeHandle.classList.contains('jsPanel-resizeit-e')) {
-                        var w = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif;
-                        if (w >= maxWidthEast) {
-                            w = maxWidthEast;
-                        }
-                        if (w >= maxWidth) {
-                            w = maxWidth;
-                        } else if (w <= minWidth) {
-                            w = minWidth;
-                        }
-                        elmt.style.width = w + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-se')) {
-                        var _w = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif,
-                            h = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
-                        if (_w >= maxWidthEast) {
-                            _w = maxWidthEast;
-                        }
-                        if (h >= maxHeightSouth) {
-                            h = maxHeightSouth;
-                        }
-                        if (_w >= maxWidth) {
-                            _w = maxWidth;
-                        } else if (_w <= minWidth) {
-                            _w = minWidth;
-                        }
-                        if (h >= maxHeight) {
-                            h = maxHeight;
-                        } else if (h <= minHeight) {
-                            h = minHeight;
-                        }
-                        elmt.style.width = _w + 'px';
-                        elmt.style.height = h + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-s')) {
-                        var _h = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
-                        if (_h >= maxHeightSouth) {
-                            _h = maxHeightSouth;
-                        }
-                        if (_h >= maxHeight) {
-                            _h = maxHeight;
-                        } else if (_h <= minHeight) {
-                            _h = minHeight;
-                        }
-                        elmt.style.height = _h + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-w')) {
-                        var _w2 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (_w2 <= maxWidth && _w2 >= minWidth && _w2 <= maxWidthWest) {
-                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
-                        }
-                        if (_w2 >= maxWidthWest) {
-                            _w2 = maxWidthWest;
-                        }
-                        if (_w2 >= maxWidth) {
-                            _w2 = maxWidth;
-                        } else if (_w2 <= minWidth) {
-                            _w2 = minWidth;
-                        }
-                        elmt.style.width = _w2 + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-n')) {
-                        var _h2 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (_h2 <= maxHeight && _h2 >= minHeight && _h2 <= maxHeightNorth) {
-                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
-                        }
-                        if (_h2 >= maxHeightNorth) {
-                            _h2 = maxHeightNorth;
-                        }
-                        if (_h2 >= maxHeight) {
-                            _h2 = maxHeight;
-                        } else if (_h2 <= minHeight) {
-                            _h2 = minHeight;
-                        }
-                        elmt.style.height = _h2 + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-sw')) {
-                        var _h3 = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
-                        if (_h3 >= maxHeightSouth) {
-                            _h3 = maxHeightSouth;
-                        }
-                        if (_h3 >= maxHeight) {
-                            _h3 = maxHeight;
-                        } else if (_h3 <= minHeight) {
-                            _h3 = minHeight;
-                        }
-                        elmt.style.height = _h3 + 'px';
-                        var _w3 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (_w3 <= maxWidth && _w3 >= minWidth && _w3 <= maxWidthWest) {
-                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
-                        }
-                        if (_w3 >= maxWidthWest) {
-                            _w3 = maxWidthWest;
-                        }
-                        if (_w3 >= maxWidth) {
-                            _w3 = maxWidth;
-                        } else if (_w3 <= minWidth) {
-                            _w3 = minWidth;
-                        }
-                        elmt.style.width = _w3 + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-nw')) {
-                        var _h4 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (_h4 <= maxHeight && _h4 >= minHeight && _h4 <= maxHeightNorth) {
-                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
-                        }
-                        if (_h4 >= maxHeightNorth) {
-                            _h4 = maxHeightNorth;
-                        }
-                        if (_h4 >= maxHeight) {
-                            _h4 = maxHeight;
-                        } else if (_h4 <= minHeight) {
-                            _h4 = minHeight;
-                        }
-                        elmt.style.height = _h4 + 'px';
-                        var _w4 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
-                        if (_w4 <= maxWidth && _w4 >= minWidth && _w4 <= maxWidthWest) {
-                            elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
-                        }
-                        if (_w4 >= maxWidthWest) {
-                            _w4 = maxWidthWest;
-                        }
-                        if (_w4 >= maxWidth) {
-                            _w4 = maxWidth;
-                        } else if (_w4 <= minWidth) {
-                            _w4 = minWidth;
-                        }
-                        elmt.style.width = _w4 + 'px';
-                    } else if (resizeHandle.classList.contains('jsPanel-resizeit-ne')) {
-                        var _h5 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
-                        if (_h5 <= maxHeight && _h5 >= minHeight && _h5 <= maxHeightNorth) {
-                            elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
-                        }
-                        if (_h5 >= maxHeightNorth) {
-                            _h5 = maxHeightNorth;
-                        }
-                        if (_h5 >= maxHeight) {
-                            _h5 = maxHeight;
-                        } else if (_h5 <= minHeight) {
-                            _h5 = minHeight;
-                        }
-                        elmt.style.height = _h5 + 'px';
-                        var _w5 = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif;
-                        if (_w5 >= maxWidthEast) {
-                            _w5 = maxWidthEast;
-                        }
-                        if (_w5 >= maxWidth) {
-                            _w5 = maxWidth;
-                        } else if (_w5 <= minWidth) {
-                            _w5 = minWidth;
-                        }
-                        elmt.style.width = _w5 + 'px';
+                    // if original opts.containment is array
+                    if (containmentArray) {
+                        maxWidthWest -= containmentArray[3];
+                        maxHeightNorth -= containmentArray[0];
+                        maxWidthEast -= containmentArray[1];
+                        maxHeightSouth -= containmentArray[2];
                     }
 
-                    jsPanel.contentResize(element);
-                    window.getSelection().removeAllRanges();
-                    if (typeof opts.resize === 'function') {
-                        opts.resize.call(el, el, { width: parseFloat(el.css('width')), height: parseFloat(el.css('height')) });
+                    // calculate corrections for rotated panels
+                    var computedStyle = window.getComputedStyle(elmt),
+                        wDif = parseFloat(computedStyle.width) - elmtRect.width,
+                        hDif = parseFloat(computedStyle.height) - elmtRect.height,
+                        xDif = parseFloat(computedStyle.left) - elmtRect.left,
+                        yDif = parseFloat(computedStyle.top) - elmtRect.top;
+                    if (elmtParent !== document.body) {
+                        xDif += elmtParentRect.left;
+                        yDif += elmtParentRect.top;
                     }
-                };
 
-                document.addEventListener(jsPanel.evtMove, resizePanel, false);
+                    resizePanel = function resizePanel(evt) {
+                        evt.preventDefault();
 
-                // remove resize handler when mouse leaves browser window (mouseleave doesn't work)
-                window.addEventListener('mouseout', function (e) {
-                    if (e.relatedTarget === null) {
-                        document.removeEventListener(jsPanel.evtMove, resizePanel, false);
-                    }
+                        // trigger resizestarted only once per resize
+                        if (!resizestarted) {
+                            document.dispatchEvent(resizestart);
+                            if (typeof opts.start === 'function') {
+                                opts.start.call(el, el, { width: startWidth, height: startHeight });
+                            }
+                        }
+                        resizestarted = 1;
+                        // trigger resize permanently while resizing
+                        document.dispatchEvent(resize);
+
+                        if (resizeHandle.classList.contains('jsPanel-resizeit-e')) {
+                            var w = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif;
+                            if (w >= maxWidthEast) {
+                                w = maxWidthEast;
+                            }
+                            if (w >= maxWidth) {
+                                w = maxWidth;
+                            } else if (w <= minWidth) {
+                                w = minWidth;
+                            }
+                            elmt.style.width = w + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-se')) {
+                            var _w = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif,
+                                h = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
+                            if (_w >= maxWidthEast) {
+                                _w = maxWidthEast;
+                            }
+                            if (h >= maxHeightSouth) {
+                                h = maxHeightSouth;
+                            }
+                            if (_w >= maxWidth) {
+                                _w = maxWidth;
+                            } else if (_w <= minWidth) {
+                                _w = minWidth;
+                            }
+                            if (h >= maxHeight) {
+                                h = maxHeight;
+                            } else if (h <= minHeight) {
+                                h = minHeight;
+                            }
+                            elmt.style.width = _w + 'px';
+                            elmt.style.height = h + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-s')) {
+                            var _h = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
+                            if (_h >= maxHeightSouth) {
+                                _h = maxHeightSouth;
+                            }
+                            if (_h >= maxHeight) {
+                                _h = maxHeight;
+                            } else if (_h <= minHeight) {
+                                _h = minHeight;
+                            }
+                            elmt.style.height = _h + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-w')) {
+                            var _w2 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
+                            if (_w2 <= maxWidth && _w2 >= minWidth && _w2 <= maxWidthWest) {
+                                elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            }
+                            if (_w2 >= maxWidthWest) {
+                                _w2 = maxWidthWest;
+                            }
+                            if (_w2 >= maxWidth) {
+                                _w2 = maxWidth;
+                            } else if (_w2 <= minWidth) {
+                                _w2 = minWidth;
+                            }
+                            elmt.style.width = _w2 + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-n')) {
+                            var _h2 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
+                            if (_h2 <= maxHeight && _h2 >= minHeight && _h2 <= maxHeightNorth) {
+                                elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            }
+                            if (_h2 >= maxHeightNorth) {
+                                _h2 = maxHeightNorth;
+                            }
+                            if (_h2 >= maxHeight) {
+                                _h2 = maxHeight;
+                            } else if (_h2 <= minHeight) {
+                                _h2 = minHeight;
+                            }
+                            elmt.style.height = _h2 + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-sw')) {
+                            var _h3 = startHeight + (evt.pageY || evt.touches[0].pageY) - startY + hDif;
+                            if (_h3 >= maxHeightSouth) {
+                                _h3 = maxHeightSouth;
+                            }
+                            if (_h3 >= maxHeight) {
+                                _h3 = maxHeight;
+                            } else if (_h3 <= minHeight) {
+                                _h3 = minHeight;
+                            }
+                            elmt.style.height = _h3 + 'px';
+                            var _w3 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
+                            if (_w3 <= maxWidth && _w3 >= minWidth && _w3 <= maxWidthWest) {
+                                elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            }
+                            if (_w3 >= maxWidthWest) {
+                                _w3 = maxWidthWest;
+                            }
+                            if (_w3 >= maxWidth) {
+                                _w3 = maxWidth;
+                            } else if (_w3 <= minWidth) {
+                                _w3 = minWidth;
+                            }
+                            elmt.style.width = _w3 + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-nw')) {
+                            var _h4 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
+                            if (_h4 <= maxHeight && _h4 >= minHeight && _h4 <= maxHeightNorth) {
+                                elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            }
+                            if (_h4 >= maxHeightNorth) {
+                                _h4 = maxHeightNorth;
+                            }
+                            if (_h4 >= maxHeight) {
+                                _h4 = maxHeight;
+                            } else if (_h4 <= minHeight) {
+                                _h4 = minHeight;
+                            }
+                            elmt.style.height = _h4 + 'px';
+                            var _w4 = startWidth + startX - (evt.pageX || evt.touches[0].pageX) + wDif;
+                            if (_w4 <= maxWidth && _w4 >= minWidth && _w4 <= maxWidthWest) {
+                                elmt.style.left = startLeft + elmtParentLeftBorder + (evt.pageX || evt.touches[0].pageX) - startX + xDif + 'px';
+                            }
+                            if (_w4 >= maxWidthWest) {
+                                _w4 = maxWidthWest;
+                            }
+                            if (_w4 >= maxWidth) {
+                                _w4 = maxWidth;
+                            } else if (_w4 <= minWidth) {
+                                _w4 = minWidth;
+                            }
+                            elmt.style.width = _w4 + 'px';
+                        } else if (resizeHandle.classList.contains('jsPanel-resizeit-ne')) {
+                            var _h5 = startHeight + startY - (evt.pageY || evt.touches[0].pageY) + hDif;
+                            if (_h5 <= maxHeight && _h5 >= minHeight && _h5 <= maxHeightNorth) {
+                                elmt.style.top = startTop + elmtParentTopBorder + (evt.pageY || evt.touches[0].pageY) - startY + yDif + 'px';
+                            }
+                            if (_h5 >= maxHeightNorth) {
+                                _h5 = maxHeightNorth;
+                            }
+                            if (_h5 >= maxHeight) {
+                                _h5 = maxHeight;
+                            } else if (_h5 <= minHeight) {
+                                _h5 = minHeight;
+                            }
+                            elmt.style.height = _h5 + 'px';
+                            var _w5 = startWidth + (evt.pageX || evt.touches[0].pageX) - startX + wDif;
+                            if (_w5 >= maxWidthEast) {
+                                _w5 = maxWidthEast;
+                            }
+                            if (_w5 >= maxWidth) {
+                                _w5 = maxWidth;
+                            } else if (_w5 <= minWidth) {
+                                _w5 = minWidth;
+                            }
+                            elmt.style.width = _w5 + 'px';
+                        }
+
+                        jsPanel.contentResize(element);
+                        window.getSelection().removeAllRanges();
+                        if (typeof opts.resize === 'function') {
+                            opts.resize.call(el, el, { width: parseFloat(el.css('width')), height: parseFloat(el.css('height')) });
+                        }
+                    };
+
+                    jsPanel.evtMove.forEach(function (item) {
+                        document.addEventListener(item, resizePanel, false);
+                    });
+
+                    // remove resize handler when mouse leaves browser window (mouseleave doesn't work)
+                    window.addEventListener('mouseout', function (e) {
+                        if (e.relatedTarget === null) {
+                            jsPanel.evtMove.forEach(function (item) {
+                                document.removeEventListener(item, resizePanel, false);
+                            });
+                        }
+                    }, false);
                 }, false);
-            }, false);
+            });
+        };
+
+        for (var i = 0; i < handles.length; i++) {
+            _loop2(i);
         }
 
-        document.addEventListener(jsPanel.evtEnd, function (e) {
-
-            if (e.target.classList && e.target.classList.contains('jsPanel-resizeit-handle')) {
-                var isLeftChange = void 0,
-                    isTopChange = void 0,
-                    cl = e.target.className;
-                if (cl.match(/jsPanel-resizeit-nw|jsPanel-resizeit-w|jsPanel-resizeit-sw/i)) {
-                    isLeftChange = true;
-                }
-                if (cl.match(/jsPanel-resizeit-nw|jsPanel-resizeit-n|jsPanel-resizeit-ne/i)) {
-                    isTopChange = true;
-                }
-
-                // snap panel to grid (doesn't work that well if inside function resizePanel)
-                if (opts.grid && Array.isArray(opts.grid)) {
-                    if (opts.grid.length === 1) {
-                        opts.grid[1] = opts.grid[0];
+        jsPanel.evtEnd.forEach(function (item) {
+            document.addEventListener(item, function (e) {
+                if (e.target.classList && e.target.classList.contains('jsPanel-resizeit-handle')) {
+                    var isLeftChange = void 0,
+                        isTopChange = void 0,
+                        cl = e.target.className;
+                    if (cl.match(/jsPanel-resizeit-nw|jsPanel-resizeit-w|jsPanel-resizeit-sw/i)) {
+                        isLeftChange = true;
                     }
-                    var cw = parseFloat(elmt.style.width),
-                        ch = parseFloat(elmt.style.height),
-                        modW = cw % opts.grid[0],
-                        modH = ch % opts.grid[1],
-                        cx = parseFloat(elmt.style.left),
-                        cy = parseFloat(elmt.style.top),
-                        modX = cx % opts.grid[0],
-                        modY = cy % opts.grid[1];
-
-                    if (modW < opts.grid[0] / 2) {
-                        elmt.style.width = cw - modW + 'px';
-                    } else {
-                        elmt.style.width = cw + (opts.grid[0] - modW) + 'px';
+                    if (cl.match(/jsPanel-resizeit-nw|jsPanel-resizeit-n|jsPanel-resizeit-ne/i)) {
+                        isTopChange = true;
                     }
-                    if (modH < opts.grid[1] / 2) {
-                        elmt.style.height = ch - modH + 'px';
-                    } else {
-                        elmt.style.height = ch + (opts.grid[1] - modH) + 'px';
-                    }
+                    // snap panel to grid (doesn't work that well if inside function resizePanel)
+                    if (opts.grid && Array.isArray(opts.grid)) {
+                        if (opts.grid.length === 1) {
+                            opts.grid[1] = opts.grid[0];
+                        }
+                        var cw = parseFloat(elmt.style.width),
+                            ch = parseFloat(elmt.style.height),
+                            modW = cw % opts.grid[0],
+                            modH = ch % opts.grid[1],
+                            cx = parseFloat(elmt.style.left),
+                            cy = parseFloat(elmt.style.top),
+                            modX = cx % opts.grid[0],
+                            modY = cy % opts.grid[1];
 
-                    if (isLeftChange) {
-                        if (modX < opts.grid[0] / 2) {
-                            elmt.style.left = cx - modX + 'px';
+                        if (modW < opts.grid[0] / 2) {
+                            elmt.style.width = cw - modW + 'px';
                         } else {
-                            elmt.style.left = cx + (opts.grid[0] - modX) + 'px';
+                            elmt.style.width = cw + (opts.grid[0] - modW) + 'px';
+                        }
+                        if (modH < opts.grid[1] / 2) {
+                            elmt.style.height = ch - modH + 'px';
+                        } else {
+                            elmt.style.height = ch + (opts.grid[1] - modH) + 'px';
+                        }
+
+                        if (isLeftChange) {
+                            if (modX < opts.grid[0] / 2) {
+                                elmt.style.left = cx - modX + 'px';
+                            } else {
+                                elmt.style.left = cx + (opts.grid[0] - modX) + 'px';
+                            }
+                        }
+                        if (isTopChange) {
+                            if (modY < opts.grid[1] / 2) {
+                                elmt.style.top = cy - modY + 'px';
+                            } else {
+                                elmt.style.top = cy + (opts.grid[1] - modY) + 'px';
+                            }
                         }
                     }
-                    if (isTopChange) {
-                        if (modY < opts.grid[1] / 2) {
-                            elmt.style.top = cy - modY + 'px';
-                        } else {
-                            elmt.style.top = cy + (opts.grid[1] - modY) + 'px';
-                        }
-                    }
+                    jsPanel.contentResize(element);
                 }
-                jsPanel.contentResize(element);
-            }
 
-            document.removeEventListener(jsPanel.evtMove, resizePanel, false);
-            //document.body.removeEventListener(jsPanel.evtMove, freezeVp, false);
-            if (resizestarted) {
-                elmtContent.style.pointerEvents = 'inherit';
-                document.dispatchEvent(resizestop);
-                resizestarted = undefined;
-                //  jsPanel specific code ---------------------------------------
-                if ((jQuery(elmt).data('status') === 'smallified' || jQuery(elmt).data('status') === 'smallifiedMax') && jQuery(elmt).height() > jQuery(elmt).header.height()) {
-                    // ... and only when element height changed
-                    jQuery(elmt).hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
-                    jQuery(elmt).data('status', 'normalized');
-                    jQuery(document).trigger('jspanelnormalized');
-                    jQuery(document).trigger('jspanelstatuschange');
-                }
-                jsPanel.calcPositionFactors(element);
-                // jsPanel specific code end ------------------------------------
-                if (typeof opts.stop === 'function') {
-                    opts.stop.call(el, el, { width: parseFloat(el.css('width')), height: parseFloat(el.css('height')) });
-                }
-            }
-            if (frames.length) {
-                frames.forEach(function (item) {
-                    item.style.pointerEvents = 'inherit';
+                jsPanel.evtMove.forEach(function (item) {
+                    document.removeEventListener(item, resizePanel, false);
                 });
-            }
-        }, false);
+                if (resizestarted) {
+                    elmtContent.style.pointerEvents = 'inherit';
+                    document.dispatchEvent(resizestop);
+                    resizestarted = undefined;
+                    //  jsPanel specific code ---------------------------------------
+                    if ((jQuery(elmt).data('status') === 'smallified' || jQuery(elmt).data('status') === 'smallifiedMax') && jQuery(elmt).height() > jQuery(elmt).header.height()) {
+                        // ... and only when element height changed
+                        jQuery(elmt).hideControls(['.jsPanel-btn-normalize', '.jsPanel-btn-smallifyrev']);
+                        jQuery(elmt).data('status', 'normalized');
+                        jQuery(document).trigger('jspanelnormalized');
+                        jQuery(document).trigger('jspanelstatuschange');
+                    }
+                    jsPanel.calcPositionFactors(element);
+                    // jsPanel specific code end ------------------------------------
+                    if (typeof opts.stop === 'function') {
+                        opts.stop.call(el, el, { width: parseFloat(el.css('width')), height: parseFloat(el.css('height')) });
+                    }
+                }
+                if (frames.length) {
+                    frames.forEach(function (item) {
+                        item.style.pointerEvents = 'inherit';
+                    });
+                }
+            }, false);
+        });
 
         return el;
     },
@@ -3208,13 +3214,13 @@ var jsPanel = {
 };
 
 if ('ontouchend' in window) {
-    jsPanel.evtStart = 'touchstart';
-    jsPanel.evtMove = 'touchmove';
-    jsPanel.evtEnd = 'touchend';
+    jsPanel.evtStart = ['touchstart', 'mousedown'];
+    jsPanel.evtMove = ['touchmove', 'mousemove'];
+    jsPanel.evtEnd = ['touchend', 'mouseup'];
 } else {
-    jsPanel.evtStart = 'mousedown';
-    jsPanel.evtMove = 'mousemove';
-    jsPanel.evtEnd = 'mouseup';
+    jsPanel.evtStart = ['mousedown'];
+    jsPanel.evtMove = ['mousemove'];
+    jsPanel.evtEnd = ['mouseup'];
 }
 
 (function (jQuery) {
@@ -3785,12 +3791,12 @@ if ('ontouchend' in window) {
                 jsP.draggable(o$draggable);
             } else if (o$draggable === 'disabled') {
                 // reset cursor, draggable deactivated
-                jQuery('.jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
+                jQuery('.jsPanel-headerlogo, .jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
                 // jquery ui draggable initialize disabled to allow to query status
                 jsP.draggable({ disabled: true });
             } else {
                 // draggable is not even initialised
-                jQuery('.jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
+                jQuery('.jsPanel-headerlogo, .jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
             }
         } else {
             if (o$dragit) {
@@ -3799,7 +3805,7 @@ if ('ontouchend' in window) {
                     jsP.dragit('disable');
                 }
             } else {
-                jQuery('.jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
+                jQuery('.jsPanel-headerlogo, .jsPanel-titlebar, .jsPanel-ftr', jsP).css('cursor', 'default');
             }
         }
 
@@ -3885,16 +3891,18 @@ if ('ontouchend' in window) {
                 return jsPanel.calcPositionFactors(jsP);
             });
         }
-        jsP.on(jsPanel.evtStart, function (e) {
 
-            if (e.target.classList.contains('jsglyph-close') || e.target.classList.contains('jsglyph-minimize')) {
-                return;
-            }
-            var zi = jQuery(e.target).closest('.jsPanel').css('z-index');
-            if (!jsP[0].classList.contains('jsPanel-modal') && zi <= jsPanel.zi) {
-                jsP.front();
-            }
-        }); // handler to move panel to foreground
+        jsPanel.evtStart.forEach(function (item) {
+            jsP.on(item, function (e) {
+                if (e.target.classList.contains('jsglyph-close') || e.target.classList.contains('jsglyph-minimize')) {
+                    return;
+                }
+                var zi = jQuery(e.target).closest('.jsPanel').css('z-index');
+                if (!jsP[0].classList.contains('jsPanel-modal') && zi <= jsPanel.zi) {
+                    jsP.front();
+                }
+            }); // handler to move panel to foreground
+        });
 
         /* option.closeOnEscape ------------------------------------------------------------------------------------- */
         if (o$closeOnEsc) {
@@ -4039,14 +4047,14 @@ if ('ontouchend' in window) {
         dblclicks: false,
         delayClose: 0,
         draggable: {
-            handle: 'div.jsPanel-titlebar, div.jsPanel-ftr',
+            handle: 'div.jsPanel-headerlogo, div.jsPanel-titlebar, div.jsPanel-ftr',
             opacity: 0.8
         },
         dragit: {
             axis: false,
             containment: false,
             grid: false,
-            handles: '.jsPanel-titlebar, .jsPanel-ftr.active', // do not set .jsPanel-titlebar to .jsPanel-hdr
+            handles: '.jsPanel-headerlogo, .jsPanel-titlebar, .jsPanel-ftr.active', // do not set .jsPanel-titlebar to .jsPanel-hdr
             opacity: 0.8,
             start: false,
             drag: false,

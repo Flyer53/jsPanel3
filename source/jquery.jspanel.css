@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/* jspanel.sass: 2017-06-17 11:56 */
+/* jspanel.sass: 2017-11-01 11:16 */
 @font-face {
   font-family: "jsglyph";
   src: url("fonts/jsglyph.eot");
@@ -131,6 +131,8 @@
   -ms-grid-row-align: center;
   align-items: center;
   min-height: 38px; }
+  .jsPanel-headerbar .jsPanel-headerlogo {
+    cursor: move; }
   .jsPanel-headerbar img {
     vertical-align: middle;
     max-height: 38px; }
@@ -393,6 +395,7 @@
     #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr {
       padding: 0; }
       #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr .jsPanel-headerlogo, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr .jsPanel-headerlogo {
+        cursor: move;
         max-width: 50%;
         overflow: hidden; }
         #jsPanel-replacement-container .jsPanel-replacement .jsPanel-hdr .jsPanel-headerlogo img, .jsPanel-minimized-box .jsPanel-replacement .jsPanel-hdr .jsPanel-headerlogo img {
