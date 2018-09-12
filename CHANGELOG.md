@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### Version 3.11.2
+
++ This release fixes a small CSS issue concerning only IE10/11 (controls are pushed out when title text is to long). Script files have a new version number but are otherwise unchanged.
+
 ### Version 3.11.1
 
 + options **dragit/resizeit** on touch devices now work with touch AND mouse

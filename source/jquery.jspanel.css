@@ -139,8 +139,8 @@
 
 .jsPanel-titlebar {
   -webkit-box-flex: 1;
-  -ms-flex: 1 1 auto;
-  flex: 1 1 auto;
+  -ms-flex: 1 1 0px;
+  flex: 1 1 0px;
   cursor: move;
   min-height: 32px;
   overflow: hidden; }

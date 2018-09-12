@@ -37,8 +37,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version: '3.11.1',
-    date: '2017-11-01 11:22',
+    version: '3.11.2',
+    date: '2018-09-12 08:38',
     id: 0, // counter to add to automatically generated id attribute
     ziBase: 100, // the lowest z-index a jsPanel may have
     zi: 100, // z-index counter, has initially to be the same as ziBase
