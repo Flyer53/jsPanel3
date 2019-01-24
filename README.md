@@ -8,12 +8,9 @@
 **jsPanels** can be used as a floating, **draggable and resizable panel**, **modal**, **tooltip** or **hint/notifier**.
 
 ---
-
-**News:**
-
-+ I'm working on **jsPanel version 4** that does **without dependencies (not even jQuery)**. It's close to beta stage and works with FF, Chrome, Edge, Brave, Opera and Vivaldi. Interested? A demo site is **[here](http://alpha.jspanel.de/)**
-+ Want to **stay up to date** about new jsPanel releases, bugfixes, plans and other jsPanel related topics? Then sign up for the **[monthly newsletter](http://jspanel.de/api/#mailinglist)**
-
+## Don't miss jsPanel version 4
++ [GitHub](https://github.com/Flyer53/jsPanel4)
++ [npm](https://www.npmjs.com/package/jspanel4)
 ---
 
 ### jsPanel homepage: [http://jspanel.de](http://jspanel.de/)
