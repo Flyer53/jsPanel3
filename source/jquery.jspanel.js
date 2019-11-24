@@ -1120,11 +1120,21 @@ var jsPanel = {
         }
 
         for (let i = 0; i < handles.length; i++) {
-
+            
+            // Prevent devastating results on right click
+            handles[i].addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            
             jsPanel.evtStart.forEach(function (item) {
                 handles[i].addEventListener(item, function (e) {
                     e.preventDefault();
-
+                    
+                    // Stop here if right clicked
+                    if (e.button === 2) {
+                        return
+                    }
+                    
                     frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
                     if (frames.length) {
                         frames.forEach(function (item) {
@@ -1394,10 +1404,20 @@ var jsPanel = {
 
         let handles = elmt.getElementsByClassName('jsPanel-resizeit-handle');
         for (let i = 0; i < handles.length; i++) {
-
+            
+            // Prevent devastating results on right click
+            handles[i].addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+            
             jsPanel.evtStart.forEach(function (item) {
                 handles[i].addEventListener(item, function(e) {
                     e.preventDefault();
+                    
+                    // Stop here if right clicked 
+                    if (e.button === 2) {
+                        return
+                    }
 
                     frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
                     if (frames.length) {
@@ -3871,9 +3891,19 @@ if ('ontouchend' in window) {
         if (jQuery.ui && jQuery.ui.draggable) {
             jsP.on('dragstop', () => jsPanel.calcPositionFactors(jsP));
         }
-
+        
+        // Prevent right click on controls
+        jsP.on('contextmenu', (e) => {
+            e.preventDefault();
+        })
+        
         jsPanel.evtStart.forEach(function (item) {
             jsP.on(item, (e) => {
+                
+                // Stop here if right clicked
+                if (e.button === 2) {
+                    return
+                }
                 if (e.target.classList.contains('jsglyph-close') || e.target.classList.contains('jsglyph-minimize')) {
                     return;
                 }
