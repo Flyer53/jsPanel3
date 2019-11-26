@@ -34,8 +34,8 @@ if (!Object.assign) {
 }
 
 var jsPanel = {
-    version:             '3.11.2',
-    date:                '2018-09-12 08:38',
+    version:             '3.11.3',
+    date:                '2019-11-25 21:49',
     id:                  0,     // counter to add to automatically generated id attribute
     ziBase:              100,   // the lowest z-index a jsPanel may have
     zi:                  100,   // z-index counter, has initially to be the same as ziBase
@@ -1125,6 +1125,9 @@ var jsPanel = {
                 handles[i].addEventListener(item, function (e) {
                     e.preventDefault();
 
+                    // disable dragging for all mouse buttons but left
+                    if (e.button && e.button > 0) { return false; }
+
                     frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
                     if (frames.length) {
                         frames.forEach(function (item) {
@@ -1398,6 +1401,9 @@ var jsPanel = {
             jsPanel.evtStart.forEach(function (item) {
                 handles[i].addEventListener(item, function(e) {
                     e.preventDefault();
+
+                    // disable dragging for all mouse buttons but left
+                    if (e.button && e.button > 0) { return false; }
 
                     frames = Array.prototype.slice.call(document.querySelectorAll('iframe'));
                     if (frames.length) {
@@ -3508,30 +3514,36 @@ if ('ontouchend' in window) {
         // jsPanel close
         jQuery('.jsPanel-btn-close', jsP).on('click', e => {
             e.preventDefault();
+            // disable close for all mouse buttons but left
+            if (e.button && e.button > 0) { return false; }
             jsPanel.close(jsP);
         });
 
         // jsPanel minimize
         jQuery('.jsPanel-btn-minimize', jsP).on('click', e => {
             e.preventDefault();
+            if (e.button && e.button > 0) { return false; }
             jsPanel.minimize(jsP);
         });
 
         // jsPanel maximize
         jQuery('.jsPanel-btn-maximize', jsP).on('click', e => {
             e.preventDefault();
+            if (e.button && e.button > 0) { return false; }
             jsPanel.maximize(jsP);
         });
 
         // jsPanel normalize
         jQuery('.jsPanel-btn-normalize', jsP).on('click', e => {
             e.preventDefault();
+            if (e.button && e.button > 0) { return false; }
             jsPanel.normalize(jsP);
         });
 
         // jsPanel smallify
         jQuery('.jsPanel-btn-smallify, .jsPanel-btn-smallifyrev', jsP).on('click', e => {
             e.preventDefault();
+            if (e.button && e.button > 0) { return false; }
             jsPanel.smallify(jsP);
         });
 

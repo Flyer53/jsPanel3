@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### Version 3.11.3
+
++ Use of panel controls and built-in dragit/resizeit interactions are limited to the left mouse button (if a mouse is used).
+
 ### Version 3.11.2
 
 + This release fixes a small CSS issue concerning only IE10/11 (controls are pushed out when title text is to long). Script files have a new version number but are otherwise unchanged.
