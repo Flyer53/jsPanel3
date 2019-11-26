@@ -16,12 +16,6 @@
 ### jsPanel homepage: [http://jspanel.de](http://jspanel.de/)
 ### API and examples: [http://jspanel.de/api](http://jspanel.de/api)
 
-+ [Getting started](#getting-started)
-+ [jsPanel options](#jspanel-options)
-+ [jsPanel methods](#jspanel-methods)
-+ [jsPanel properties](#jspanel-properties)
-+ [jsPanel defaults](#jspanel-defaults)
-
 ### npm
     npm install jspanel3
 ### bower
